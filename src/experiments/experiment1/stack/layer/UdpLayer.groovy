@@ -127,20 +127,44 @@ class UdpLayer {
 
             Utils.writeLog("UdpLayer", "send", "uebernimmt  von Anwendung: ${au_idu}", 3)
 
-            // UDP-PDU erzeugen
-            u_pdu = new U_PDU()
-            u_pdu.sdu = au_idu.sdu // Anwendungsdaten übernehmen
-            u_pdu.dstPort = au_idu.dstPort // Ziel-Portnummer eintragen
-            u_pdu.srcPort = ownPort // Quell-Portnummer eintragen
+            // beeck + flow: hier haben wir eingefügt, das udp die zu übertragenden Daten in kleine Pakete aufteilt
+            // Dabei ist ein Pakte 1000 byte groß (laut Anleitung, 1 char = 2 byte in Java)
+            // außerdem wartet udp jetzt 3 Sekunden nach jedem Paket, siehe unten
 
-            // IDU zu IP erzeugen
-            ti_idu = new TRI_IDU()
-            ti_idu.sdu = u_pdu // U_PDU eintragen
-            ti_idu.dstIpAddr = au_idu.dstIpAddr // Ziel-IP-Adresse eintragen
-            ti_idu.protocol = IpLayer.PROTO_UDP // Absendendes Protokoll eintragen
+            boolean databool = true
+            int datalength = au_idu.sdu.length()
+            int startrange = -1
+            int endrange = -1
 
-            // Daten an IP-Schicht uebergeben
-            toIpQ.put(ti_idu)
+
+            while (databool) {
+                startrange = endrange +1
+                endrange = endrange + 500
+
+                if (endrange > datalength){
+                    endrange = datalength -1
+                    databool = false
+                }
+
+                // UDP-PDU erzeugen
+                u_pdu = new U_PDU()
+                u_pdu.sdu = au_idu.sdu.getAt(startrange..endrange) // Anwendungsdaten übernehmen
+                u_pdu.dstPort = au_idu.dstPort // Ziel-Portnummer eintragen
+                u_pdu.srcPort = ownPort // Quell-Portnummer eintragen
+
+                // IDU zu IP erzeugen
+                ti_idu = new TRI_IDU()
+                ti_idu.sdu = u_pdu // U_PDU eintragen
+                ti_idu.dstIpAddr = au_idu.dstIpAddr // Ziel-IP-Adresse eintragen
+                ti_idu.protocol = IpLayer.PROTO_UDP // Absendendes Protokoll eintragen
+
+                // Daten an IP-Schicht uebergeben
+                toIpQ.put(ti_idu)
+
+                // ob: 300ms warten (Schritt 2)
+
+                sleep(3000)
+            }
         }
     }
 
