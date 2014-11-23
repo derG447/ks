@@ -2,6 +2,8 @@ package experiments.experiment1.hosts.nameserver
 
 import common.utils.Utils
 
+import java.util.regex.Matcher
+
 /**
  * Ein Server der Gerätenamen in IPv4-Adressen auflöst. Als Transport-Protokoll wird UDP verwendet.
  */
@@ -20,9 +22,27 @@ class NameServer {
     /** Stoppen der Threads wenn false */
     Boolean run = true
 
+    //Flow
+    /** Der im HTTP-Request gelieferte Name des angeforderten Objekts*/
+    String name = ""
+
+    /** Ein Matcher-Objekt zur Verwendung regulärer Ausdruecke */
+    Matcher matcher
+
+    /** IP-Adresse und Portnummer des client */
+    String srcIpAddr
+    int srcPort
+
+    /** Anwendungsprotokolldaten als String */
+    String data
+
+    /** Eigene Portnummer */
+    int ownPort
+    //Flow ende
+
     /** Tabelle zur Umsetzung von Namen in IP-Adressen */
     Map<String, String> nameTable = [
-            "meinhttpserver": "0.0.0.0",
+            "meinhttpserver": "192.168.1.10",
             "alice": "0.0.0.0",
             "bob": "0.0.0.0",
     ]
@@ -58,14 +78,48 @@ class NameServer {
         // Netzwerkstack initialisieren
         stack = new experiments.experiment1.stack.Stack()
         stack.start(config)
-
+        //flow
+        ownPort = config.ownPort
+        //flow ende
         Utils.writeLog("NameServer", "nameserver", "startet", 1)
 
         while (run) {
             // Hier Protokoll implementieren:
+            //Flow
             // auf Empfang ueber UDP warten
-            // Namen über nameTable in IP-Adresse aufloesen
-            // IP-Adresse ueber UDP zuruecksenden
+            (srcIpAddr, srcPort, data) = stack.udpReceive()
+
+            Utils.writeLog("Nameserver", "Nameserver", "empfängt: $data", 1)
+
+            // Abbruch wenn Länge der empfangenen Daten == 0
+            if (!data)
+                break
+
+            // Parsen des HTTP-Kommandos
+            matcher = (data =~ /GET\s*\/(.*?)\s*HTTP\/1\.1/)
+
+            name = ""
+
+            // Wurde das Header-Feld gefunden?
+            if (matcher) {
+                // Ja
+                // Name des zu liefernden Objekts
+                name = (matcher[0] as List<String>)[1]
+
+                String reply = ""
+
+                // Namen über nameTable in IP-Adresse aufloesen
+
+                reply = nameTable.find {name}
+
+                Utils.writeLog("Server", "server", "sendet: $reply", 11)
+
+                // IP-Adresse ueber UDP zuruecksenden
+                stack.udpSend(dstIpAddr: srcIpAddr, dstPort: srcPort,
+                        srcPort: ownPort, sdu: reply)
+
+            }
+
         }
     }
     //------------------------------------------------------------------------------
