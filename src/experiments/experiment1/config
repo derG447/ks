@@ -43,10 +43,12 @@ environments {
 
             // Durch HTTP-GET-Request zu ladenden Dokument
             // Schritt 1: document = "index.html"
-            document = "daten"
+            // Schritt 2: document = "daten"
+            document = "meinhttpserver"
 
             // TCP- und UDP-Portnummer der Serveranwendung
             serverPort = 5100
+
 
             // Eigene IPv4-Adresse
             ownIPAddr = "0.0.0.0"
@@ -61,8 +63,8 @@ environments {
             //routerIpAddr = "0.0.0.0"
 
             // IP-Adresse des Nameservers
-            //nameServerIpAddr = "0.0.0.0"
-            //nameServerPort = 0
+            nameServerIpAddr = "0.0.0.0"
+            nameServerPort = 5300
 
             // Festlegung der Netzwerkanschluesse
             //      virtual: "true" - ein Anschluss in ein virtuelles LAN,
@@ -79,8 +81,8 @@ environments {
             networkConnectors = [
                 [virtual: true,
                  lpName: "lp1",
-                 link: experiments.experiment1.links.P2PLink1.id,
-                 connector: experiments.experiment1.links.P2PLink1.CONNECTOR_1,
+                 link: experiments.experiment1.links.Hub1.id,
+                 connector: experiments.experiment1.links.Hub1.HUB_PORT_1,
                  macAddr: ownMacAddr,
                  ipAddr: ownIPAddr
                 ]
@@ -108,8 +110,8 @@ environments {
             networkConnectors = [
                 [virtual: true,
                  lpName: "lp1",
-                 link: experiments.experiment1.links.P2PLink1.id,
-                 connector: experiments.experiment1.links.P2PLink1.CONNECTOR_2,
+                 link: experiments.experiment1.links.Hub1.id,
+                 connector: experiments.experiment1.links.Hub1.HUB_PORT_2,
                  macAddr: "00:00:00:00:00:00",
                  ipAddr: "0.0.0.0"
                 ]
