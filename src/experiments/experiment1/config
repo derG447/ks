@@ -42,9 +42,10 @@ environments {
             serverName = "meinhttpserver"
 
             // Durch HTTP-GET-Request zu ladenden Dokument
-            // Schritt 1: document = "index.html"
+            // Schritt 1:
+            document = "index.html"
             // Schritt 2: document = "daten"
-            document = "meinhttpserver"
+            //document = "meinhttpserver"
 
             // TCP- und UDP-Portnummer der Serveranwendung
             serverPort = 5100
@@ -127,11 +128,11 @@ environments {
 
         nameserver {
             ownPort = 5300
-            // defaultRouter = "0.0.0.0"
+            defaultRouter = "0.0.0.0"
 
             networkConnectors = [
                 [virtual: true,
-                 lpName: "",
+                 lpName: "lp1",
                  link: experiments.experiment1.links.Hub1.id,
                  connector: experiments.experiment1.links.Hub1.HUB_PORT_3,
                  macAddr: "00:00:00:00:00:00",
