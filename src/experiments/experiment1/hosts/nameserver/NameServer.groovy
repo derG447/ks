@@ -38,6 +38,17 @@ class NameServer {
 
     /** Eigene Portnummer */
     int ownPort
+
+    /** Länge der gesendeten Daten */
+    int dataLength = 0
+
+    GString reply1 =
+            """\
+HTTP/1.1 200 OK
+Content-Length: ${->dataLength}
+Content-Type: text/plain
+
+"""
     //Flow ende
 
     /** Tabelle zur Umsetzung von Namen in IP-Adressen */
@@ -106,13 +117,31 @@ class NameServer {
                 // Name des zu liefernden Objekts
                 name = (matcher[0] as List<String>)[1]
 
+
                 String reply = ""
 
                 // Namen über nameTable in IP-Adresse aufloesen
 
-                reply = nameTable.find {name}
+                String temp = nameTable.getAt(name)
 
-                Utils.writeLog("Server", "server", "sendet: $reply", 11)
+
+                //Länge bestimmen
+                //FORMATIERUNG BEIBEHALTEN!!!!!!
+                if(!temp){
+                    temp = "ERROR"
+                    reply1 =
+                            """\
+HTTP/1.1 404 Not Found
+Content-Length: ${->dataLength}
+Content-Type: text/plain
+
+"""
+                }
+                //Ab hier FORMATIERUNG wieder frei
+                dataLength = temp.size()
+                reply = reply1 + temp
+
+                Utils.writeLog("Nameserver", "Nameserver", "sendet: $reply", 11)
 
                 // IP-Adresse ueber UDP zuruecksenden
                 stack.udpSend(dstIpAddr: srcIpAddr, dstPort: srcPort,

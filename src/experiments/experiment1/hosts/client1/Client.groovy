@@ -39,10 +39,23 @@ class Client {
     /** Zielportadresse */
     int serverPort
 
+    /** Ziel-IP-Adresse */
+    String nameserverIpAddr
+
+    /** Zielportadresse */
+    int nameserverPort
+
     /** HTTP-Header fuer GET-Request **/
     String request =
             """\
 GET /${config.document} HTTP/1.1
+Host: www.sesam-strasse.com
+
+"""
+
+    String namerequest =
+            """\
+GET /${config.serverName} HTTP/1.1
 Host: www.sesam-strasse.com
 
 """
@@ -109,9 +122,12 @@ Host: www.sesam-strasse.com
 
         // ------------------------------------------------------------
 
-        // IPv4-Adresse und Portnummer des HTTP-Dienstes
-        serverIpAddr = config.serverIpAddr
-        serverPort = config.serverPort
+
+
+        nameserverIpAddr = config.nameServerIpAddr
+        nameserverPort = config.nameServerPort
+
+
 
         // Eigener UDP-Port
         ownPort = config.ownPort
@@ -127,13 +143,50 @@ Host: www.sesam-strasse.com
         // ------------------------------------------------------------
 
 
+        Utils.writeLog("Client", "client", "sendet: ${namerequest}", 1)
+
+        // Datenempfang vorbereiten
+        data = ""
+        state = WAIT_LENGTH
+
+        // Absenden um die IP-Adresse des Servers zu erhalten flo
+        stack.udpSend(dstIpAddr: nameserverIpAddr, dstPort: nameserverPort,
+                srcPort: ownPort, sdu: namerequest)
+
+        // Empfang
+        while (curBodyLength < bodyLength) {
+
+            // Auf Empfang warten
+            String d1, d2
+            // dummies
+            (d1, d2, rdata) = stack.udpReceive()
+
+            Utils.writeLog("Client", "client", "empfängt: $rdata", 1)
+
+            // Daten ergänzen
+            data += rdata
+
+            // Empfangene Daten verarbeiten
+            handleData()
+
+        } // while
+
+        if (data) Utils.writeLog("Client", "client", "HTTP-Body empfangen: ${data[bodyStart..-1]}", 1)
+
+        // Eintragen der erhaltenen IP-Adresse des Nameservers flo
+        serverIpAddr = data[bodyStart..-1]
+        //das klappt noch net glaub ich??...flo
+        serverPort = config.serverPort
+
+        //----------------------------------------------------------------------------------//
+
         Utils.writeLog("Client", "client", "sendet: ${request}", 1)
 
         // Datenempfang vorbereiten
         data = ""
         state = WAIT_LENGTH
 
-        // HTTP-GET-Request absenden
+        // Befehl absenden flo
         stack.udpSend(dstIpAddr: serverIpAddr, dstPort: serverPort,
                 srcPort: ownPort, sdu: request)
 
@@ -156,7 +209,11 @@ Host: www.sesam-strasse.com
         } // while
 
         if (data) Utils.writeLog("Client", "client", "HTTP-Body empfangen: ${data[bodyStart..-1]}", 1)
+
+
     }
+
+
 
     //------------------------------------------------------------------------------
 

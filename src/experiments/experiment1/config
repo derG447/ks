@@ -45,7 +45,7 @@ environments {
             // Schritt 1:
             document = "index.html"
             // Schritt 2: document = "daten"
-            //document = "meinhttpserver"
+
 
             // TCP- und UDP-Portnummer der Serveranwendung
             serverPort = 5100
