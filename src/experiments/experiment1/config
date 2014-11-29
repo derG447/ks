@@ -52,19 +52,19 @@ environments {
 
 
             // Eigene IPv4-Adresse
-            ownIPAddr = "0.0.0.0"
+            ownIPAddr = "192.168.1.10"
 
             // Eigene MAC-Adresse
-            ownMacAddr = "00:00:00:00:00:00"
+            ownMacAddr = "01:01:01:01:01:01"
 
             // Eigene TCP- und UDP-Portnummer
             ownPort = 5200
 
             // Standard-Router
-            //routerIpAddr = "0.0.0.0"
+            //routerIpAddr = "192.168.1.1"
 
             // IP-Adresse des Nameservers
-            nameServerIpAddr = "0.0.0.0"
+            nameServerIpAddr = "192.168.1.11"
             nameServerPort = 5300
 
             // Festlegung der Netzwerkanschluesse
@@ -105,16 +105,16 @@ environments {
 
         server {
             ownPort = 0
-            defaultRouter = "0.0.0.0"
-            nameServer = "0.0.0.0"
+            defaultRouter = "192.168.1.1" //To be changed
+            nameServer = "192.168.1.11"
 
             networkConnectors = [
                 [virtual: true,
                  lpName: "lp1",
                  link: experiments.experiment1.links.Hub1.id,
                  connector: experiments.experiment1.links.Hub1.HUB_PORT_2,
-                 macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 macAddr: "01:01:01:03:03:03",
+                 ipAddr: "192.168.1.12" //TBC
                 ]
             ]
 
@@ -128,15 +128,15 @@ environments {
 
         nameserver {
             ownPort = 5300
-            defaultRouter = "0.0.0.0"
+            defaultRouter = "192.168.1.1"
 
             networkConnectors = [
                 [virtual: true,
                  lpName: "lp1",
                  link: experiments.experiment1.links.Hub1.id,
                  connector: experiments.experiment1.links.Hub1.HUB_PORT_3,
-                 macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 macAddr: "01:01:01:02:02:02",
+                 ipAddr: "192.168.1.11"
                 ]
             ]
 

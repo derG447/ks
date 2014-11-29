@@ -149,6 +149,7 @@ Host: www.sesam-strasse.com
         data = ""
         state = WAIT_LENGTH
 
+
         // Absenden um die IP-Adresse des Servers zu erhalten flo
         stack.udpSend(dstIpAddr: nameserverIpAddr, dstPort: nameserverPort,
                 srcPort: ownPort, sdu: namerequest)
@@ -175,7 +176,7 @@ Host: www.sesam-strasse.com
 
         // Eintragen der erhaltenen IP-Adresse des Nameservers flo
         serverIpAddr = data[bodyStart..-1]
-        //das klappt noch net glaub ich??...flo
+
         serverPort = config.serverPort
 
         //----------------------------------------------------------------------------------//
@@ -185,6 +186,8 @@ Host: www.sesam-strasse.com
         // Datenempfang vorbereiten
         data = ""
         state = WAIT_LENGTH
+        curBodyLength = -1
+        bodyLength = 0
 
         // Befehl absenden flo
         stack.udpSend(dstIpAddr: serverIpAddr, dstPort: serverPort,

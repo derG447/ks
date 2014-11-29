@@ -118,6 +118,8 @@ class IpLayer {
                         break
                 }
             } else {
+                //bricht ab wenn paket nicht für ihn - flo
+                Utils.writeLog("Not me:", "Verwerfen", "von Link: ${li_idu}", 2)
 //                // Nein, ist nicht die eigene IP-Adresse, also weiterleiten
 //                // Nächsten Hop suchen
 //                (linkPortName, nextHopAddr) = findNextHop(i_pdu.dstIpAddr)
