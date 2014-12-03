@@ -176,6 +176,7 @@ class LinkLayer {
                                     // IDU erzeugen
                                     lc_idu = new LC_IDU()
                                     lc_idu.sdu = macFrame
+
                                     connector.send(lc_idu)
                                 }
                                 break
@@ -280,7 +281,7 @@ class LinkLayer {
                 String nextMacAddr = arpQ.take()
 
                 // Arp-Tabelle aktualisieren
-                arpTable[il_idu.nextHopAddr] = next.MacAddr
+                arpTable[il_idu.nextHopAddr] = nextMacAddr
 
                 // MAC-Ziel-Adresse in MAC-Frame einsetzen
                 macFrame.dstMacAddr = nextMacAddr

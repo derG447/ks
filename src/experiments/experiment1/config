@@ -93,7 +93,7 @@ environments {
             // [["Ziel-IP-Adresse", "Prefix", "Router-IP-Adresse", "Anschluss"], ...]
             // Für Routen in das eigene IP-Subnetz ist die Router-IP-Adresse die eigene IP-Adresse:
             // z.B.: ["192.168.1.0", "255.255.255.0", "192.168.1.10", "lp1"]
-            routingTable = [
+            routingTable = [["192.168.1.0", "255.255.255.0", "192.168.1.10", "lp1"]
                            ]
 
             // ARP-Tabelle
@@ -118,7 +118,7 @@ environments {
                 ]
             ]
 //TBC
-            routingTable = [
+            routingTable = ["192.168.1.0", "255.255.255.0", "192.168.1.12", "lp1"
                            ]
 
             arpTable = ["192.168.1.12":"01:01:01:03:03:03"]
@@ -140,7 +140,7 @@ environments {
                 ]
             ]
 
-            routingTable = [
+            routingTable = ["192.168.1.0", "255.255.255.0", "192.168.1.11", "lp1"
                 ]
 
             arpTable = ["192.168.1.11":"01:01:01:02:02:02"]

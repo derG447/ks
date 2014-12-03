@@ -139,15 +139,15 @@ class IpLayer {
                     // Ist es eine direkte Route?
                     if (nextHopAddr == ownIpAddrs[linkPortName])
                         // Ja
-                        il_idu.nextHopAddr = ???
+                        il_idu.nextHopAddr = i_pdu.dstIpAddr
                     else
                         // Nein
-                        il_idu.nextHopAddr = ???
+                        il_idu.nextHopAddr = nextHopAddr
 
                     Utils.writeLog("IpLayer", "receive", "forwarding: ${li_idu}", 4)
 
                     // Daten an Link-Schicht uebergeben
-                    ???
+                    toLinkQ.put(il_idu)
                 }
                 else {
                     // Nein
