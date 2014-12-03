@@ -129,7 +129,7 @@ class IpLayer {
                     // Ja
                     // IDU zu Link-Schicht erzeugen
                     IL_IDU il_idu = new IL_IDU()
-
+//
                     // i_pdu eintragen
                     il_idu.sdu = i_pdu
 
