@@ -119,40 +119,40 @@ class IpLayer {
                 }
             } else {
                 //bricht ab wenn paket nicht für ihn - flo
-                Utils.writeLog("Not me:", "Verwerfen", "von Link: ${li_idu}", 2)
-//                // Nein, ist nicht die eigene IP-Adresse, also weiterleiten
-//                // Nächsten Hop suchen
-//                (linkPortName, nextHopAddr) = findNextHop(i_pdu.dstIpAddr)
-//
-//                // Nächsten Hop gefunden?
-//                if (linkPortName && nextHopAddr) {
-//                    // Ja
-//                    // IDU zu Link-Schicht erzeugen
-//                    IL_IDU il_idu = new IL_IDU()
-//
-//                    // i_pdu eintragen
-//                    il_idu.sdu = i_pdu
-//
-//                    // An Link-Schicht uebergeben
-//                    il_idu.lpName = linkPortName
-//
-//                    // Ist es eine direkte Route?
-//                    if (nextHopAddr == ownIpAddrs[linkPortName])
-//                        // Ja
-//                        il_idu.nextHopAddr = ???
-//                    else
-//                        // Nein
-//                        il_idu.nextHopAddr = ???
-//
-//                    Utils.writeLog("IpLayer", "receive", "forwarding: ${li_idu}", 4)
-//
-//                    // Daten an Link-Schicht uebergeben
-//                    ???
-//                }
-//                else {
-//                    // Nein
-//                    Utils.writeLog("IpLayer", "receive", "keine Route gefunden fuer: ${linkPortName}, ${i_pdu.dstIpAddr}", 4)
-//                }
+                //Utils.writeLog("Not me:", "Verwerfen", "von Link: ${li_idu}", 2)
+                // Nein, ist nicht die eigene IP-Adresse, also weiterleiten
+                // Nächsten Hop suchen
+                (linkPortName, nextHopAddr) = findNextHop(i_pdu.dstIpAddr)
+
+                // Nächsten Hop gefunden?
+                if (linkPortName && nextHopAddr) {
+                    // Ja
+                    // IDU zu Link-Schicht erzeugen
+                    IL_IDU il_idu = new IL_IDU()
+
+                    // i_pdu eintragen
+                    il_idu.sdu = i_pdu
+
+                    // An Link-Schicht uebergeben
+                    il_idu.lpName = linkPortName
+
+                    // Ist es eine direkte Route?
+                    if (nextHopAddr == ownIpAddrs[linkPortName])
+                        // Ja
+                        il_idu.nextHopAddr = ???
+                    else
+                        // Nein
+                        il_idu.nextHopAddr = ???
+
+                    Utils.writeLog("IpLayer", "receive", "forwarding: ${li_idu}", 4)
+
+                    // Daten an Link-Schicht uebergeben
+                    ???
+                }
+                else {
+                    // Nein
+                    Utils.writeLog("IpLayer", "receive", "keine Route gefunden fuer: ${linkPortName}, ${i_pdu.dstIpAddr}", 4)
+                }
             }
         }
     }
@@ -191,7 +191,7 @@ class IpLayer {
             nextHopAddr = ownIpAddrs[linkPortName]
 
 //            // Nächstes Gerät (next hop) auf dem Pfad zum Zielgerät suchen
-//            (linkPortName, nextHopAddr) = findNextHop(ti_idu.dstIpAddr)
+            (linkPortName, nextHopAddr) = findNextHop(ti_idu.dstIpAddr)
 
             // Nächsten Hop gefunden?
             if (linkPortName && nextHopAddr) {
@@ -220,15 +220,15 @@ class IpLayer {
                 il_idu.lpName = linkPortName
 
                 // Ist es eine direkte Route?
-//                if (nextHopAddr == ownIpAddrs[linkPortName])
-//                    // Ja
-//                    il_idu.nextHopAddr = ???
-//                else
-//                    // Nein
-//                    il_idu.nextHopAddr = ???
-//
+                if (nextHopAddr == ownIpAddrs[linkPortName])
+                    // Ja
+                    il_idu.nextHopAddr = i_pdu.dstIpAddr
+                else
+                    // Nein
+                    il_idu.nextHopAddr = nextHopAddr
+
                 // IP-Adresse des naechsten Geraetes auf dem Pfad zum Ziel eintragen
-                il_idu.nextHopAddr = nextHopAddr
+                //il_idu.nextHopAddr = nextHopAddr
 
                 // Daten an Link-Schicht uebergeben
                 toLinkQ.put(il_idu)
