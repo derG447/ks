@@ -108,13 +108,16 @@ class LinkLayer {
 
             // entweder:
 
+            Connector connector_ob = connectors[cl_idu.lpName]
+            String tmp = connector_ob.getMacAddr() // Eigene MAC-Adresse
+
             // IDU an IP uebergeben
             //toIpQ.put(li_idu)
 
             // oder besser:
 
 //            // Ist es eine eigene MAC-Adresse oder ein MAC-Broadcast ?
-            if (macFrame.dstMacAddr == arpTable[li_idu.lpName] ||
+            if (macFrame.dstMacAddr == tmp ||
                     macFrame.dstMacAddr == broadcastMacAddress) { //IF BROADCAST
                 // Ja
                 // Frame-Typ untersuchen
