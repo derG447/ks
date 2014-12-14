@@ -53,7 +53,7 @@ Content-Type: text/plain
 
     /** Tabelle zur Umsetzung von Namen in IP-Adressen */
     Map<String, String> nameTable = [
-            "meinhttpserver": "192.168.1.12",//TBC
+            "meinhttpserver": "192.168.2.10",//TBC
             "alice": "0.0.0.0",
             "bob": "0.0.0.0",
     ]

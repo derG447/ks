@@ -43,8 +43,9 @@ environments {
 
             // Durch HTTP-GET-Request zu ladenden Dokument
             // Schritt 1:
-            document = "index.html"
-            // Schritt 2: document = "daten"
+            // document = "index.html"
+            // Schritt 2:
+             document = "daten"
 
 
             // TCP- und UDP-Portnummer der Serveranwendung
@@ -93,7 +94,8 @@ environments {
             // [["Ziel-IP-Adresse", "Prefix", "Router-IP-Adresse", "Anschluss"], ...]
             // Für Routen in das eigene IP-Subnetz ist die Router-IP-Adresse die eigene IP-Adresse:
             // z.B.: ["192.168.1.0", "255.255.255.0", "192.168.1.10", "lp1"]
-            routingTable = [["192.168.1.0", "255.255.255.0", "192.168.1.10", "lp1"]
+            routingTable = [["192.168.1.0", "255.255.255.0", "192.168.1.10", "lp1"],
+                            ["192.168.2.0", "255.255.255.0", "192.168.1.1", "lp1"]
                            ]
 
             // ARP-Tabelle
@@ -105,20 +107,21 @@ environments {
 
         server {
             ownPort = 0
-            defaultRouter = "192.168.1.1" //To be changed
+            defaultRouter = "192.168.2.1" //To be changed
             nameServer = "192.168.1.11"
 
             networkConnectors = [
                 [virtual: true,
-                 lpName: "lp1",
-                 link: experiments.experiment1.links.Hub1.id,
-                 connector: experiments.experiment1.links.Hub1.HUB_PORT_2,
+                 lpName: "lp2",
+                 link: experiments.experiment1.links.Hub2.id,
+                 connector: experiments.experiment1.links.Hub2.HUB_PORT_1,
                  macAddr: "01:01:01:03:03:03",
-                 ipAddr: "192.168.1.12"
+                 ipAddr: "192.168.2.10"
                 ]
             ]
 //TBC
-            routingTable = [["192.168.1.0", "255.255.255.0", "192.168.1.12", "lp1"]
+            routingTable = [["192.168.2.0", "255.255.255.0", "192.168.2.10", "lp2"],
+                            ["192.168.1.0", "255.255.255.0", "192.168.2.1", "lp2"],
                            ]
 
             arpTable = ["192.168.1.12":"01:01:01:03:03:03"]
@@ -134,13 +137,14 @@ environments {
                 [virtual: true,
                  lpName: "lp1",
                  link: experiments.experiment1.links.Hub1.id,
-                 connector: experiments.experiment1.links.Hub1.HUB_PORT_3,
+                 connector: experiments.experiment1.links.Hub1.HUB_PORT_2,
                  macAddr: "01:01:01:02:02:02",
                  ipAddr: "192.168.1.11"
                 ]
             ]
 
-            routingTable = [["192.168.1.0", "255.255.255.0", "192.168.1.11", "lp1"]
+            routingTable = [["192.168.1.0", "255.255.255.0", "192.168.1.11", "lp1"],
+                            ["192.168.2.0", "255.255.255.0", "192.168.1.1", "lp1"],
                 ]
 
             arpTable = ["192.168.1.11":"01:01:01:02:02:02"]
@@ -154,26 +158,27 @@ environments {
             networkConnectors = [
                 [virtual: true,
                  lpName: "lp1",
-                 link: 0,
-                 connector: 0,
-                 macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 link: experiments.experiment1.links.Hub1.id,
+                 connector: experiments.experiment1.links.Hub1.HUB_PORT_3,
+                 macAddr: "01:01:01:04:04:04",
+                 ipAddr: "192.168.1.1"
                 ],
 
                 [virtual: true,
                  lpName: "lp2",
-                 link: 0,
-                 connector: 0,
-                 macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 link: experiments.experiment1.links.Hub2.id,
+                 connector: experiments.experiment1.links.Hub2.HUB_PORT_2,
+                 macAddr: "01:01:01:05:05:05",
+                 ipAddr: "192.168.2.1"
                 ],
 
             ]
 
-            routingTable = [
+            routingTable = [["192.168.2.0", "255.255.255.0", "192.168.2.1", "lp2"],
+                            ["192.168.1.0", "255.255.255.0", "192.168.1.1", "lp1"],
                     ]
 
-            arpTable = [:]
+            arpTable = ["192.168.1.1":"01:01:01:04:04:04","192.168.2.1":"01:01:01:05:05:05"]
 
             // Hier sind die IP-Adressen der benachbarten Router einzutragen
             neighborTable = []
