@@ -62,7 +62,7 @@ environments {
             ownPort = 5200
 
             // Standard-Router
-            //routerIpAddr = "192.168.1.1"
+            routerIpAddr = "192.168.1.1"
 
             // IP-Adresse des Nameservers
             nameServerIpAddr = "192.168.1.11"
@@ -95,7 +95,7 @@ environments {
             // Für Routen in das eigene IP-Subnetz ist die Router-IP-Adresse die eigene IP-Adresse:
             // z.B.: ["192.168.1.0", "255.255.255.0", "192.168.1.10", "lp1"]
             routingTable = [["192.168.1.0", "255.255.255.0", "192.168.1.10", "lp1"],
-                            ["192.168.2.0", "255.255.255.0", "192.168.1.1", "lp1"]
+                            // ["192.168.2.0", "255.255.255.0", "192.168.1.1", "lp1"]
                            ]
 
             // ARP-Tabelle
@@ -107,7 +107,7 @@ environments {
 
         server {
             ownPort = 0
-            defaultRouter = "192.168.2.1" //To be changed
+            defaultRouter = "192.168.2.1" //To be changed // changed
             nameServer = "192.168.1.11"
 
             networkConnectors = [
@@ -121,10 +121,10 @@ environments {
             ]
 //TBC
             routingTable = [["192.168.2.0", "255.255.255.0", "192.168.2.10", "lp2"],
-                            ["192.168.1.0", "255.255.255.0", "192.168.2.1", "lp2"],
+                            // ["192.168.1.0", "255.255.255.0", "192.168.2.1", "lp2"],
                            ]
 
-            arpTable = ["192.168.1.12":"01:01:01:03:03:03"]
+            arpTable = ["192.168.2.10":"01:01:01:03:03:03"]
         }
 
         //=============================================================================================
@@ -144,7 +144,7 @@ environments {
             ]
 
             routingTable = [["192.168.1.0", "255.255.255.0", "192.168.1.11", "lp1"],
-                            ["192.168.2.0", "255.255.255.0", "192.168.1.1", "lp1"],
+                            // ["192.168.2.0", "255.255.255.0", "192.168.1.1", "lp1"],
                 ]
 
             arpTable = ["192.168.1.11":"01:01:01:02:02:02"]
@@ -165,23 +165,32 @@ environments {
                 ],
 
                 [virtual: true,
-                 lpName: "lp2",
-                 link: experiments.experiment1.links.Hub2.id,
-                 connector: experiments.experiment1.links.Hub2.HUB_PORT_2,
-                 macAddr: "01:01:01:05:05:05",
-                 ipAddr: "192.168.2.1"
+                 lpName: "lp_R1R2",
+                 link: experiments.experiment1.links.P2PLink1.id,
+                 connector: experiments.experiment1.links.P2PLink1.CONNECTOR_1,
+                 macAddr: "01:01:01:08:08:08",
+                 ipAddr: "192.168.3.1"
                 ],
+
+                 [virtual: true,
+                  lpName: "lp_R1R4",
+                  link: experiments.experiment1.links.P2PLink3.id,
+                  connector: experiments.experiment1.links.P2PLink3.CONNECTOR_1,
+                  macAddr: "01:01:01:09:09:09",
+                  ipAddr: "192.168.4.1"
+                 ],
 
             ]
 
-            routingTable = [["192.168.2.0", "255.255.255.0", "192.168.2.1", "lp2"],
+            routingTable = [["192.168.3.0", "255.255.255.0", "192.168.3.1", "lp_R1R2"], //Subnetz 3.0 ist R1R2
                             ["192.168.1.0", "255.255.255.0", "192.168.1.1", "lp1"],
+                            ["192.168.4.0", "255.255.255.0", "192.168.4.1", "lp_R1R4"], //Subnetz 4.0 ist R1R4
                     ]
 
-            arpTable = ["192.168.1.1":"01:01:01:04:04:04","192.168.2.1":"01:01:01:05:05:05"]
+            arpTable = ["192.168.1.1":"01:01:01:04:04:04","192.168.3.1":"01:01:01:08:08:08","192.168.3.1":"01:01:01:09:09:09"]
 
             // Hier sind die IP-Adressen der benachbarten Router einzutragen
-            neighborTable = []
+            neighborTable = [["192.168.3.2", 0],["192.168.4.2", 0]]
         }
         //=============================================================================================
 
@@ -191,29 +200,30 @@ environments {
 
             networkConnectors = [
                 [virtual: true,
-                 lpName: "",
-                 link: 0,
-                 connector: 0,
-                 macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 lpName: "lp_R1R2",
+                 link: experiments.experiment1.links.P2PLink1.id,
+                 connector: experiments.experiment1.links.P2PLink1.CONNECTOR_2,
+                 macAddr: "01:01:01:06:06:06",
+                 ipAddr: "192.168.3.2"
                 ],
 
                 [virtual: true,
-                 lpName: "",
-                 link: 0,
-                 connector: 0,
-                 macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 lpName: "lp_R2R3",
+                 link: experiments.experiment1.links.P2PLink2.id,
+                 connector: experiments.experiment1.links.P2PLink2.CONNECTOR_1,
+                 macAddr: "01:01:01:07:07:07",
+                 ipAddr: "192.168.6.2"
                 ],
 
             ]
 
-            routingTable = [
+            routingTable = [["192.168.3.0", "255.255.255.0", "192.168.3.2", "lp_R1R2"],
+                            ["192.168.6.0", "255.255.255.0", "192.168.6.2", "lp_R2R3"],
                     ]
 
-            arpTable = [:]
+            arpTable = ["192.168.3.2":"01:01:01:06:06:06","192.168.6.2":"01:01:01:07:07:07"]
 
-            neighborTable = []
+            neighborTable = [["192.168.3.1", 0],["192.168.6.1", 0]]
         }
         //=============================================================================================
 
@@ -223,29 +233,39 @@ environments {
 
             networkConnectors = [
                 [virtual: true,
-                 lpName: "",
-                 link: 0,
-                 connector: 0,
-                 macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 lpName: "lp_R2R3",
+                 link: experiments.experiment1.links.P2PLink2.id,
+                 connector: experiments.experiment1.links.P2PLink2.CONNECTOR_2,
+                 macAddr: "01:01:01:0D:0D:0D",
+                 ipAddr: "192.168.6.1"
                 ],
 
                 [virtual: true,
-                 lpName: "",
-                 link: 0,
-                 connector: 0,
-                 macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 lpName: "lp_R4R3",
+                 link: experiments.experiment1.links.P2PLink4.id,
+                 connector: experiments.experiment1.links.P2PLink4.CONNECTOR_2,
+                 macAddr: "01:01:01:0C:0C:0C",
+                 ipAddr: "192.168.5.2"
+                ],
+
+                [virtual: true,
+                 lpName: "lp2",
+                 link: experiments.experiment1.links.Hub2.id,
+                 connector: experiments.experiment1.links.Hub2.HUB_PORT_2,
+                 macAddr: "01:01:01:05:05:05",
+                 ipAddr: "192.168.2.1"
                 ],
 
             ]
 
-            routingTable = [
+            routingTable = [["192.168.5.0", "255.255.255.0", "192.168.5.2", "lp_R4R3"],
+                            ["192.168.6.0", "255.255.255.0", "192.168.6.1", "lp_R2R3"],
+                            ["192.168.2.0", "255.255.255.0", "192.168.2.1", "lp2"],
                     ]
 
-            arpTable = [:]
+            arpTable = ["192.168.6.1":"01:01:01:0D:0D:0D","192.168.5.2":"01:01:01:0C:0C:0C","192.168.2.1":"01:01:01:05:05:05"]
 
-            neighborTable = []
+            neighborTable = [["192.168.6.2", 0],["192.168.5.1", 0]]
         }
         //=============================================================================================
 
@@ -255,29 +275,30 @@ environments {
 
             networkConnectors = [
                 [virtual: true,
-                 lpName: "",
-                 link: 0,
-                 connector: 0,
-                 macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 lpName: "lp_R1R4",
+                 link: experiments.experiment1.links.P2PLink3.id,
+                 connector: experiments.experiment1.links.P2PLink3.CONNECTOR_2,
+                 macAddr: "01:01:01:0A:0A:0A",
+                 ipAddr: "192.168.4.2"
                 ],
 
                 [virtual: true,
-                 lpName: "",
-                 link: 0,
-                 connector: 0,
-                 macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 lpName: "lp_R4R3",
+                 link: experiments.experiment1.links.P2PLink4.id,
+                 connector: experiments.experiment1.links.P2PLink4.CONNECTOR_1,
+                 macAddr: "01:01:01:0B:0B:0B",
+                 ipAddr: "192.168.5.1"
                 ],
 
             ]
 
-            routingTable = [
+            routingTable = [["192.168.4.0", "255.255.255.0", "192.168.4.2", "lp_R1R4"],
+                            ["192.168.5.0", "255.255.255.0", "192.168.5.1", "lp_R4R3"],
                     ]
 
-            arpTable = [:]
+            arpTable = ["192.168.4.2":"01:01:01:0A:0A:0A","192.168.5.1":"01:01:01:0B:0B:0B"]
 
-            neighborTable = []
+            neighborTable = [["192.168.4.1", 0],["192.168.5.2", 0]]
         }
     }
 

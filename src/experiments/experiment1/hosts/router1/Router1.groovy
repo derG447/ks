@@ -29,11 +29,49 @@ class Router1 {
     List<List> neighborTable
 
     /** Eine Arbeitskopie der Routingtabelle der Netzwerkschicht */
-    List routingTable
+    List<List> routingTable
+
+    /** ob: Routereigne Distanzmatrix zum errechnen der besten Wege */
+    List<List> DistanzMatrix = []
+    // ob: meine eigene Matrix zum errechnen der Routingwege:
+    //
+    // | Subnetz      | Kosten (1=eigenes Netz,2=Über einen Router,3=über 2 Router, ....) |  IP Adresse nächster hop | passender Link
+    // | 192.168.1.0  | 1                                                                 | my ip adrr.              | lp1
+
 
     //========================================================================================================
     // Methoden ANFANG
     //========================================================================================================
+
+    String DistanzMatrixToString(List<List> myDistanzMatrix){
+        String tmp = ""
+        for (entry in myDistanzMatrix) {
+            //tmp = tmp + entry[0].toString() + '|' + entry[1].toString() + '|' + entry[2] + '|' + entry[3] + '#'
+            tmp = tmp + "${entry[0]}|${entry[1]}|${entry[2]}|${entry[3]}#"
+        }
+        return tmp
+    }
+
+    List<List> StringToDistanzMatrix(String rInfo){
+        List<List> tmp = []
+        for (i in rInfo.tokenize('#')){
+            tmp.add(i.tokenize('|'))
+        }
+        return tmp
+    }
+
+    void initDistanzMatrix(List<List> routingTable){
+        List tmp = []
+        for (entry in routingTable){
+            tmp.add(entry[0])
+            tmp.add("1") //Mein eigenes Netz ist 1
+            tmp.add(entry[2])
+            tmp.add(entry[3])
+            DistanzMatrix.add(tmp)
+            tmp = []
+        }
+
+    }
 
     //------------------------------------------------------------------------------
     /**
@@ -65,6 +103,12 @@ class Router1 {
         stack.start(config)
 
         // ------------------------------------------------------------
+
+        // ob: hier nachbarliste aus config holen:
+        neighborTable = config.neighborTable;
+
+        // hier DistanzMatrix initialisieren
+        initDistanzMatrix(stack.getRoutingTable())
 
         // Thread zum Empfang von Routinginformationen erzeugen
         Thread.start{receiveFromNeigbor()}
@@ -110,17 +154,39 @@ class Router1 {
         // rInfo = ...
         // sendToNeigbors(rInfo)
         // oder periodisch verteilen lassen
+
+        List<List> recv_Matrix = StringToDistanzMatrix(rInfo)
+
+        for (entry in recv_Matrix){
+            for (i in DistanzMatrix){
+                if (entry[0] == i[0]) { // in empfangener Matrix ist ein Eintrag, den wir auch haben
+                // überprüfen, ob dies ein anderer Weg zu einem Ziel ist oder ob es ein Weg ist, den wir schon haben
+
+                } else { // ein neuer weg kommt dazu
+
+                }
+            }
+        }
+
+        // Auf Basis unserer neuen Distanzmatrix muss nun die Routing Tabelle neu berechnet werden
+
+
+
     }
 
     // ------------------------------------------------------------
+
 
     /** Periodisches Senden der Routinginformationen */
     void sendPeriodical() {
         // Paket mit Routinginformationen packen
         // ... z.B.
         // routingTable = stack.getRoutingTable()
+
+        String rInfo = DistanzMatrixToString(DistanzMatrix)
+
         // extrahieren von Information, dann iInfo als !Zeichenkette! erzeugen ...
-        String rInfo = "inf1a, inf1b, ..., inf2a, inf2b, ..."
+        // rInfo = "inf1a, inf1b, ..., inf2a, inf2b, ..."
 
         // Zum Senden uebergeben
         sendToNeigbors(rInfo)
