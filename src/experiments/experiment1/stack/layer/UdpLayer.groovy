@@ -90,14 +90,15 @@ class UdpLayer {
 
             //TODO: Hier z.B. noch auf richtigen Zielport testen
             // ...
+            if(u_pdu.dstPort == ownPort){
+                ua_idu = new UA_IDU()
+                ua_idu.sdu = u_pdu.sdus
+                ua_idu.srcIpAddr = iu_idu.srcIpAddr
+                ua_idu.srcPort = u_pdu.srcPort
 
-            ua_idu = new UA_IDU()
-            ua_idu.sdu = u_pdu.sdu
-            ua_idu.srcIpAddr = iu_idu.srcIpAddr
-            ua_idu.srcPort = u_pdu.srcPort
-
-            // Daten an Anwendung uebergeben
-            toAppQ.put(ua_idu)
+                // Daten an Anwendung uebergeben
+                toAppQ.put(ua_idu)
+            }
         }
     }
 

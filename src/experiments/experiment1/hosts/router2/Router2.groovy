@@ -1,4 +1,4 @@
-package experiments.experiment1.hosts.router1
+package experiments.experiment1.hosts.router2
 
 import common.utils.Utils
 
@@ -8,7 +8,7 @@ import common.utils.Utils
  * Verwendet UDP zur Verteilung der Routinginformationen.
  *
  */
-class Router1 {
+class Router2 {
 
     //========================================================================================================
     // Vereinbarungen ANFANG
@@ -47,7 +47,8 @@ class Router1 {
 
     String DistanzMatrixToString(List<List> myDistanzMatrix){
         String tmp = ""
-        for (entry in myDistanzMatrix) {
+        Utils.writeLog("Router2", "router2", "l1,5: ${myDistanzMatrix.size()}", 1)
+        for (List entry in myDistanzMatrix) {
             //tmp = tmp + entry[0].toString() + '|' + entry[1].toString() + '|' + entry[2] + '|' + entry[3] + '#'
             tmp = tmp + "${entry[0]}|${entry[1]}|${entry[2]}|${entry[3]}|${entry[4]}#"
         }
@@ -93,7 +94,7 @@ class Router1 {
      */
     static void main(String[] args) {
         // Router-Klasse instanziieren
-        Router1 application = new Router1()
+        Router2 application = new Router2()
         // und starten
         application.router()
     }
@@ -108,7 +109,7 @@ class Router1 {
     void router() {
 
         // Konfiguration holen
-        config = Utils.getConfig("experiment1", "router1")
+        config = Utils.getConfig("experiment1", "router2")
         //config.networkConnectors[0].
         // ------------------------------------------------------------
 
@@ -130,7 +131,7 @@ class Router1 {
 
         // ------------------------------------------------------------
 
-        Utils.writeLog("Router1", "router1", "startet", 1)
+        Utils.writeLog("Router2", "router2", "startet", 1)
         sleep(10000)
         while (run) {
             // Periodisches Versenden von Routinginformationen
@@ -182,7 +183,7 @@ class Router1 {
                 for (List my_entry in tmp_DistanzMatrix) {
                     if ((recv_entry[0] == my_entry[0]) && (recv_entry[1] == my_entry[1])) {
                         unknownSubnetz = false
-                        Utils.writeLog("Router1", "router1", "UUUUUUUUUUUUUUUUUU", 1)
+                        Utils.writeLog("Router2", "router2", "UUUUUUUUUUUUUUUUUU", 1)
                         // habe schon einen pfad zu diesem subnetz
                         // ist es ein anderer pfad? (also nicht zu diesem nachbarn??
                         if(my_entry[3] == iPAddr){
@@ -204,13 +205,13 @@ class Router1 {
                 }
                 // sunetz noch ganz unbekannt ??
                 if(unknownSubnetz){
-                    Utils.writeLog("Router1", "router1", "XXXXXXXXXXXXXXXXXXX", 1)
+                    Utils.writeLog("Router2", "router2", "XXXXXXXXXXXXXXXXXXX", 1)
                     List tmp_entry = recv_entry
                     tmp_entry[2] = ((tmp_entry[2] as int) + 1) as String
                     tmp_entry[3] = iPAddr
                     DistanzMatrix.add(tmp_entry)
                 }
-                unknownSubnetz = false
+                unknownSubnetz = true
             }
         }
 
@@ -228,13 +229,14 @@ class Router1 {
         // Paket mit Routinginformationen packen
         // ... z.B.
         // routingTable = stack.getRoutingTable()
-
+        Utils.writeLog("Router2", "router2", "l1: ${DistanzMatrix.size()}", 1)
         String rInfo = DistanzMatrixToString(DistanzMatrix)
 
         // extrahieren von Information, dann iInfo als !Zeichenkette! erzeugen ...
         // rInfo = "inf1a, inf1b, ..., inf2a, inf2b, ..."
 
         // Zum Senden uebergeben
+        Utils.writeLog("Router2", "router2", "l2: ${DistanzMatrix.size()}", 1)
         sendToNeigbors(rInfo)
     }
 
