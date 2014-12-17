@@ -214,6 +214,8 @@ class Router3 {
                                     List tmp_entry = recv_entry
                                     tmp_entry[2] = ((tmp_entry[2] as int) + 1) as String
                                     tmp_entry[3] = iPAddr
+                                    (neighborTable.find { entry -> iPAddr == entry[0]})[0]
+                                    tmp_entry[4] = (neighborTable.find { entry -> iPAddr == entry[0]})[2]
                                     DistanzMatrix.add(tmp_entry)
                                 }
                             }
@@ -226,6 +228,7 @@ class Router3 {
                         List tmp_entry = recv_entry
                         tmp_entry[2] = ((tmp_entry[2] as int) + 1) as String
                         tmp_entry[3] = iPAddr
+                        tmp_entry[4] = (neighborTable.find { entry -> iPAddr == entry[0]})[2]
                         DistanzMatrix.add(tmp_entry)
                     }
                     unknownSubnetz = true
@@ -257,6 +260,7 @@ class Router3 {
                 tmp_routingTable.add(tmp_routingentry)
             }
             routingTable = tmp_routingTable
+            stack.setRoutingTable(tmp_routingTable)
 
             Utils.writeLog(routername_display, "receive", "Informationen von Nachbar ${iPAddr} verarbeitet. Größe DistanzMatrix: ${DistanzMatrix.size()}, RoutingTable: ${routingTable.size()}", 1)
         }

@@ -249,6 +249,14 @@ class IpLayer {
      * @param dstIpAddr Ziel-IPv4-Adresse
      * @return Liste: IP-v4-Adresse des nächsten Gerätes (next hop) und Link-Port-Name oder "null"
      */
+    String RTToString(List<List> myDistanzMatrix){
+        String tmp = ""
+        for (entry in myDistanzMatrix) {
+            tmp = tmp + "${entry[0]}|${entry[1]}|${entry[2]}|${entry[3]}#"
+        }
+        return tmp
+    }
+
     List findNextHop(String dstIpAddr) {
         List entryx
 
@@ -265,6 +273,7 @@ class IpLayer {
         }
         else
             // Nein
+            Utils.writeLog("IpLayer", "ACHTUNG", "${RTToString(routingTable)}", 4)
             return [null,null]
     }
 

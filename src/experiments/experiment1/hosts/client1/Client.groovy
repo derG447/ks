@@ -127,7 +127,7 @@ Host: www.sesam-strasse.com
         nameserverIpAddr = config.nameServerIpAddr
         nameserverPort = config.nameServerPort
 
-
+        sleep(40000)
 
         // Eigener UDP-Port
         ownPort = config.ownPort
