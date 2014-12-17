@@ -1,4 +1,4 @@
-package experiments.experiment1.hosts.router2
+package experiments.experiment1.hosts.router3
 
 import common.utils.Utils
 
@@ -8,17 +8,17 @@ import common.utils.Utils
  * Verwendet UDP zur Verteilung der Routinginformationen.
  *
  */
-class Router2 {
+class Router3 {
 
     //========================================================================================================
     // Vereinbarungen ANFANG
     //========================================================================================================
 
     /** Der Name des Routers für die Consolenausgabe */
-    final String routername_display = "Router2"
+    final String routername_display = "Router3"
 
     /** Der Name des Routers */
-    final String routername = "router2"
+    final String routername = "router3"
 
     /** Der Netzwerk-Protokoll-Stack */
     experiments.experiment1.stack.Stack stack
@@ -104,7 +104,7 @@ class Router2 {
      */
     static void main(String[] args) {
         // Router-Klasse instanziieren
-        Router2 application = new Router2()
+        Router3 application = new Router3()
         // und starten
         application.router()
     }

@@ -252,10 +252,15 @@ class LinkLayer {
 
             // Wurde die MAC-Adresse fuer das naechste Ziel in der ARP-Tabelle gefunden?
             if (!macFrame.dstMacAddr) {
-                // Nein -> ARP verwenden
+                if(waitARP){ // wenn schon auf ein arp gewartet wird, dann muss das neue paket weggeworfen werden
+                    Utils.writeLog("LinkLayer", "send", "ARP ist schon unterwegs, Paket muss verworfen werden: ${lc_idu}", 5)
+                    continue
+                } else {
+                    // Warten auf ARP-Reply, wird in "receive" geaendert
+                    waitARP = true
+                }
 
-                // Warten auf ARP-Reply, wird in "receive" geaendert
-                waitARP = true
+                // Nein -> ARP verwenden
 
                 waitDstIpAddr = il_idu.nextHopAddr
 
@@ -281,13 +286,15 @@ class LinkLayer {
                 // ARP-Reply ueber "arpQ"
                 // Der Sendethread blockiert hier: "quick and dirty"
                 // Besser waere es einen eigenen Thread auszufueren
-                String nextMacAddr = arpQ.take()
+                Thread.start{waitForReply(il_idu, macFrame, lc_idu)}
+                continue
+                //String nextMacAddr = arpQ.take()
 
                 // Arp-Tabelle aktualisieren
-                arpTable[il_idu.nextHopAddr] = nextMacAddr
+                //arpTable[il_idu.nextHopAddr] = nextMacAddr
 
                 // MAC-Ziel-Adresse in MAC-Frame einsetzen
-                macFrame.dstMacAddr = nextMacAddr
+                //macFrame.dstMacAddr = nextMacAddr
             }
 
             macFrame.sdu = il_idu.sdu // PDU entnehmen
@@ -300,6 +307,34 @@ class LinkLayer {
         }
     }
 
+    void waitForReply(IL_IDU il_idu, L_PDU macFrame, LC_IDU lc_idu){
+
+        /** Name des Linkports */
+        String lpName
+
+        /** Der zu verwendende Anschluss */
+        Connector connector
+
+        // Namen des Linkports entnehmen
+        lpName = il_idu.lpName
+
+        // Anschluss bestimmen
+        connector = connectors[lpName]
+
+        String nextMacAddr = arpQ.take() // Hier auf Antwort warten
+
+        arpTable[il_idu.nextHopAddr] = nextMacAddr
+
+        macFrame.dstMacAddr = nextMacAddr
+
+        macFrame.sdu = il_idu.sdu // PDU entnehmen
+        macFrame.type = ETHERTYPE_IP // Typfeld
+
+        Utils.writeLog("LinkLayer", "send", "uebergibt  an Anschluss ${lpName}: ${lc_idu}", 5)
+
+        lc_idu.sdu = macFrame // L_PDU eintragen
+        connector.send(lc_idu)
+    }
     //========================================================================================================
 
     /**

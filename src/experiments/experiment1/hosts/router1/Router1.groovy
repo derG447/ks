@@ -14,6 +14,12 @@ class Router1 {
     // Vereinbarungen ANFANG
     //========================================================================================================
 
+    /** Der Name des Routers für die Consolenausgabe */
+    final String routername_display = "Router1"
+
+    /** Der Name des Routers */
+    final String routername = "router1"
+
     /** Der Netzwerk-Protokoll-Stack */
     experiments.experiment1.stack.Stack stack
 
@@ -28,27 +34,31 @@ class Router1 {
      */
     List<List> neighborTable
 
+    /** Gruppe: Enthält alle eigenen IP Adressen, wird aus der config ausgelesen */
     List myIPtable
 
     /** Eine Arbeitskopie der Routingtabelle der Netzwerkschicht */
     List<List> routingTable
 
-    /** ob: Routereigne Distanzmatrix zum errechnen der besten Wege */
+    /** Gruppe: Routereigene Distanzmatrix zum errechnen der besten Wege */
     List<List> DistanzMatrix = []
-    // ob: meine eigene Matrix zum errechnen der Routingwege:
-    //
+    // Aufbau:
     // | Subnetz      | Subnetzmaske  | Kosten  |  IP Adresse nächster hop | passender Link (kann leer sein)
     // | 192.168.1.0  | 255.255.255.0 | 1       | my ip adrr.              | lp1
     // wobei Kosten 1=eigenes Netz,2=Über einen Router,3=über 2 Router, ....
+
 
     //========================================================================================================
     // Methoden ANFANG
     //========================================================================================================
 
+    //------------------------------------------------------------------------------
+    /**
+     * Gruppe: die folgenden 4 Methoden sind Hilfsfunktionen für das Routing
+     */
     String DistanzMatrixToString(List<List> myDistanzMatrix){
         String tmp = ""
         for (entry in myDistanzMatrix) {
-            //tmp = tmp + entry[0].toString() + '|' + entry[1].toString() + '|' + entry[2] + '|' + entry[3] + '#'
             tmp = tmp + "${entry[0]}|${entry[1]}|${entry[2]}|${entry[3]}|${entry[4]}#"
         }
         return tmp
@@ -86,6 +96,7 @@ class Router1 {
         }
         return false
     }
+    //------------------------------------------------------------------------------
 
     //------------------------------------------------------------------------------
     /**
@@ -102,13 +113,13 @@ class Router1 {
     //------------------------------------------------------------------------------
     /**
      * Einfacher IP-v4-Forwarder.<br/>
-     * Ist so schon funktiionsfähig, da die Wegewahl im Netzwerkstack erfolgt<br/>
+     * Ist so schon funktionsfähig, da die Wegewahl im Netzwerkstack erfolgt<br/>
      * Hier wird im Laufe des Versuchs ein Routing-Protokoll implementiert.
      */
     void router() {
 
         // Konfiguration holen
-        config = Utils.getConfig("experiment1", "router1")
+        config = Utils.getConfig("experiment1", routername)
         //config.networkConnectors[0].
         // ------------------------------------------------------------
 
@@ -118,11 +129,13 @@ class Router1 {
 
         // ------------------------------------------------------------
 
-        // ob: hier nachbarliste aus config holen:
-        neighborTable = config.neighborTable;
+        // Gruppe: hier neighborTable aus config bekommen, hatte in der Vorlage gefehlt
+        neighborTable = config.neighborTable
+
+        // Gruppe: hier die Liste der network connectors bekommen, eigentlich werden nur die IP Adressen benötigt
         myIPtable = config.networkConnectors
 
-        // hier DistanzMatrix initialisieren
+        // Gruppe: hier DistanzMatrix initialisieren
         initDistanzMatrix(stack.getRoutingTable())
 
         // Thread zum Empfang von Routinginformationen erzeugen
@@ -130,11 +143,12 @@ class Router1 {
 
         // ------------------------------------------------------------
 
-        Utils.writeLog("Router1", "router1", "startet", 1)
-        sleep(10000)
+        Utils.writeLog(routername_display, routername, "startet", 1)
+        sleep(15000)
         while (run) {
             // Periodisches Versenden von Routinginformationen
             sendPeriodical()
+
             sleep(config.periodRInfo)
         }
     }
@@ -155,69 +169,97 @@ class Router1 {
         /** Empfangene Routinginformationen */
         String rInfo
 
-        // Auf UDP-Empfang warten
-        (iPAddr, port, rInfo) = stack.udpReceive()
+        while(true) {
+            // Auf UDP-Empfang warten
+            (iPAddr, port, rInfo) = stack.udpReceive()
 
-        // Jetzt aktuelle Routingtablle holen:
-        // rt = stack.getRoutingtable()
-        // neue Routinginformationen bestimmen
-        //    zum Zerlegen einer Zeichenkette siehe "tokenize()"
-        // extrahieren von Information, dann iInfo als !Zeichenkette! erzeugen ...
-        // Routingtabelle an Vermittlungsschicht uebergeben:
-        // stack.setRoutingtable(rt)
-        // und neue Routinginformationen verteilen:
-        // rInfo = ...
-        // sendToNeigbors(rInfo)
-        // oder periodisch verteilen lassen
+            // Jetzt aktuelle Routingtablle holen:
+            // rt = stack.getRoutingtable()
+            // neue Routinginformationen bestimmen
+            //    zum Zerlegen einer Zeichenkette siehe "tokenize()"
+            // extrahieren von Information, dann iInfo als !Zeichenkette! erzeugen ...
+            // Routingtabelle an Vermittlungsschicht uebergeben:
+            // stack.setRoutingtable(rt)
+            // und neue Routinginformationen verteilen:
+            // rInfo = ...
+            // sendToNeigbors(rInfo)
+            // oder periodisch verteilen lassen
 
-        List<List> recv_Matrix = StringToDistanzMatrix(rInfo)
-        List<List> tmp_DistanzMatrix = DistanzMatrix.clone()
+            List<List> recv_Matrix = StringToDistanzMatrix(rInfo)
+            List<List> tmp_DistanzMatrix = DistanzMatrix.clone()
 
-        boolean unknownSubnetz = true;
-        for (List recv_entry in recv_Matrix){
-            if (isPathtoMe(recv_entry[3])){
-                // entry is a path to my own subnet
-            } else {
-                //Utils.writeLog("Router1", "router1", "gut", 1)
-                for (List my_entry in tmp_DistanzMatrix) {
-                    if ((recv_entry[0] == my_entry[0]) && (recv_entry[1] == my_entry[1])) {
-                        unknownSubnetz = false
-                        Utils.writeLog("Router1", "router1", "UUUUUUUUUUUUUUUUUU", 1)
-                        // habe schon einen pfad zu diesem subnetz
-                        // ist es ein anderer pfad? (also nicht zu diesem nachbarn??
-                        if(my_entry[3] == iPAddr){
-                            // ja, ist dieser pfad, übernehme kosten
-                            my_entry[2] = ((recv_entry[2] as int) +1) as String
+            Utils.writeLog(routername_display, "receive", "Informationen von Nachbar ${iPAddr} angekommen. Größe seiner Matrix: ${recv_Matrix.size()}", 1)
+
+            boolean unknownSubnetz = true;
+            for (List recv_entry in recv_Matrix) {
+                if (isPathtoMe(recv_entry[3])) {
+                    // Gruppe: this is a subnet already reachable over myself
+                } else {
+                    for (List my_entry in tmp_DistanzMatrix) {
+                        if ((recv_entry[0] == my_entry[0]) && (recv_entry[1] == my_entry[1])) {
+                            unknownSubnetz = false
+
+                            // Gruppe: Habe schon einen Eintrag zu diesem Subnetz, ist es ein anderer pfad?
+                            if (my_entry[3] == iPAddr) {
+                                // Gruppe: Nein, ist derselbe Pfad, aktualisiere nur die Kosten
+                                Utils.writeLog(routername_display, "receive", "Kosten aktualisiert für schon bekanntes Subnetz ${recv_entry[0]}, Neu: ${((recv_entry[2] as int) + 1)} Alt: ${my_entry[2]}", 1)
+                                my_entry[2] = ((recv_entry[2] as int) + 1) as String
+                            } else {
+                                // Gruppe: Ja, es ist ein anderer pfad, füge ihn hinzu ..
+                                if ((my_entry[2] as int) == 1){
+                                    // .. ausser er läuft in mein direkt angeschlossenes Netz, dann nicht
+                                    Utils.writeLog(routername_display, "receive", "Zweiter Weg zum eigenen Subnetz verworfen", 1)
+                                } else {
+                                    Utils.writeLog(routername_display, "receive", "Neuer Eintrag für schon bekanntes Subnetz ${recv_entry[0]}", 1)
+                                    List tmp_entry = recv_entry
+                                    tmp_entry[2] = ((tmp_entry[2] as int) + 1) as String
+                                    tmp_entry[3] = iPAddr
+                                    DistanzMatrix.add(tmp_entry)
+                                }
+                            }
                         } else {
-                            // nee, neuer pfad, füge ihn hinzu
-                            //if ((my_entry[2] as int) == 1){
-                                // wenn es mein eigenes netz ist, dann nicht
-                            //} else {
-                                List tmp_entry = recv_entry
-                                tmp_entry[2] = ((tmp_entry[2] as int) + 1) as String
-                                tmp_entry[3] = iPAddr
-                                DistanzMatrix.add(tmp_entry)
-                            //}
                         }
-                    } else {
+                    }
+                    // Gruppe: Subnetz noch ganz unbekannt?
+                    if (unknownSubnetz) {
+                        Utils.writeLog(routername_display, "receive", "Neuer Eintrag für unbekanntes Subnetz ${recv_entry[0]}", 1)
+                        List tmp_entry = recv_entry
+                        tmp_entry[2] = ((tmp_entry[2] as int) + 1) as String
+                        tmp_entry[3] = iPAddr
+                        DistanzMatrix.add(tmp_entry)
+                    }
+                    unknownSubnetz = true
+                }
+            }
+
+            // Gruppe: Auf Basis unserer neuen Distanzmatrix muss nun die Routing Tabelle neu berechnet werden
+
+            List<List> tmp_routingTable = []
+
+            for (List my_entry in DistanzMatrix) {
+                // Gruppe: Gehe nun die ganze Matrix durch und suche für jedes Subnetz den kürzesten Weg
+                List best_candidate = my_entry
+                for (List my_entry_2 in DistanzMatrix) {
+                    if((best_candidate[0] == my_entry_2[0]) && (best_candidate[1] == my_entry_2[1])){
+                        if((best_candidate[2] as int) <= (my_entry_2[2] as int)){
+                            // Der kürzere Weg ist schon ausgewählt
+                        } else {
+                            best_candidate = my_entry_2
+                        }
                     }
                 }
-                // sunetz noch ganz unbekannt ??
-                if(unknownSubnetz){
-                    Utils.writeLog("Router1", "router1", "XXXXXXXXXXXXXXXXXXX", 1)
-                    List tmp_entry = recv_entry
-                    tmp_entry[2] = ((tmp_entry[2] as int) + 1) as String
-                    tmp_entry[3] = iPAddr
-                    DistanzMatrix.add(tmp_entry)
-                }
-                unknownSubnetz = false
+                // Gruppe: hier in neue Routingtabelle eintragen
+                List tmp_routingentry = []
+                tmp_routingentry.add(best_candidate[0])
+                tmp_routingentry.add(best_candidate[1])
+                tmp_routingentry.add(best_candidate[3])
+                tmp_routingentry.add(best_candidate[4])
+                tmp_routingTable.add(tmp_routingentry)
             }
+            routingTable = tmp_routingTable
+
+            Utils.writeLog(routername_display, "receive", "Informationen von Nachbar ${iPAddr} verarbeitet. Größe DistanzMatrix: ${DistanzMatrix.size()}, RoutingTable: ${routingTable.size()}", 1)
         }
-
-        // Auf Basis unserer neuen Distanzmatrix muss nun die Routing Tabelle neu berechnet werden
-
-
-
     }
 
     // ------------------------------------------------------------
@@ -226,15 +268,12 @@ class Router1 {
     /** Periodisches Senden der Routinginformationen */
     void sendPeriodical() {
         // Paket mit Routinginformationen packen
-        // ... z.B.
-        // routingTable = stack.getRoutingTable()
+        // extrahieren von Information, dann rInfo als !Zeichenkette! erzeugen ...
 
         String rInfo = DistanzMatrixToString(DistanzMatrix)
 
-        // extrahieren von Information, dann iInfo als !Zeichenkette! erzeugen ...
-        // rInfo = "inf1a, inf1b, ..., inf2a, inf2b, ..."
-
         // Zum Senden uebergeben
+        Utils.writeLog(routername_display, "send", "Sende meine Matrix an alle Nachbarn. Größe meiner Matrix: ${DistanzMatrix.size()}", 1)
         sendToNeigbors(rInfo)
     }
 
