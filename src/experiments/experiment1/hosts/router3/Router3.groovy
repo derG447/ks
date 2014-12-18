@@ -321,16 +321,18 @@ class Router3 {
                 if (entry[0] == neigbor[0]){
                     entry[3] = entry[3] -1
                 }
-            }
-            // wenn der nachbar weg/tot/unererichbar ist, dann wird er beim nächsten recv gestrichen
-            if (entry[3] <= 0){
-                for (route in DistanzMatrix){
-                    if (route[3] == neigbor[0]){
-                        route[2] = 0
-                        Utils.writeLog(routername_display, "send", "Ausfall von ${neigbor[0]} entdeckt", 1)
+
+                // wenn der nachbar weg/tot/unererichbar ist, dann wird er beim nächsten recv gestrichen
+                if (entry[3] <= 0){
+                    for (route in DistanzMatrix){
+                        if (route[3] == neigbor[0]){
+                            route[2] = 0
+                            Utils.writeLog(routername_display, "send", "Ausfall von ${neigbor[0]} entdeckt", 1)
+                        }
                     }
                 }
             }
+
             stack.udpSend(dstIpAddr: neigbor[0], dstPort: neigbor[1],
                     srcPort: config.ownPort, sdu: rInfo)
         }
