@@ -38,6 +38,9 @@ class Router2 {
      *  ohne etwas von ihnen bekommen zu haben */
     List<List> neighborAvaiableTable = []
 
+    /** Die Anzahl der Ticks, bis ein Nachbar als Ausfall gilt */
+    final int routerTimeout = 6
+
     /** Gruppe: Enthält alle eigenen IP Adressen, wird aus der config ausgelesen */
     List myIPtable
 
@@ -139,7 +142,7 @@ class Router2 {
         // Hier wird die Avaiable Tabelle initialisiert
         neighborAvaiableTable = neighborTable
         for (entry in neighborAvaiableTable){
-            entry.add(4)
+            entry.add(routerTimeout)
         }
 
         // Gruppe: hier die Liste der network connectors bekommen, eigentlich werden nur die IP Adressen benötigt
@@ -186,7 +189,10 @@ class Router2 {
             // den Avaiable Counter um eins runtersetzen
             for (entry in neighborAvaiableTable){
                 if (entry[0] == iPAddr){
-                    entry[3] = 3
+                    if (entry[3] == 0){
+                        Utils.writeLog(routername_display, "send", "${entry[0]} wieder da", 11)
+                    }
+                    entry[3] = routerTimeout
                 }
             }
 
@@ -223,7 +229,7 @@ class Router2 {
                                 my_entry[2] = ((recv_entry[2] as int) + 1) as String
                             } else {
                                 // Gruppe: Ja, es ist ein anderer pfad, füge ihn hinzu ..
-                                if ((my_entry[2] as int) <= ((recv_entry[2] as int) + 1)){
+                                if (((my_entry[2] as int) <= ((recv_entry[2] as int) + 1)) && ((my_entry[2] as int) != 0)){
                                     // .. ausser er läuft in mein direkt angeschlossenes Netz, dann nicht
                                     Utils.writeLog(routername_display, "receive", "Zweiter Weg zu einem Subnetz verworfen, ich habe einen besseren", 1)
                                 } else {
@@ -315,19 +321,18 @@ class Router2 {
     void sendToNeigbors(String rInfo) {
         // rInfo an alle Nachbarrouter versenden
         for (List neigbor in neighborTable) {
-
             // den Avaiable Counter um eins runtersetzen
             for (entry in neighborAvaiableTable){
                 if (entry[0] == neigbor[0]){
                     entry[3] = entry[3] -1
-                }
 
-                // wenn der nachbar weg/tot/unererichbar ist, dann wird er beim nächsten recv gestrichen
-                if (entry[3] <= 0){
-                    for (route in DistanzMatrix){
-                        if (route[3] == neigbor[0]){
-                            route[2] = 0
-                            Utils.writeLog(routername_display, "send", "Ausfall von ${neigbor[0]} entdeckt", 1)
+                    // wenn der nachbar weg/tot/unererichbar ist, dann wird er beim nächsten recv gestrichen
+                    if (entry[3] <= 0){
+                        for (route in DistanzMatrix){
+                            if (route[3] == neigbor[0]){
+                                route[2] = 0
+                                Utils.writeLog(routername_display, "send", "Ausfall von ${neigbor[0]} entdeckt", 11)
+                            }
                         }
                     }
                 }
