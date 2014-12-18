@@ -34,6 +34,10 @@ class Router4 {
      */
     List<List> neighborTable
 
+    /** Gruppe: Enthält zu allen Nachbarn aus der neighborTable, wie oft ich ihnen Infosgesendet habe,
+     *  ohne etwas von ihnen bekommen zu haben */
+    List<List> neighborAvaiableTable = []
+
     /** Gruppe: Enthält alle eigenen IP Adressen, wird aus der config ausgelesen */
     List myIPtable
 
@@ -132,6 +136,12 @@ class Router4 {
         // Gruppe: hier neighborTable aus config bekommen, hatte in der Vorlage gefehlt
         neighborTable = config.neighborTable
 
+        // Hier wird die Avaiable Tabelle initialisiert
+        neighborAvaiableTable = neighborTable
+        for (entry in neighborAvaiableTable){
+            entry.add(4)
+        }
+
         // Gruppe: hier die Liste der network connectors bekommen, eigentlich werden nur die IP Adressen benötigt
         myIPtable = config.networkConnectors
 
@@ -173,6 +183,13 @@ class Router4 {
             // Auf UDP-Empfang warten
             (iPAddr, port, rInfo) = stack.udpReceive()
 
+            // den Avaiable Counter um eins runtersetzen
+            for (entry in neighborAvaiableTable){
+                if (entry[0] == iPAddr){
+                    entry[3] = 3
+                }
+            }
+
             // Jetzt aktuelle Routingtablle holen:
             // rt = stack.getRoutingtable()
             // neue Routinginformationen bestimmen
@@ -206,16 +223,24 @@ class Router4 {
                                 my_entry[2] = ((recv_entry[2] as int) + 1) as String
                             } else {
                                 // Gruppe: Ja, es ist ein anderer pfad, füge ihn hinzu ..
-                                if ((my_entry[2] as int) == 1){
+                                if ((my_entry[2] as int) <= ((recv_entry[2] as int) + 1)){
                                     // .. ausser er läuft in mein direkt angeschlossenes Netz, dann nicht
-                                    Utils.writeLog(routername_display, "receive", "Zweiter Weg zum eigenen Subnetz verworfen", 1)
+                                    Utils.writeLog(routername_display, "receive", "Zweiter Weg zu einem Subnetz verworfen, ich habe einen besseren", 1)
                                 } else {
+                                    // da er besser ist, übernehme ich ihn und ersetze den anderen damit
+                                    my_entry[2] = ((recv_entry[2] as int) + 1) as String
+                                    my_entry[3] = iPAddr
+                                    my_entry[4] = (neighborTable.find { entry -> iPAddr == entry[0]})[2]
+
+
+
+                                    /*
                                     Utils.writeLog(routername_display, "receive", "Neuer Eintrag für schon bekanntes Subnetz ${recv_entry[0]}", 1)
                                     List tmp_entry = recv_entry
                                     tmp_entry[2] = ((tmp_entry[2] as int) + 1) as String
                                     tmp_entry[3] = iPAddr
                                     tmp_entry[4] = (neighborTable.find { entry -> iPAddr == entry[0]})[2]
-                                    DistanzMatrix.add(tmp_entry)
+                                    DistanzMatrix.add(tmp_entry)*/
                                 }
                             }
                         } else {
@@ -225,7 +250,7 @@ class Router4 {
                     if (unknownSubnetz) {
                         Utils.writeLog(routername_display, "receive", "Neuer Eintrag für unbekanntes Subnetz ${recv_entry[0]}", 1)
                         List tmp_entry = recv_entry
-                        tmp_entry[2] = ((tmp_entry[2] as int) + 1) as String
+                        tmp_entry[2] = ((recv_entry[2] as int) + 1) as String
                         tmp_entry[3] = iPAddr
                         tmp_entry[4] = (neighborTable.find { entry -> iPAddr == entry[0]})[2]
                         DistanzMatrix.add(tmp_entry)
@@ -290,6 +315,22 @@ class Router4 {
     void sendToNeigbors(String rInfo) {
         // rInfo an alle Nachbarrouter versenden
         for (List neigbor in neighborTable) {
+
+            // den Avaiable Counter um eins runtersetzen
+            for (entry in neighborAvaiableTable){
+                if (entry[0] == neigbor[0]){
+                    entry[3] = entry[3] -1
+                }
+            }
+            // wenn der nachbar weg/tot/unererichbar ist, dann wird er beim nächsten recv gestrichen
+            if (entry[3] <= 0){
+                for (route in DistanzMatrix){
+                    if (route[3] == neigbor[0]){
+                        route[2] = 0
+                        Utils.writeLog(routername_display, "send", "Ausfall von ${neigbor[0]} entdeckt", 1)
+                    }
+                }
+            }
             stack.udpSend(dstIpAddr: neigbor[0], dstPort: neigbor[1],
                     srcPort: config.ownPort, sdu: rInfo)
         }
