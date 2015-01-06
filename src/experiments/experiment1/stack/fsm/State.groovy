@@ -37,4 +37,15 @@ class State {
     /** Daten werden gesendet */
     static final int S_SEND_DATA = 250
 
+    // ab hier neu hinzugefuegte states, fuer passiven verbindungsauf-und abbau in tcp
+
+    static final int S_SEND_SYN_ACK_2 = 260
+
+    static final int S_WAIT_SYN_ACK_ACK_2 = 270
+
+    static final int S_SEND_FIN_ACK_2 = 280
+
+    static final int S_WAIT_FIN_ACK_ACK_2 = 290
+
+
 }

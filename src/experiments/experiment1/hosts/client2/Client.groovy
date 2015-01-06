@@ -163,7 +163,9 @@ Host: www.sesam-strasse.com
             } // while
 
             if (data) Utils.writeLog("Client", "client", "HTTP-Body empfangen: ${data[bodyStart..-1]}", 1)
-        } // if
+        } else {
+            Utils.writeLog("Client", "client", "tcp hat nich geklappt :(", 1)
+        }
 
         // Verbindung schliessen
         stack.tcpClose(connId: connId)

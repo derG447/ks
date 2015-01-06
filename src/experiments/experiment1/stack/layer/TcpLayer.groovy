@@ -142,7 +142,9 @@ class TcpLayer {
             [on: Event.E_SYN_ACK_ACK_SENT, from: State.S_SEND_SYN_ACK_ACK, to: State.S_READY],
 
             // Passiver Verbindungsaufbau
-            // ...
+            [on: Event.E_RECVD_SYN_2, from: State.S_IDLE, to: State.S_SEND_SYN_ACK_2],
+            [on: Event.E_SEND_SYN_ACK_2, from: State.S_SEND_SYN_ACK_2, to: State.S_WAIT_SYN_ACK_ACK_2],
+            [on: Event.E_RCVD_SYN_ACK_ACK_2, from: State.S_WAIT_SYN_ACK_ACK_2, to: State.S_READY],
 
             // Datenübertragung: Senden
             [on: Event.E_SEND_DATA, from: State.S_READY, to: State.S_SEND_DATA],
@@ -161,7 +163,10 @@ class TcpLayer {
             [on: Event.E_FIN_ACK_ACK_SENT, from: State.S_SEND_FIN_ACK_ACK, to: State.S_IDLE],
 
             // Passiver Verbindungsabbau
-            // ...
+            [on: Event.E_RCVD_FIN_2, from: State.S_READY, to: State.S_SEND_FIN_ACK_2],
+            [on: Event.E_SEND_FIN_ACK_2, from: State.S_SEND_FIN_ACK_2, to: State.S_WAIT_FIN_ACK_ACK_2],
+            [on: Event.E_RCVD_ACK, from: State.S_WAIT_FIN_ACK_ACK_2, to: State.S_IDLE],
+
         ]
 
     /** Die Finite Zustandsmaschine. */
@@ -242,8 +247,10 @@ class TcpLayer {
             int event = 0
             // Ereignis bestimmen
             switch(true) {
-                case (recvFinFlag):                          event = Event.E_RCVD_FIN      ;break
+                case (recvFinFlag && recvAckFlag):           event = Event.E_RCVD_FIN      ;break // von uns geändert, vorher nur abfrage auf fin flag
+                case (recvFinFlag):                          event = Event.E_RCVD_FIN_2    ;break // von uns gemacht
                 case (recvSynFlag && recvAckFlag):           event = Event.E_RCVD_SYN_ACK  ;break
+                case (recvSynFlag):                          event = Event.E_RECVD_SYN_2  ;break
                 case (recvAckFlag && t_pdu.sdu.size() == 0): event = Event.E_RCVD_ACK      ;break
                 case (recvAckFlag && t_pdu.sdu.size() > 0):  event = Event.E_RCVD_DATA     ;break
             }
@@ -357,8 +364,31 @@ class TcpLayer {
                     break
 
             // ----------------------------------------------------------
-            // Passiver Verbindungsaufbau
-            // ...
+            // Passiver Verbindungsaufbau, von uns gemacht
+            // [on: Event.E_SEND_SYN_ACK_2, from: State.S_SEND_SYN_ACK_2, to: State.S_WAIT_SYN_ACK_ACK_2]
+
+                case (State.S_SEND_SYN_ACK_2):
+                    //SYN empfangen, SYN+ACK senden
+                    sendAckNum = recvSeqNum + 1
+                    sendSeqNum = new Random().nextInt(6000) + 1
+
+                    sendAckFlag = true
+                    sendSynFlag = true
+                    sendFinFlag = false
+                    sendRstFlag = false
+                    sendWindSize = WINDOWSIZE
+                    sendData = ""
+
+                    // T-PDU erzeugen und senden
+                    sendTpdu()
+
+                    // Neuen Zustand der FSM erzeugen
+                    fsm.fire(Event.E_SEND_SYN_ACK_2)
+                    // eigentlich schon zu früh, aber egal
+                    notifyOpen()
+
+                    break
+
 
             // ----------------------------------------------------------
             // Aktiver Verbindungsabbau
@@ -398,8 +428,23 @@ class TcpLayer {
                     break
 
             // ----------------------------------------------------------
-            // Passiver Verbindungsabbau
-            // ...
+            // Passiver Verbindungsabbau, von uns gemacht
+            // [on: Event.E_SEND_FIN_ACK_2, from: State.S_SEND_FIN_ACK_2, to: State.S_WAIT_FIN_ACK_ACK_2],
+                case (State.S_SEND_FIN_ACK_2):
+                    // FIN+ACK empfangen, ACK senden
+                    sendAckFlag = true
+                    sendFinFlag = true
+                    sendSeqNum += 1
+                    sendAckNum = recvSeqNum + 1
+                    sendData = ""
+
+                    // ACK nach FIN+ACK senden
+                    sendTpdu()
+
+                    // Neuen Zustand der FSM erzeugen
+                    fsm.fire(Event.E_SEND_FIN_ACK_2)
+
+                    break
 
             // ----------------------------------------------------------
             // Daten empfangen
@@ -465,6 +510,16 @@ class TcpLayer {
 
                     // Neuen Zustand der FSM erzeugen
                     fsm.fire(Event.E_READY)
+                    break
+
+            // ----------------------------------------------------------
+            // Ende-ACK empfangen, Verbindung schließen
+
+                case (State.S_IDLE):
+                    // ACK ohne Daten empfangen
+
+                    // Ende der Verbindung signalisieren
+                    notifyClose()
                     break
 
             // ----------------------------------------------------------
