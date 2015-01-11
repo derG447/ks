@@ -103,6 +103,7 @@ Das Objekt ${->name} wurde angefragt!
         //------------------------------------------------
 
         while (run) {
+
             // Auf das Öffnen einer TCP-Verbindung warten
             Map aidu = stack.tcpListen()
 
@@ -112,13 +113,17 @@ Das Objekt ${->name} wurde angefragt!
             while (run) {
 
                 // Auf Empfang warten
+                Utils.writeLog("Server", "main", "WARTEN AUF EIN PAKETTEIL VONTCP", 22)
                 Map tidu = stack.tcpReceive(connId: connId)
+                Utils.writeLog("Server", "main", "PAKET ANGEKOMMEN", 22)
 
                 // Es wurden längere Zeit keine Daten empfangen oder die Datenlänge ist 0
                 // -> die TCP-Verbindung wird als geschlossen angenommen
-                if (!tidu.sdu)
-                // Nein, innere while-Schleife abbrechen
+                if (!tidu.sdu) {
+                    // Nein, innere while-Schleife abbrechen
+                    Utils.writeLog("Server", "main", "BREAK WEGEN ABBRUCH", 22)
                     break
+                }
 
                 // A-PDU uebernehmen
                 apdu = tidu.sdu

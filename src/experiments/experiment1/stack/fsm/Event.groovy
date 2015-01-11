@@ -44,16 +44,16 @@ class Event {
     static final int E_RCVD_FIN = 280
 
     // ab hier neu hinzugefuegte states, fuer passiven verbindungsauf-und abbau in tcp
-    static final int E_RECVD_SYN_2 = 300
+    static final int E_RECVD_SYN_own = 300
 
-    static final int E_SEND_SYN_ACK_2 = 310
+    static final int E_SEND_SYN_ACK_own = 310
 
-    static final int E_RCVD_SYN_ACK_ACK_2 = 320
+    static final int E_RCVD_FIN_own = 330
 
-    static final int E_RCVD_FIN_2 = 330
+    static final int E_SEND_FIN_ACK_own = 340
 
-    static final int E_SEND_FIN_ACK_2 = 340
+    static final int E_OPEN_own = 350
 
-    static final int E_RCVD_FIN_ACK_ACK_2 = 350
+    static final int E_CLOSECON_own = 360
 
 }

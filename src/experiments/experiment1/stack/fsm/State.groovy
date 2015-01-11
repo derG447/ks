@@ -39,13 +39,17 @@ class State {
 
     // ab hier neu hinzugefuegte states, fuer passiven verbindungsauf-und abbau in tcp
 
-    static final int S_SEND_SYN_ACK_2 = 260
+    static final int S_SEND_SYN_ACK_own = 260
 
-    static final int S_WAIT_SYN_ACK_ACK_2 = 270
+    static final int S_WAIT_SYN_ACK_ACK_own = 270
 
-    static final int S_SEND_FIN_ACK_2 = 280
+    static final int S_SEND_FIN_ACK_own = 280
 
-    static final int S_WAIT_FIN_ACK_ACK_2 = 290
+    static final int S_WAIT_FIN_ACK_ACK_own = 290
+
+    static final int S_OPEN_own = 300
+
+    static final int S_CLOSECON_own = 310
 
 
 }

@@ -202,14 +202,16 @@ public class Stack {
         Map tidu = [:]
 
         // Blockierendes Empfangen von TCP,
-        TA_IDU ta_idu = fromTcpQ.poll(Utils.sec1, TimeUnit.MILLISECONDS)
+        TA_IDU ta_idu = fromTcpQ.poll(Utils.sec1, TimeUnit.MILLISECONDS) // von uns erhöter timeout (mal 2)
         // Timeout aufgetreten?
         if (ta_idu) {
             // Nein
+            Utils.writeLog("Server", "stack", "KEIN TIMEOUT", 22)
             tidu = [connId: ta_idu.connId, sdu: ta_idu.sdu]
         }
         else {
             // Ja
+            Utils.writeLog("Server", "stack", "TIMEOUT", 22)
             tidu = [connId: idu.connId, sdu: null]
         }
         return tidu
