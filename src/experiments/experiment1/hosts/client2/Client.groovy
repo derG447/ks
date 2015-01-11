@@ -167,8 +167,8 @@ Host: www.sesam-strasse.com
             Utils.writeLog("Client", "client", "tcp hat nich geklappt :(", 1)
         }
 
-        // Verbindung schliessen
-        stack.tcpClose(connId: connId)
+        // Verbindung schliessen // von uns geändert: der server schließt jetzt die verbindung
+        //stack.tcpClose(connId: connId)
     }
     //------------------------------------------------------------------------------
 

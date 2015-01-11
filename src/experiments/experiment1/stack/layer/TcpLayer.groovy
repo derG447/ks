@@ -176,6 +176,8 @@ class TcpLayer {
     /** Neuer Zustand. */
     int newState
 
+    // von uns: Anzahl der noch zu übertragenden Daten (aus sicht der anwendung)
+
     //========================================================================================================
     // Methoden                                                                                             //
     //========================================================================================================
@@ -279,6 +281,9 @@ class TcpLayer {
 
         while (run) {
             at_idu = fromAppQ.take() // blockierendes Lesen von Anwendung
+
+            // hier merkt sich tcp, dass er was von der Applikation bekommen hat, was erst gesendet werden muss, bevor
+            // die verbindung geschlossen werden kann
 
             Utils.writeLog("TcpLayer", "send", "uebernimmt  von Anwendung: ${at_idu}", 2)
 
@@ -717,6 +722,9 @@ class TcpLayer {
      * @param idu : keys: connId
      */
     void close(Map idu) {
+
+    // von uns: hier aufpassen, dass tcp alle daten, die vorher gesendet werden sollten,
+    // bereits bekommen und bestätigt bekommen hat
 
         Utils.writeLog("TcpLayer", "close", "schliesse Verbindung: ${idu}", 2)
 

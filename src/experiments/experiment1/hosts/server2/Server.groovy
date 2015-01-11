@@ -166,6 +166,11 @@ Das Objekt ${->name} wurde angefragt!
 
                     // Antwort senden
                     stack.tcpSend([connId: connId, sdu: reply])
+
+                    // hier von uns: wenn die antwort gesendet wurde, dann schließt der server die verbindung.
+                    // wenn wir dann sendewiederholung etc implementiert haben, dann ist ja auch alles sicher angekommen
+                    stack.tcpClose(connId: connId) // doch nicht
+                    break
                 }
             } // while
         } // while
