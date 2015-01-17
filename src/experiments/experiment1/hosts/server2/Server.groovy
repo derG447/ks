@@ -96,7 +96,7 @@ Das Objekt ${->name} wurde angefragt!
         stack.start(config)
 
         //------------------------------------------------
-
+        sleep(10000)
         Utils.writeLog("Server", "server", "startet", 1)
 
 

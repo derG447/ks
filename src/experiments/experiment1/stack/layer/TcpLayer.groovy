@@ -103,6 +103,9 @@ class TcpLayer {
     // TCP-Parameter                                                                                        //
     //========================================================================================================
 
+    // von uns: Parameter zum Steuern der Sendewiederholung
+    boolean notLastAck
+
     // Sendeparameter
     boolean sendAckFlag
     boolean sendSynFlag
@@ -215,19 +218,18 @@ class TcpLayer {
             // blockierendes Lesen von IP-Schicht
             it_idu = fromIpQ.take()
 
+            //von uns: notLastAck wird bei jedem Empfang wieder auf true gesetzt
+            notLastAck = true
+
             // TCP-PDU und Parameter entnehmen
             t_pdu = it_idu.sdu as T_PDU
             dstIpAddr = it_idu.srcIpAddr
 
             Utils.writeLog("TcpLayer", "receive", "uebernimmt  von IP: ${it_idu}", 2)
-
+            Utils.writeLog("TcpLayer", "receive", "empfange Paket: ${t_pdu}", 222)
+            Utils.writeLog("TcpLayer", "receive", "Datengroesse ist: ${t_pdu.sdu.bytes.size()}", 222)
             // Hier z.B. noch auf richtigen Zielport testen
             // ...
-
-            // Entfernen von quittierten Daten aus der Warteschlange
-            // fuer Sendewiederholungen
-            // if (t_pdu.ackFlag)
-            //     removeWaitQ(recvAckNum)
 
             // Analysieren einer empfangenen TCP-PDU
             // Bestimmen eines Ereignises, "feuern" der FSM und Behandlung
@@ -240,10 +242,17 @@ class TcpLayer {
             recvRstFlag = t_pdu.rstFlag
             recvWindSize = t_pdu.windSize
             recvData = t_pdu.sdu ? t_pdu.sdu : ""
+            Utils.writeLog("TcpLayer", "receive", "Datengroesse ist: ${recvData.bytes.size()}", 222)
 
             if (recvSynFlag) {
                 dstIpAddr = it_idu.srcIpAddr
                 dstPort = t_pdu.srcPort
+            }
+
+            // Entfernen von quittierten Daten aus der Warteschlange
+            // fuer Sendewiederholungen
+            if (recvAckFlag){
+                removeWaitQ(recvAckNum)
             }
 
             //------------------------------------------------------------------
@@ -280,10 +289,8 @@ class TcpLayer {
         //-------------------------------------------------------------------------
 
         while (run) {
-            at_idu = fromAppQ.take() // blockierendes Lesen von Anwendung
 
-            // hier merkt sich tcp, dass er was von der Applikation bekommen hat, was erst gesendet werden muss, bevor
-            // die verbindung geschlossen werden kann
+            at_idu = fromAppQ.take() // blockierendes Lesen von Anwendung
 
             Utils.writeLog("TcpLayer", "send", "uebernimmt  von Anwendung: ${at_idu}", 2)
 
@@ -295,6 +302,9 @@ class TcpLayer {
                     dstIpAddr = at_idu.dstIpAddr
                     dstPort = at_idu.dstPort
 
+                    // wird hier Anfangs initialisiert
+                    notLastAck = true
+
                     handleStateChange(Event.E_CONN_REQ)
                     break
 
@@ -305,6 +315,10 @@ class TcpLayer {
 
                 case DATA:
                     // Daten senden
+
+                    // Wenn noch was gesendet werden soll, sollte das in die Wiederholungsqueue
+                    notLastAck = true
+
                     sendData = at_idu.sdu // Anwendungsdaten übernehmen
                     handleStateChange(Event.E_SEND_DATA)
                     break
@@ -355,7 +369,7 @@ class TcpLayer {
                     sendSynFlag = false
                     sendAckFlag = true
                     sendAckNum = recvSeqNum + 1
-                    sendSeqNum += 1
+                    sendSeqNum += 1 // von uns auskommentiert
                     sendFinFlag = false
                     sendRstFlag = false
                     sendData = ""
@@ -396,6 +410,9 @@ class TcpLayer {
 
                 case (State.S_OPEN_own):
 
+                    // die alte Seqnummer wurde geackt
+                    sendSeqNum += 1
+
                     // Neuen Zustand der FSM erzeugen
                     fsm.fire(Event.E_OPEN_own)
 
@@ -430,6 +447,9 @@ class TcpLayer {
                     sendAckNum = recvSeqNum + 1
                     sendData = ""
 
+                    // von uns: das letzte Ack muss nicht wiederholt werden
+                    notLastAck = false
+
                     // ACK nach FIN+ACK senden
                     sendTpdu()
 
@@ -447,6 +467,10 @@ class TcpLayer {
                     // FIN empfangen, FIN+ACK senden
                     sendAckFlag = true
                     sendFinFlag = true
+
+                    sendSeqNum += 1
+                    sendAckNum = recvSeqNum + 1
+
                     sendWindSize = 0
                     sendData = ""
 
@@ -478,6 +502,8 @@ class TcpLayer {
                     // Wurde die Sequenznummer erwartet?
                     // ACHTUNG: hier wird momentan Auslieferungsdisziplin der IP-Schicht angenommen!
                     if (recvSeqNum == sendAckNum) {
+                        Utils.writeLog("TcpLayer", "receive", "gutes Paket angekommen, recvSeqNum: ${recvSeqNum}", 222)
+                        Utils.writeLog("TcpLayer", "receive", "erwartet war: ${sendAckNum}", 222)
                         // Ja, ACK senden
                         sendSynFlag = false
                         sendAckFlag = true
@@ -500,6 +526,20 @@ class TcpLayer {
                         recvData = ""
 
                         // ACK senden
+                        sendTpdu()
+                    } else {
+                        Utils.writeLog("TcpLayer", "receive", "schlechtes Paket angekommen, recvSeqNum: ${recvSeqNum}", 222)
+                        Utils.writeLog("TcpLayer", "receive", "erwartet war: ${sendAckNum}", 222)
+                        // Nein, Duplicate ACK senden
+                        sendSynFlag = false
+                        sendAckFlag = true
+                        sendAckNum = sendAckNum // unnötig, aber zur veranschaulichung
+                        sendFinFlag = false
+                        sendRstFlag = false
+                        sendData = ""
+                        recvData = ""
+
+                        // Duplicate ACK senden
                         sendTpdu()
                     }
 
@@ -531,7 +571,7 @@ class TcpLayer {
 
                 case (State.S_RCVD_ACK):
                     // ACK ohne Daten empfangen
-                    // ...
+                    //
 
                     // Neuen Zustand der FSM erzeugen
                     fsm.fire(Event.E_READY)
@@ -565,6 +605,9 @@ class TcpLayer {
         tpdu.windSize = sendWindSize
         tpdu.sdu = sendData
 
+        Utils.writeLog("TcpLayer", "send", "Sende Paket: ${tpdu}", 222)
+        Utils.writeLog("TcpLayer", "send", "Datengroesse ist: ${sendData.bytes.size()}", 222)
+
         TRI_IDU ti_idu = new TRI_IDU()
         ti_idu.sdu = tpdu
         // Ziel-IP-Adresse eintragen
@@ -573,7 +616,9 @@ class TcpLayer {
         ti_idu.protocol = IpLayer.PROTO_TCP
 
         // IDU in Warteschlange fuer Sendewiederholungen eintragen
-        // insertWaitQ(ti_idu)
+        if (notLastAck){
+            insertWaitQ(ti_idu)
+        }
 
         // Daten an IP-Schicht uebergeben
         toIpQ.put(ti_idu)
@@ -611,7 +656,7 @@ class TcpLayer {
      * Fuegt eine mit timeout an IP zu uebergebene IDU in die Sendewarteschlange ein
      * @param idu
      */
-    void insertWaitQ(Map idu) {
+    void insertWaitQ(TRI_IDU idu) {
         synchronized (sendWaitQ) {
             sendWaitQ.add([timeOut: timeOut, idu: idu])
         }

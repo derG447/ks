@@ -100,7 +100,6 @@ Host: www.sesam-strasse.com
      */
     void client() {
 
-
         // Konfiguration holen
         // erster Parameter: der Name des Verzeichnisses, der den Versuch enthält
         // zweiter Parameter: Name der Konfiguation fuer dieses Gerät in der Konfigurationsdatei
@@ -117,7 +116,7 @@ Host: www.sesam-strasse.com
         stack.start(config)
 
         // ------------------------------------------------------------
-
+        sleep(12000)
         Utils.writeLog("Client", "client", "startet", 1)
 
         // ------------------------------------------------------------

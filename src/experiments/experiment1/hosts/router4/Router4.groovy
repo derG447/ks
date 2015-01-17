@@ -157,7 +157,7 @@ class Router4 {
         // ------------------------------------------------------------
 
         Utils.writeLog(routername_display, routername, "startet", 1)
-        sleep(15000)
+        sleep(2000)
         while (run) {
             // Periodisches Versenden von Routinginformationen
             sendPeriodical()
