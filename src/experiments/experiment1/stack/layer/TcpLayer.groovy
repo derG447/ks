@@ -241,6 +241,8 @@ class TcpLayer {
             recvSynFlag = t_pdu.synFlag
             recvRstFlag = t_pdu.rstFlag
             recvWindSize = t_pdu.windSize
+
+
             recvData = t_pdu.sdu ? t_pdu.sdu : ""
             Utils.writeLog("TcpLayer", "receive", "Datengroesse ist: ${recvData.bytes.size()}", 222)
 
@@ -317,10 +319,25 @@ class TcpLayer {
                     // Daten senden
 
                     // Wenn noch was gesendet werden soll, sollte das in die Wiederholungsqueue
-                    notLastAck = true
+                    notLastAck = true // eventuell "schöner" machen
 
-                    sendData = at_idu.sdu // Anwendungsdaten übernehmen
-                    handleStateChange(Event.E_SEND_DATA)
+                    // An dieser Stelle haben wir KEINE Flusskontrolle mittels Abfrage von rwin eingebaut.
+                    // Sollten Pakete wegen Pufferproblemen beim Empfänger verloren gehen,
+                    // wird unser tcp einfach Sendewiederholungen vornehmen,
+                    // bis alles angenommen und ge'ackt wurde.
+                    // (und damit leider ein bischen Übertragungskapazität "verschwenden")
+                    while(true) {
+                        // auch tcp muss zu große pakete in kleinere aufteilen, wie udp
+                        if (at_idu.sdu.bytes.size() > WINDOWSIZE) {
+                            sendData = at_idu.sdu.substring(0,(WINDOWSIZE/2).intValue()) // 1 char = 2 byte?
+                            at_idu.sdu = at_idu.sdu.substring((WINDOWSIZE/2).intValue()) // 1 char = 2 byte?
+                            handleStateChange(Event.E_SEND_DATA)
+                        }else{
+                            sendData = at_idu.sdu // Anwendungsdaten übernehmen
+                            handleStateChange(Event.E_SEND_DATA)
+                            break
+                        }
+                    }
                     break
             }
         }
