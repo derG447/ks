@@ -1,7 +1,7 @@
 Version = "2.3.2"
 
 // Hier die Umgebung auswählen
-environment = "LOCAL"
+environment = "HOME"
 
 // Anzeige der Meldungen von "Utils.writeLog"
 // Meldungen mit den eingetragenen Debug-Leveln werden angezeigt
@@ -387,7 +387,7 @@ environments {
             serverIpAddr = "141.20.5.188" // IP-Adresse des Web-Servers des Instituts
             document = "index.html"   // Durch HTTP-GET-Request zu ladenden Dokument
             serverPort = 80     // Portnummer des HTTP-Dienstes
-            routerIpAddr = "141.20.33.1" // Adresse des Default Router
+            routerIpAddr = "192.168.2.1" // Adresse des Default Router
             ownPort = 5101
 
 
@@ -395,11 +395,11 @@ environments {
             networkConnectors = [
                 [
                 virtual: false,
-                lpName: "lp1",
+                lpName: "encap:Ethernet",
                 // deviceName: Gerätename des Betriebssystems, hier: Mac OS X, Ethernet-Adapter
-                deviceName: "en4",
-                macAddr: "40:6c:8f:11:9e:38",
-                ipAddr: "141.20.33.23",
+                deviceName: "wlan0",
+                macAddr: "70:1a:04:e9:04:36",
+                ipAddr: "192.168.2.111",
                 // Dieser Filter fuer Jpcap ist so zu setzen, das nur die erwarteten Frames empfangen werden
                 // Die Filtersyntax entspricht der des Kommandos "tcpdump"
                 recvFilter: "portrange 5000-5200 or arp" // Jpcap empfängt nur Pakete, die durch diesen Ausdruck gefiltert werden
@@ -409,7 +409,7 @@ environments {
             // Initiale Routing-Tabelle
             // [["Ziel-IP-Adresse", "Prefix", "Router-IP-Adresse", "Anschluss"], ...]
             routingTable = [
-                    ["0.0.0.0", "0.0.0.0", routerIpAddr, "lp1"]
+                    ["0.0.0.0", "0.0.0.0", "192.168.2.1", "encap:Ethernet"]
                 ]
 
             // Map<IP-Adresse, MAC-Adresse>
