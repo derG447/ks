@@ -116,7 +116,9 @@ Host: www.sesam-strasse.com
         stack.start(config)
 
         // ------------------------------------------------------------
-        sleep(12000)
+        // vom team: da die router am anfang zeit brauchen (routing,arp)
+        // muss der client am anfang warten. NUR FÜR LOKALEN VERSUCH
+        sleep(10000)
         Utils.writeLog("Client", "client", "startet", 1)
 
         // ------------------------------------------------------------
@@ -163,11 +165,12 @@ Host: www.sesam-strasse.com
 
             if (data) Utils.writeLog("Client", "client", "HTTP-Body empfangen: ${data[bodyStart..-1]}", 1)
         } else {
-            Utils.writeLog("Client", "client", "tcp hat nich geklappt :(", 1)
+            Utils.writeLog("Client", "client", "Verbindung fehlgeschlagen", 111)
         }
 
-        // Verbindung schliessen // von uns geändert: der server schließt jetzt die verbindung
-        //stack.tcpClose(connId: connId)
+        // Verbindung schliessen
+        // von uns geändert: der server schließt jetzt die verbindung, es sei denn, es ist der Versuch Client-Internet
+        stack.tcpClose(connId: connId)
     }
     //------------------------------------------------------------------------------
 

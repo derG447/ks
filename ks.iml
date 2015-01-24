@@ -11,5 +11,6 @@
     <orderEntry type="library" name="groovy-2.3.7" level="application" />
     <orderEntry type="library" name="groovy-1.8.6" level="application" />
     <orderEntry type="library" name="groovy-1.8.9" level="application" />
+    <orderEntry type="library" name="groovy-1.8.9" level="application" />
   </component>
 </module>

@@ -496,7 +496,7 @@ class TcpLayer {
 
                     // Neuen Zustand der FSM erzeugen
                     fsm.fire(Event.E_SEND_FIN_ACK_own)
-                    Utils.writeLog("TcpLayer", "send", "HABE FIN ACK GESENDET", 22)
+                    Utils.writeLog("TcpLayer", "send", "HABE FIN ACK GESENDET", 222)
                     break
 
                 case (State.S_CLOSECON_own):
@@ -505,7 +505,7 @@ class TcpLayer {
                     fsm.fire(Event.E_CLOSECON_own)
 
                     // Ende der Verbindung signalisieren
-                    Utils.writeLog("TcpLayer", "send", "HABE EIN ACK BEKOMMEN UND MACHE NUN ZU HIER", 22)
+                    Utils.writeLog("TcpLayer", "send", "HABE EIN ACK BEKOMMEN UND MACHE NUN ZU HIER", 222)
                     notifyClose()
 
                     toAppQ.put(new TA_IDU())
@@ -537,7 +537,7 @@ class TcpLayer {
                         ta_idu.sdu = recvData
 
                         // IDU an Anwendung übergeben
-                        Utils.writeLog("TcpLayer", "send", "DATEN ÜBERGEBEN", 22)
+                        Utils.writeLog("TcpLayer", "send", "DATEN ÜBERGEBEN", 222)
                         toAppQ.put(ta_idu)
 
                         recvData = ""

@@ -178,7 +178,7 @@ Das Objekt ${->name} wurde angefragt!
 
                     // hier von uns: wenn die antwort gesendet wurde, dann schließt der server die verbindung.
                     // wenn wir dann sendewiederholung etc implementiert haben, dann ist ja auch alles sicher angekommen
-                    stack.tcpClose(connId: connId) // doch nicht
+                    stack.tcpClose(connId: connId)
                     break
                 }
             } // while

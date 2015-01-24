@@ -211,7 +211,7 @@ class Router1 {
             List<List> recv_Matrix = StringToDistanzMatrix(rInfo)
             List<List> tmp_DistanzMatrix = DistanzMatrix.clone()
 
-            Utils.writeLog(routername_display, "receive", "Informationen von Nachbar ${iPAddr} angekommen. Größe seiner Matrix: ${recv_Matrix.size()}", 1)
+            Utils.writeLog(routername_display, "receive", "Informationen von Nachbar ${iPAddr} angekommen. Größe seiner Matrix: ${recv_Matrix.size()}", 111)
 
             boolean unknownSubnetz = true;
             for (List recv_entry in recv_Matrix) {
@@ -225,13 +225,13 @@ class Router1 {
                             // Gruppe: Habe schon einen Eintrag zu diesem Subnetz, ist es ein anderer pfad?
                             if (my_entry[3] == iPAddr) {
                                 // Gruppe: Nein, ist derselbe Pfad, aktualisiere nur die Kosten
-                                Utils.writeLog(routername_display, "receive", "Kosten aktualisiert für schon bekanntes Subnetz ${recv_entry[0]}, Neu: ${((recv_entry[2] as int) + 1)} Alt: ${my_entry[2]}", 1)
+                                Utils.writeLog(routername_display, "receive", "Kosten aktualisiert für schon bekanntes Subnetz ${recv_entry[0]}, Neu: ${((recv_entry[2] as int) + 1)} Alt: ${my_entry[2]}", 111)
                                 my_entry[2] = ((recv_entry[2] as int) + 1) as String
                             } else {
                                 // Gruppe: Ja, es ist ein anderer pfad, füge ihn hinzu ..
                                 if (((my_entry[2] as int) <= ((recv_entry[2] as int) + 1)) && ((my_entry[2] as int) != 0)){
                                     // .. ausser er läuft in mein direkt angeschlossenes Netz, dann nicht
-                                    Utils.writeLog(routername_display, "receive", "Zweiter Weg zu einem Subnetz verworfen, ich habe einen besseren", 1)
+                                    Utils.writeLog(routername_display, "receive", "Zweiter Weg zu einem Subnetz verworfen, ich habe einen besseren", 111)
                                 } else {
                                     // da er besser ist, übernehme ich ihn und ersetze den anderen damit
                                     my_entry[2] = ((recv_entry[2] as int) + 1) as String
@@ -254,7 +254,7 @@ class Router1 {
                     }
                     // Gruppe: Subnetz noch ganz unbekannt?
                     if (unknownSubnetz) {
-                        Utils.writeLog(routername_display, "receive", "Neuer Eintrag für unbekanntes Subnetz ${recv_entry[0]}", 1)
+                        Utils.writeLog(routername_display, "receive", "Neuer Eintrag für unbekanntes Subnetz ${recv_entry[0]}", 111)
                         List tmp_entry = recv_entry
                         tmp_entry[2] = ((recv_entry[2] as int) + 1) as String
                         tmp_entry[3] = iPAddr
@@ -265,7 +265,7 @@ class Router1 {
                 }
             }
 
-            // Gruppe: Auf Basis unserer neuen Distanzmatrix muss nun die Routing Tabelle neu berechnet werden
+            // Vom Team: Auf Basis unserer neuen Distanzmatrix muss nun die Routing Tabelle neu berechnet werden
 
             List<List> tmp_routingTable = []
 
@@ -331,7 +331,7 @@ class Router1 {
                         for (route in DistanzMatrix){
                             if (route[3] == neigbor[0]){
                                 route[2] = 0
-                                Utils.writeLog(routername_display, "send", "Ausfall von ${neigbor[0]} entdeckt", 11)
+                                Utils.writeLog(routername_display, "send", "Ausfall von ${neigbor[0]} entdeckt", 1)
                             }
                         }
                     }
