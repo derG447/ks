@@ -230,49 +230,51 @@ class TcpLayer {
             Utils.writeLog("TcpLayer", "receive", "Datengroesse ist: ${t_pdu.sdu.bytes.size()}", 222)
             // Hier z.B. noch auf richtigen Zielport testen
             // ...
+            if(t_pdu.dstPort == ownPort) {
 
-            // Analysieren einer empfangenen TCP-PDU
-            // Bestimmen eines Ereignises, "feuern" der FSM und Behandlung
-            // den neuen Zustands
-            recvSeqNum = t_pdu.seqNum
-            recvAckNum = t_pdu.ackNum
-            recvAckFlag = t_pdu.ackFlag
-            recvFinFlag = t_pdu.finFlag
-            recvSynFlag = t_pdu.synFlag
-            recvRstFlag = t_pdu.rstFlag
-            recvWindSize = t_pdu.windSize
+                // Analysieren einer empfangenen TCP-PDU
+                // Bestimmen eines Ereignises, "feuern" der FSM und Behandlung
+                // den neuen Zustands
+                recvSeqNum = t_pdu.seqNum
+                recvAckNum = t_pdu.ackNum
+                recvAckFlag = t_pdu.ackFlag
+                recvFinFlag = t_pdu.finFlag
+                recvSynFlag = t_pdu.synFlag
+                recvRstFlag = t_pdu.rstFlag
+                recvWindSize = t_pdu.windSize
 
 
-            recvData = t_pdu.sdu ? t_pdu.sdu : ""
-            Utils.writeLog("TcpLayer", "receive", "Datengroesse ist: ${recvData.bytes.size()}", 222)
+                recvData = t_pdu.sdu ? t_pdu.sdu : ""
+                Utils.writeLog("TcpLayer", "receive", "Datengroesse ist: ${recvData.bytes.size()}", 222)
 
-            if (recvSynFlag) {
-                dstIpAddr = it_idu.srcIpAddr
-                dstPort = t_pdu.srcPort
-            }
+                if (recvSynFlag) {
+                    dstIpAddr = it_idu.srcIpAddr
+                    dstPort = t_pdu.srcPort
+                }
 
-            // Entfernen von quittierten Daten aus der Warteschlange
-            // fuer Sendewiederholungen
-            if (recvAckFlag){
-                removeWaitQ(recvAckNum)
-            }
+                // Entfernen von quittierten Daten aus der Warteschlange
+                // fuer Sendewiederholungen
+                if (recvAckFlag) {
+                    removeWaitQ(recvAckNum)
+                }
 
-            //------------------------------------------------------------------
+                //------------------------------------------------------------------
 
-            int event = 0
-            // Ereignis bestimmen
-            switch(true) {
-                case (recvFinFlag && recvAckFlag):           event = Event.E_RCVD_FIN      ;break // von uns geändert, vorher nur abfrage auf fin flag (name von event ist doof :( )
-                case (recvFinFlag):                          event = Event.E_RCVD_FIN_own  ;break // von uns gemacht
-                case (recvSynFlag && recvAckFlag):           event = Event.E_RCVD_SYN_ACK  ;break
-                case (recvSynFlag):                          event = Event.E_RECVD_SYN_own ;break
-                case (recvAckFlag && t_pdu.sdu.size() == 0): event = Event.E_RCVD_ACK      ;break
-                case (recvAckFlag && t_pdu.sdu.size() > 0):  event = Event.E_RCVD_DATA     ;break
-            }
+                int event = 0
+                // Ereignis bestimmen
+                switch (true) {
+                    case (recvFinFlag && recvAckFlag): event = Event.E_RCVD_FIN; break // von uns geändert, vorher nur abfrage auf fin flag (name von event ist doof :( )
+                    case (recvFinFlag): event = Event.E_RCVD_FIN_own; break // von uns gemacht
+                    case (recvSynFlag && recvAckFlag): event = Event.E_RCVD_SYN_ACK; break
+                    case (recvSynFlag): event = Event.E_RECVD_SYN_own; break
+                    case (recvAckFlag && t_pdu.sdu.size() == 0): event = Event.E_RCVD_ACK; break
+                    case (recvAckFlag && t_pdu.sdu.size() > 0): event = Event.E_RCVD_DATA; break
+                }
 
-            if (event) {
-                // Neuen Zustand behandeln
-                handleStateChange(event)
+                if (event) {
+                    // Neuen Zustand behandeln
+                    handleStateChange(event)
+                }
             }
         }
     }
