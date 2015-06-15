@@ -10,10 +10,12 @@ using AIMLbot;
 public class LoadAIML : MonoBehaviour {
 	
 
-	public Button MyButton;
+	public Button MyEnterButton;
+	public Button MyDebugButton;
 	public Text MyChatText;
 	public Text MyDebugText;
 	public InputField MyInputField;
+	public InputField MyDebugInputField;
 
 
 	AIMLbot.Bot Testbot;
@@ -38,7 +40,8 @@ public class LoadAIML : MonoBehaviour {
 
 
 		MyDebugText.text = MyDebugText.text + "\n" + "...add button listener";
-		MyButton.onClick.AddListener (() => {clickclick ();});
+		MyDebugButton.onClick.AddListener (() => {DebugClick ();});
+		MyEnterButton.onClick.AddListener (() => {EnterClick ();});
 
 		MyDebugText.text = MyDebugText.text + "\n" + "Load Chatbot Successfully";
 
@@ -51,20 +54,23 @@ public class LoadAIML : MonoBehaviour {
 	
 	}
 
-	void clickclick (){
+	void EnterClick (){
 		string input = MyInputField.text;
 		MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + input + "</color>";
 
 		Request r = new Request(MyInputField.text, this.Testuser, this.Testbot);
 		Result res = this.Testbot.Chat(r);
 		MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output + "</color>";
+	}
 
-
-
-		string url = "http://de.dbpedia.org/data/" + input + ".json";
+	void DebugClick (){
+		string input = MyDebugInputField.text;
+     	//string url = "http://de.dbpedia.org/data/" + input + ".json";
+		string url = "http://dbpedia.org/sparql?query=PREFIX+dbp%3A+<http%3A%2F%2Fdbpedia.org%2Fresource%2F>%0D%0APREFIX+dbp2%3A+<http%3A%2F%2Fdbpedia.org%2Fontology%2F>%0D%0A+%0D%0ASELECT+%3Fabstract%0D%0AWHERE+{%0D%0A+++++dbp%3ALondon+dbp2%3Aabstract+%3Fabstract+.+%0D%0A+++++FILTER+langMatches(lang(%3Fabstract)%2C+'en')%0D%0A}%0D%0A&format=json";
+		//string url = "http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select*%7Bdbpedia%3A" + input + "+rdfs%3Aabstract+%3Fabstract%7D&format=json";
 		//string url = "http://www.wikidata.org/w/api.php?action=wbgetentities&sites=itwiki&titles=Pizza&format=json";
-        // Start a download of the given URL
-        WWW request = new WWW (url);
+		// Start a download of the given URL
+		WWW request = new WWW (url);
 		// Wait for download to complete
 		StartCoroutine(WaitForRequest(request));
 	}
