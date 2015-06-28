@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.SemesterChatbot.CSharp", "UnityVS.SemesterChatbot.CSharp.csproj", "{4E1B8CB7-A357-2EC6-9AD0-1A6843A2B497}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.SemesterChatbot.CSharp.Editor", "UnityVS.SemesterChatbot.CSharp.Editor.csproj", "{610D55CE-3C75-4843-52F3-1A11C99CC763}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.SemesterChatbot.CSharp", "UnityVS.SemesterChatbot.CSharp.csproj", "{4E1B8CB7-A357-2EC6-9AD0-1A6843A2B497}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,14 +11,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4E1B8CB7-A357-2EC6-9AD0-1A6843A2B497}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E1B8CB7-A357-2EC6-9AD0-1A6843A2B497}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E1B8CB7-A357-2EC6-9AD0-1A6843A2B497}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E1B8CB7-A357-2EC6-9AD0-1A6843A2B497}.Release|Any CPU.Build.0 = Release|Any CPU
 		{610D55CE-3C75-4843-52F3-1A11C99CC763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{610D55CE-3C75-4843-52F3-1A11C99CC763}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{610D55CE-3C75-4843-52F3-1A11C99CC763}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{610D55CE-3C75-4843-52F3-1A11C99CC763}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E1B8CB7-A357-2EC6-9AD0-1A6843A2B497}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E1B8CB7-A357-2EC6-9AD0-1A6843A2B497}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E1B8CB7-A357-2EC6-9AD0-1A6843A2B497}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E1B8CB7-A357-2EC6-9AD0-1A6843A2B497}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
