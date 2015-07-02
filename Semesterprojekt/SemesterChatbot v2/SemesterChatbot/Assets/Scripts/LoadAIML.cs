@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections;
 using AIMLbot;
 
@@ -11,95 +12,168 @@ public class LoadAIML : MonoBehaviour {
 	
 
 	public Button MyEnterButton;
-	public Button MyDebugButton;
 	public Text MyChatText;
-	public Text MyDebugText;
 	public InputField MyInputField;
-	public InputField MyDebugInputField;
 
 
 	AIMLbot.Bot Testbot;
+  AIMLbot.Bot Querybot;
 	AIMLbot.User Testuser;
+  AIMLbot.User Queryuser;
 
-	// Use this for initialization
+  //string queryPrefix = "http://de.dbpedia.org/sparql?query=";
+  string queryPrefix = "http://dbpedia.org/sparql?query=";
+  string querySuffix = "&format=json";
+
+
+  void activateFailure() {
+      Request r = new Request("activate failure", this.Testuser, this.Testbot);
+      Result res = this.Testbot.Chat(r);
+  }
+
+  void deactivateFailure()
+  {
+      Request r = new Request("deactivate failure", this.Testuser, this.Testbot);
+      Result res = this.Testbot.Chat(r);
+  }
+
 	void Start () {
 
-		MyDebugText.text = "Load Chatbot";
+    MyChatText.text = "Load Chatbot: ";
 
-		MyDebugText.text = MyDebugText.text + "\n" + "...create bot and user";
 		this.Testbot = new Bot ();
 		this.Testuser = new User ("1", Testbot);
 
-		MyDebugText.text = MyDebugText.text + "\n" + "...load setting files";
-		this.Testbot.loadSettings();
+    this.Querybot = new Bot();
+    this.Queryuser = new User("2", Querybot);
 
-		MyDebugText.text = MyDebugText.text + "\n" + "...load AIML files";
+		this.Testbot.loadSettings();
+    this.Querybot.loadSettings();
+
 		this.Testbot.isAcceptingUserInput = false;
 		this.Testbot.loadAIMLFromFiles();
 		this.Testbot.isAcceptingUserInput = true;
+    this.Querybot.isAcceptingUserInput = false;
+    this.Querybot.loadAIMLFromFiles();
+    this.Querybot.isAcceptingUserInput = true;
 
+    MyChatText.text = MyChatText.text + "AIML geladen, ";
 
-		MyDebugText.text = MyDebugText.text + "\n" + "...add button listener";
-		MyDebugButton.onClick.AddListener (() => {DebugClick ();});
 		MyEnterButton.onClick.AddListener (() => {EnterClick ();});
 
-		MyDebugText.text = MyDebugText.text + "\n" + "Load Chatbot Successfully";
+    MyChatText.text = MyChatText.text + "Event Handler geladen.";
+
+    // den Querybot auf das Thema <query> setzen:
+    Request Request = new Request("activate query", this.Queryuser, this.Querybot);
+    Result query = this.Querybot.Chat(Request); 
 
 		MyChatText.supportRichText = true;
-		MyChatText.text = "<color=#a52a2aff>" + "Hello. My name is chatbot. How are you?" + "</color>";
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + "Hallo. Ich bin Henry, der Essayhelfer. Wie kann ich dir helfen?" + "</color>";
 	}
 
 	void EnterClick (){
 		string input = MyInputField.text;
 		MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + input + "</color>";
 
-		Request r = new Request(MyInputField.text, this.Testuser, this.Testbot);
-		Result res = this.Testbot.Chat(r);
-		MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output + "</color>";
+    Request queryRequest = new Request(MyInputField.text, this.Queryuser, this.Querybot);
+    Result query = this.Querybot.Chat(queryRequest);
+    string[] words = query.Output.Split('#');//in words[0] steht die Fragekategorie, in words[1] der rest
+    
+    if(words[0] != "query"){
+        // normales Gespräch mit dem Chatbot
+        Request r = new Request(input, this.Testuser, this.Testbot);
+        Result res = this.Testbot.Chat(r);
+        MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output + "</color>";
+    } else {
+        string queryInfix = words[2].Substring(0, words[2].Length - 1); // Den Punkt am Ende entfernen
+        string finalQuery = queryPrefix + queryInfix + querySuffix;
+        //MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + "Die Anfrage ist:\n" + finalQuery + "</color>";
+        WWW SPARQLrequest = new WWW(finalQuery);
+        StartCoroutine(WaitForRequest(SPARQLrequest, input, words[1]));
+    }
 	}
 
-	void DebugClick (){
-		string input = MyDebugInputField.text;
-     	//string url = "http://de.dbpedia.org/data/" + input + ".json";
-		string url = "http://dbpedia.org/sparql?query=PREFIX+dbp%3A+<http%3A%2F%2Fdbpedia.org%2Fresource%2F>%0D%0APREFIX+dbp2%3A+<http%3A%2F%2Fdbpedia.org%2Fontology%2F>%0D%0A+%0D%0ASELECT+%3Fabstract%0D%0AWHERE+{%0D%0A+++++dbp%3ALondon+dbp2%3Aabstract+%3Fabstract+.+%0D%0A+++++FILTER+langMatches(lang(%3Fabstract)%2C+'en')%0D%0A}%0D%0A&format=json";
-		//string url = "http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select*%7Bdbpedia%3A" + input + "+rdfs%3Aabstract+%3Fabstract%7D&format=json";
-		//string url = "http://www.wikidata.org/w/api.php?action=wbgetentities&sites=itwiki&titles=Pizza&format=json";
-		// Start a download of the given URL
-		WWW request = new WWW (url);
-		// Wait for download to complete
-		StartCoroutine(WaitForRequest(request));
-	}
-
-	IEnumerator WaitForRequest(WWW request)
+	IEnumerator WaitForRequest(WWW request, string input, string fragekategorie)
 	{
 		yield return request;
 		
 		// check for errors
 		if (request.error == null)
 		{
-			//MyDebugText.text = "WWW Ok!: " + request.text;
-			MyDebugText.text = "";
 			JSONObject j = new JSONObject(request.text);
-			accessData(j);
-			//access data (and print it)
+      
+      if (fragekategorie == "1"){ 
+        printAbstract(j, input);
+      }
 		} else {
-			MyDebugText.text = "WWW Error: "+ request.error;
+      MyChatText.text = MyChatText.text + "\n" + "Tut mir leid, ich habe deine Frage nicht verstanden. Meine Analyse ergab:\n" + request.error;
 		}    
 	}
-	
+
+
+  void printAbstract(JSONObject obj, string input)
+  {
+      switch (obj.type)
+      {
+          case JSONObject.Type.OBJECT:
+              for (int i = 0; i < obj.list.Count; i++)
+              {
+                  JSONObject j = (JSONObject)obj.list[i];
+
+                  if (j.HasField("bindings"))
+                  {
+                      if (j.GetField("bindings").IsArray)
+                      {
+                          if (j.GetField("bindings").Count == 0)
+                          {
+                              activateFailure();
+
+                              Request r = new Request(input, this.Testuser, this.Testbot);
+                              Result res = this.Testbot.Chat(r);
+                              MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output + "</color>";
+
+                              deactivateFailure();
+                          }
+                      }
+                  }
+                 
+                  if (j.HasField("value"))
+                  {
+                      Request r = new Request(input, this.Testuser, this.Testbot);
+                      Result res = this.Testbot.Chat(r);
+                      MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + j.GetField("value").str.Substring(0, j.GetField("value").str.Length-1)) + "</color>";
+                  }
+
+                  printAbstract(j, input);
+              }
+              break;
+          case JSONObject.Type.ARRAY:
+              foreach (JSONObject j in obj.list)
+              {
+                  printAbstract(j, input);
+              }
+              break;
+          default:
+              //MyChatText.text = "\n" + MyChatText.text + "NULL";
+              break;
+      }
+  }
+
+
+
+    
+
+
+
+
+    // Gibt ein JSON Objekt aus (vollständig)
 	void accessData(JSONObject obj){
 		switch (obj.type) {
 		case JSONObject.Type.OBJECT:
 			for (int i = 0; i < obj.list.Count; i++) {
 				string key = (string)obj.keys [i];
 				JSONObject j = (JSONObject)obj.list [i];
-				//Debug.Log(key);
-				MyDebugText.text = MyDebugText.text + key;
+        MyChatText.text = "\n" + MyChatText.text + key;
 				accessData (j);
 			}
 			break;
@@ -110,21 +184,20 @@ public class LoadAIML : MonoBehaviour {
 			break;
 		case JSONObject.Type.STRING:
 			Debug.Log (obj.str);
-			MyDebugText.text = MyDebugText.text + obj.str;
+      MyChatText.text = "\n" + MyChatText.text + obj.str;
 			break;
 		case JSONObject.Type.NUMBER:
 			Debug.Log (obj.n);
-			MyDebugText.text = MyDebugText.text + obj.n;
+      MyChatText.text = "\n" + MyChatText.text + obj.n;
 			break;
 		case JSONObject.Type.BOOL:
 			Debug.Log (obj.b);
-			MyDebugText.text = MyDebugText.text + obj.b;
+      MyChatText.text = "\n" + MyChatText.text + obj.b;
 			break;
 		case JSONObject.Type.NULL:
 			Debug.Log ("NULL");
-			MyDebugText.text = MyDebugText.text + "NULL";
+      MyChatText.text = "\n" + MyChatText.text + "NULL";
 			break;
-			
 		}
 	}
 }
