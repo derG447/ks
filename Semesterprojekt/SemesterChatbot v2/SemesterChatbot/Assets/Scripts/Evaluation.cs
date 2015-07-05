@@ -1,36 +1,40 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using System.IO;
-public class Evaluation : MonoBehaviour {
 
+using System ;
+using System.IO;
+
+public class Evaluation : MonoBehaviour {
+	
 	public Button MyEnterButton;
 	public Text MyChatText;
 	public InputField MyInputField;
 	int i;
 	string frage;
+	string path,path2;
 	//string dire;
-
+	
 	// Use this for initialization
 	void Start () {
 		i = 0;
-	MyEnterButton.onClick.AddListener (() => {EnterClick ();});
-		System.IO.File.WriteAllText(@"D:\System\GitHub\ks\Semesterprojekt\SemesterChatbot v2\Builds\Windows\Evaluation.txt", "");
-
-		//string relative = @"..\Builds\Windows\";//Der relative Pfad
-		//string absolut = Path.GetFullPath(Path.Combine(@"C:\", relative));//Die ermittlung eines absoluten Pfades
-		//dire = Path.GetDirectoryName;
-
+		MyEnterButton.onClick.AddListener (() => {EnterClick ();});
+		
+		path = Directory.GetCurrentDirectory();
+		path2 = path + "\\Evaluation.txt";
+		System.IO.File.WriteAllText(path2, "");
+		
 	}
-
+	
 	void EnterClick (){
-
-
+		
+		
 		switch (i)
 		{
 		case (0):
 			MyChatText.supportRichText = true;
 			MyChatText.text = "Evaluation:";
+			//MyChatText.text = path2;
 			MyChatText.text = MyChatText.text + "\n" + "Bitte geben sie ihre Antwort in das Chatfeld ein und drücken sie erneut auf 'Evaluieren' um Ihre Antwort abzuschicken." ;
 			frage = "Wie hat der Chatbot ihnen gefallen?";
 			MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + frage + "</color>";
@@ -39,7 +43,7 @@ public class Evaluation : MonoBehaviour {
 			MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + MyInputField.text + "</color>";
 			string text = frage + " : " + MyInputField.text + "\n";
 			//Frage + Antwort in Datei schreiben
-			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"D:\System\GitHub\ks\Semesterprojekt\SemesterChatbot v2\Builds\Windows\Evaluation.txt", true))
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@path2 , true))
 			{
 				file.WriteLine(text);
 			}
@@ -50,7 +54,7 @@ public class Evaluation : MonoBehaviour {
 			MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + MyInputField.text + "</color>";
 			text = frage + " : " + MyInputField.text + "\n";
 			//Frage + Antwort in Datei schreiben
-			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"D:\System\GitHub\ks\Semesterprojekt\SemesterChatbot v2\Builds\Windows\Evaluation.txt", true))
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@path2, true))
 			{
 				file.WriteLine(text);
 			}
@@ -61,7 +65,7 @@ public class Evaluation : MonoBehaviour {
 			MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + MyInputField.text + "</color>";
 			text = frage + " : " + MyInputField.text + "\n";
 			//Frage + Antwort in Datei schreiben
-			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"D:\System\GitHub\ks\Semesterprojekt\SemesterChatbot v2\Builds\Windows\Evaluation.txt", true))
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@path2, true))
 			{
 				file.WriteLine(text);
 			}
@@ -72,7 +76,7 @@ public class Evaluation : MonoBehaviour {
 			MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + MyInputField.text + "</color>";
 			text = frage + " : " + MyInputField.text + "\n";
 			//Frage + Antwort in Datei schreiben
-			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"D:\System\GitHub\ks\Semesterprojekt\SemesterChatbot v2\Builds\Windows\Evaluation.txt", true))
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@path2, true))
 			{
 				file.WriteLine(text);
 			}
@@ -83,7 +87,7 @@ public class Evaluation : MonoBehaviour {
 			MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + MyInputField.text + "</color>";
 			text = frage + " : " + MyInputField.text + "\n";
 			//Frage + Antwort in Datei schreiben
-			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"D:\System\GitHub\ks\Semesterprojekt\SemesterChatbot v2\Builds\Windows\Evaluation.txt", true))
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@path2, true))
 			{
 				file.WriteLine(text);
 			}
@@ -94,7 +98,7 @@ public class Evaluation : MonoBehaviour {
 			MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + MyInputField.text + "</color>";
 			text = frage + " : " + MyInputField.text + "\n";
 			//Frage + Antwort in Datei schreiben
-			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"D:\System\GitHub\ks\Semesterprojekt\SemesterChatbot v2\Builds\Windows\Evaluation.txt", true))
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@path2, true))
 			{
 				file.WriteLine(text);
 			}
@@ -105,7 +109,7 @@ public class Evaluation : MonoBehaviour {
 			MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + MyInputField.text + "</color>";
 			text = frage + " : " + MyInputField.text + "\n";
 			//Frage + Antwort in Datei schreiben
-			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"D:\System\GitHub\ks\Semesterprojekt\SemesterChatbot v2\Builds\Windows\Evaluation.txt", true))
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@path2, true))
 			{
 				file.WriteLine(text);
 			}
@@ -116,7 +120,7 @@ public class Evaluation : MonoBehaviour {
 			MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + MyInputField.text + "</color>";
 			//Frage + Antwort in Datei schreiben
 			text = frage + " : " + MyInputField.text + "\n";
-			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"D:\System\GitHub\ks\Semesterprojekt\SemesterChatbot v2\Builds\Windows\Evaluation.txt", true))
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@path2, true))
 			{
 				file.WriteLine(text+"\n");
 			}
@@ -132,6 +136,6 @@ public class Evaluation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 }
