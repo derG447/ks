@@ -127,7 +127,7 @@ public class LoadAIML : MonoBehaviour {
                           if (j.GetField("bindings").Count == 0)
                           {
                               activateFailure();
-
+                             
                               Request r = new Request(input, this.Testuser, this.Testbot);
                               Result res = this.Testbot.Chat(r);
                               MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output + "</color>";
@@ -142,6 +142,54 @@ public class LoadAIML : MonoBehaviour {
                       Request r = new Request(input, this.Testuser, this.Testbot);
                       Result res = this.Testbot.Chat(r);
                       MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + j.GetField("value").str.Substring(0, j.GetField("value").str.Length-1)) + "</color>";
+                  }
+
+                  printAbstract(j, input);
+              }
+              break;
+          case JSONObject.Type.ARRAY:
+              foreach (JSONObject j in obj.list)
+              {
+                  printAbstract(j, input);
+              }
+              break;
+          default:
+              //MyChatText.text = "\n" + MyChatText.text + "NULL";
+              break;
+      }
+  }
+
+  void printRandomSubject(JSONObject obj, string input)
+  {
+      switch (obj.type)
+      {
+          case JSONObject.Type.OBJECT:
+              for (int i = 0; i < obj.list.Count; i++)
+              {
+                  JSONObject j = (JSONObject)obj.list[i];
+
+                  if (j.HasField("bindings"))
+                  {
+                      if (j.GetField("bindings").IsArray)
+                      {
+                          if (j.GetField("bindings").Count == 0)
+                          {
+                              activateFailure();
+
+                              Request r = new Request(input, this.Testuser, this.Testbot);
+                              Result res = this.Testbot.Chat(r);
+                              MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output + "</color>";
+
+                              deactivateFailure();
+                          }
+                      }
+                  }
+
+                  if (j.HasField("value"))
+                  {
+                      Request r = new Request(input, this.Testuser, this.Testbot);
+                      Result res = this.Testbot.Chat(r);
+                      MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + j.GetField("value").str.Substring(0, j.GetField("value").str.Length - 1)) + "</color>";
                   }
 
                   printAbstract(j, input);
