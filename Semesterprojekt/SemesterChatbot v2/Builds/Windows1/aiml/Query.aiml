@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<aiml version="1.0.1" xmlns="http://alicebot.org/2001/AIML-1.0.1"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://alicebot.org/2001/AIML-1.0.1 http://aitools.org/aiml/schema/AIML.xsd">
+
+<!-- HU Berlin, Seminar "Dialoge mit Computern" -->
+<!-- Florian Walter, Oliver Beeck-->
+
+<!-- Kommando zur (De-)Aktivierung des "query" Themas, ab jetzt werden alle Anfragen vom Chatbot mit einer entsprechenden JSON Query beantwortet-->
+<category>
+<pattern>activate query</pattern>
+<template> <set name="topic">query</set> </template>
+</category>
+
+<category>
+<pattern>deactivate query</pattern>
+<template> <set name="topic">*</set> </template>
+</category>
+
+
+<topic name="query">
+
+<!-- Fragekategorie 0: keine Query, nur normales Gespräch -->
+
+<!-- Fragekategorie 1: Infos zum Thema X raussuchen -->
+<!-- die erzeugte JSON Anfrage sollte das Abstract zum gewählten Thema enthalten -->
+<category>
+<pattern>WAS KANNST DU MIR ZU * SAGEN</pattern>
+<!-- Query in SPARQL: 
+  SELECT DISTINCT ?abstract WHERE { 
+    [rdfs:label ?name ; dbpedia-owl:abstract ?abstract]
+	FILTER langMatches(lang(?abstract),"de")
+	VALUES ?name { "London"@de }
+  }
+-->
+<template>query#1#SELECT+DISTINCT+%3Fabstract+WHERE+%7B%5Brdfs%3Alabel+%3Fname+%3B+dbpedia-owl%3Aabstract+%3Fabstract%5D+FILTER+langMatches%28lang%28%3Fabstract%29%2C%22de%22%29+VALUES+%3Fname+%7B+%22<star/>%22%40de+%7D%7D</template>
+</category>
+
+<!-- Fragekategorie 2: Themaeingrenzung -->
+<!-- die erzeugte JSON Anfrage sollte das Abstract zum gewählten Thema enthalten -->
+<category>
+<pattern>KANNST DU MIR ZU * EIN UNTERTHEMA FINDEN</pattern>
+<!-- Query in SPARQL: 
+	select ?subject where {
+	  <http://dbpedia.org/resource/New_York> 
+	  <http://purl.org/dc/terms/subject> 
+	  ?subject
+	} LIMIT 30
+-->
+<template>query#2#select+%3Fsubject+where+%7B+%3Chttp%3A%2F%2Fdbpedia.org%2Fresource%2F<star\>%3E+%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2Fsubject%3E+%3Fsubject+%7D+LIMIT+30</template>
+</category>
+
+</topic>
+
+</aiml>

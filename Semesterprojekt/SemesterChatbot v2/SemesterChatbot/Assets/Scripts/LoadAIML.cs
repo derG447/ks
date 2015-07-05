@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using AIMLbot;
 
 
@@ -102,8 +103,16 @@ public class LoadAIML : MonoBehaviour {
 		{
 			JSONObject j = new JSONObject(request.text);
       
-      if (fragekategorie == "1"){ 
-        printAbstract(j, input);
+      if (fragekategorie == "1"){
+          printAbstract(j, input);
+      }else if (fragekategorie == "2"){
+          List<string> subjectList = new List<string>();
+          System.Random rnd = new System.Random();
+
+          printRandomSubject(j, input, subjectList);
+          int randomIndex = rnd.Next(0, subjectList.Count);
+
+          MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + subjectList[randomIndex] + "</color>";
       }
 		} else {
       MyChatText.text = MyChatText.text + "\n" + "Tut mir leid, ich habe deine Frage nicht verstanden. Meine Analyse ergab:\n" + request.error;
@@ -159,7 +168,7 @@ public class LoadAIML : MonoBehaviour {
       }
   }
 
-  void printRandomSubject(JSONObject obj, string input)
+  void printRandomSubject(JSONObject obj, string input, List<string> subjectList)
   {
       switch (obj.type)
       {
@@ -187,18 +196,19 @@ public class LoadAIML : MonoBehaviour {
 
                   if (j.HasField("value"))
                   {
-                      Request r = new Request(input, this.Testuser, this.Testbot);
-                      Result res = this.Testbot.Chat(r);
-                      MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + j.GetField("value").str.Substring(0, j.GetField("value").str.Length - 1)) + "</color>";
+                      //Request r = new Request(input, this.Testuser, this.Testbot);
+                      //Result res = this.Testbot.Chat(r);
+                      //MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + j.GetField("value").str.Substring(0, j.GetField("value").str.Length - 1)) + "</color>";
+                      subjectList.Add(j.GetField("value").str);
                   }
 
-                  printAbstract(j, input);
+                  printRandomSubject(j, input, subjectList);
               }
               break;
           case JSONObject.Type.ARRAY:
               foreach (JSONObject j in obj.list)
               {
-                  printAbstract(j, input);
+                  printRandomSubject(j, input, subjectList);
               }
               break;
           default:
