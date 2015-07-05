@@ -49,6 +49,7 @@
      <Compile Include="Assets\JSON\JSONObject.cs" />
      <Compile Include="Assets\JSON\JSONTemplates.cs" />
      <Compile Include="Assets\JSON\VectorTemplates.cs" />
+     <Compile Include="Assets\Scripts\Evaluation.cs" />
      <Compile Include="Assets\Scripts\ExitApp.cs" />
      <Compile Include="Assets\Scripts\LoadAIML.cs" />
      <None Include="Assets\Plugins\config\DefaultPredicates.xml" />
