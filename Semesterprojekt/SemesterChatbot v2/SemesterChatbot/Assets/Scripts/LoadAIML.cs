@@ -105,6 +105,7 @@ public class LoadAIML : MonoBehaviour {
       
       if (fragekategorie == "1"){
           printAbstract(j, input);
+
       }else if (fragekategorie == "2"){
           List<string> subjectList = new List<string>();
           System.Random rnd = new System.Random();
@@ -112,7 +113,31 @@ public class LoadAIML : MonoBehaviour {
           printRandomSubject(j, input, subjectList);
           int randomIndex = rnd.Next(0, subjectList.Count);
 
-          MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + subjectList[randomIndex] + "</color>";
+          //MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + subjectList[randomIndex] + "</color>";
+          Request r = new Request(input, this.Testuser, this.Testbot);
+          Result res = this.Testbot.Chat(r);
+          MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#unterthema#", subjectList[randomIndex]) + "</color>";
+      } else if (fragekategorie == "3"){
+          List<string> QuellenListe = new List<string>();
+          string prefix;
+          string infix = "";
+          string suffix;
+
+          Request r = new Request(input, this.Testuser, this.Testbot);
+          Result res = this.Testbot.Chat(r);
+
+          printQuellen(j, input, QuellenListe);
+          if (QuellenListe.Count != 0)
+          {
+              prefix = "\n" + "<color=#a52a2aff>";
+              suffix = "</color>";
+              foreach (string quelle in QuellenListe)
+              {
+                  infix = infix + quelle + "\n";
+              }
+              MyChatText.text = MyChatText.text + prefix + res.Output.Replace("#quellen#", infix) + suffix;
+              
+          }
       }
 		} else {
       MyChatText.text = MyChatText.text + "\n" + "Tut mir leid, ich habe deine Frage nicht verstanden. Meine Analyse ergab:\n" + request.error;
@@ -209,6 +234,55 @@ public class LoadAIML : MonoBehaviour {
               foreach (JSONObject j in obj.list)
               {
                   printRandomSubject(j, input, subjectList);
+              }
+              break;
+          default:
+              //MyChatText.text = "\n" + MyChatText.text + "NULL";
+              break;
+      }
+  }
+
+  void printQuellen(JSONObject obj, string input, List<string> QuellenListe)
+  {
+      switch (obj.type)
+      {
+          case JSONObject.Type.OBJECT:
+              for (int i = 0; i < obj.list.Count; i++)
+              {
+                  JSONObject j = (JSONObject)obj.list[i];
+
+                  if (j.HasField("bindings"))
+                  {
+                      if (j.GetField("bindings").IsArray)
+                      {
+                          if (j.GetField("bindings").Count == 0)
+                          {
+                              activateFailure();
+
+                              Request r = new Request(input, this.Testuser, this.Testbot);
+                              Result res = this.Testbot.Chat(r);
+                              MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output + "</color>";
+
+                              deactivateFailure();
+                          }
+                      }
+                  }
+
+                  if (j.HasField("value"))
+                  {
+                      //Request r = new Request(input, this.Testuser, this.Testbot);
+                      //Result res = this.Testbot.Chat(r);
+                      //MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + j.GetField("value").str.Substring(0, j.GetField("value").str.Length - 1)) + "</color>";
+                      QuellenListe.Add(j.GetField("value").str);
+                  }
+
+                  printQuellen(j, input, QuellenListe);
+              }
+              break;
+          case JSONObject.Type.ARRAY:
+              foreach (JSONObject j in obj.list)
+              {
+                  printQuellen(j, input, QuellenListe);
               }
               break;
           default:

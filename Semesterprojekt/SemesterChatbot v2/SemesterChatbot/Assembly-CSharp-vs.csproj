@@ -57,6 +57,7 @@
      <None Include="Assets\Plugins\config\Splitters.xml" />
      <None Include="Assets\Plugins\config\Person2Substitutions.xml" />
      <None Include="Assets\Plugins\config\PersonSubstitutions.xml" />
+     <None Include="Assets\Plugins\aiml\tmp.txt" />
      <None Include="Assets\Plugins\config\Settings.xml" />
      <None Include="Assets\Plugins\config\GenderSubstitutions.xml" />
      <None Include="Assets\Plugins\config\Substitutions.xml" />
