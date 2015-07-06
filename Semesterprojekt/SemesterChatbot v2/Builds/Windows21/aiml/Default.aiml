@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<aiml version="1.0.1" xmlns="http://alicebot.org/2001/AIML-1.0.1"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://alicebot.org/2001/AIML-1.0.1 http://aitools.org/aiml/schema/AIML.xsd">
+
+<!-- HU Berlin, Seminar "Dialoge mit Computern" -->
+<!-- Florian Walter, Oliver Beeck-->
+
+<!-- Kommando zur (De-)Aktivierung des "Anfrage Fehlgeschlagen" Modus-->
+<category>
+<pattern>activate failure</pattern>
+<template> <set name="topic">failure</set> </template>
+</category>
+
+<category>
+<pattern>deactivate failure</pattern>
+<template> <set name="topic">*</set> </template>
+</category>
+
+
+<!-- Fragekategorie 1: Infos zum Thema X raussuchen -->
+<!-- #abstract# wird vom Parser durch das gefundene abstract ersetzt -->
+<category>
+<pattern>WAS KANNST DU MIR ZU * SAGEN</pattern>
+<template><random> 
+  <li>Ich habe folgendes zu diesem Thema gefunden:#abstract#</li> 
+  <li>Na gut, wenn du nicht selber googlen kannst...#abstract#</li> 
+  <li><star/> ist folgendermaßen beschrieben:#abstract#</li> 
+</random></template>
+</category>
+
+<!-- Wenn die Query fehlschlägt -->
+<topic name="failure">
+<category>
+<pattern>WAS KANNST DU MIR ZU * SAGEN</pattern>
+<template><random> 
+  <li>Ich habe leider nichts zu diesem Thema gefunden</li> 
+  <li>Ich habe leider nichts zu diesem Thema gefunden. Beachte bitte Groß- und Kleinschreibung</li> 
+  <li>Zu diesem Thema weiß ich nichts.</li> 
+  <li><star/> ist mir leider nicht bekannt</li> 
+</random></template>
+</category>
+</topic>
+
+<!-- Alternative Formulierungen zum Thema 1 -->
+<category>
+<pattern>WAS KANNST DU MIR ZUM THEMA * SAGEN</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>SAG MIR WAS ZU *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>SAG MIR WAS ZUM THEMA * SAGEN</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>GIB MIR INFOS ZUM THEMA *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>GIB MIR INFORMATIONEN ZUM THEMA *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+
+<!-- Fragekategorie 2: Themaeingrenzung -->
+<!-- #unterthema# wird vom Parser durch eines der gefundenen Unterthemen ersetzt -->
+<category>
+<pattern>KANNST DU MIR ZU * EIN UNTERTHEMA FINDEN</pattern>
+<template><random> 
+  <li>Ich habe folgendes Unterthema zu diesem Thema gefunden:#unterthema#</li> 
+  <li>Ich habe etwas ähnliches gefunden:#unterthema#</li> 
+</random></template>
+</category>
+
+<!-- Wenn die Query fehlschlägt -->
+<topic name="failure">
+<category>
+<pattern>KANNST DU MIR ZU * EIN UNTERTHEMA FINDEN</pattern>
+<template><random> 
+  <li>Ich habe leider kein Unterthema zu diesem Thema gefunden</li> 
+  <li>Zu <star/> ist mir leider kein Unterthema bekannt</li> 
+</random></template>
+</category>
+</topic>
+
+<!-- Alternative Formulierungen zum Thema 2 -->
+<category>
+<pattern>WAS GIBT ES SO FÜR THEMEN BEI *</pattern>
+<template><srai>KANNST DU MIR ZU <star/> EIN UNTERTHEMA FINDEN</srai></template>
+</category>
+
+<category>
+<pattern>WAS IST ÄHNLICH ZU *</pattern>
+<template><srai>KANNST DU MIR ZU <star/> EIN UNTERTHEMA FINDEN</srai></template>
+</category>
+
+<!-- Fragekategorie 3: Quellen geben lassen -->
+<category>
+<pattern>GIB MIR QUELLEN ZUM THEMA *</pattern>
+<template><random> 
+  <li>Ich habe folgende Quellen zu diesem Thema gefunden:#quellen#</li> 
+</random></template>
+</category>
+
+<!-- Wenn die Query fehlschlägt -->
+<topic name="failure">
+<category>
+<pattern>GIB MIR QUELLEN ZUM THEMA *</pattern>
+<template><random> 
+  <li>Ich habe leider keine Quellen zu diesem Thema gefunden</li> 
+</random></template>
+</category>
+</topic>
+
+<!-- Alternative Formulierungen zum Thema 1 -->
+<category>
+<pattern>WAS KANNST DU MIR FÜR QUELLEN ZUM THEMA * GEBEN</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+
+</aiml>

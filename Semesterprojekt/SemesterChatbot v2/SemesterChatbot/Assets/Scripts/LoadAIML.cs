@@ -140,8 +140,9 @@ public class LoadAIML : MonoBehaviour {
           }
       }
 		} else {
-      MyChatText.text = MyChatText.text + "\n" + "Tut mir leid, ich habe deine Frage nicht verstanden. Meine Analyse ergab:\n" + request.error;
-		}    
+        MyChatText.text = MyChatText.text + "\n" + "Tut mir leid, ich habe deine Frage nicht verstanden. Meine Analyse ergab:\n" + request.error;
+		}
+
 	}
 
 
@@ -175,7 +176,7 @@ public class LoadAIML : MonoBehaviour {
                   {
                       Request r = new Request(input, this.Testuser, this.Testbot);
                       Result res = this.Testbot.Chat(r);
-                      MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + j.GetField("value").str.Substring(0, j.GetField("value").str.Length-1)) + "</color>";
+                      MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + j.GetField("value").str.Substring(0, j.GetField("value").str.Length - 1)) + "</color>";
                   }
 
                   printAbstract(j, input);
@@ -332,4 +333,5 @@ public class LoadAIML : MonoBehaviour {
 			break;
 		}
 	}
+
 }
