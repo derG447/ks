@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using AIMLbot;
 
 
@@ -37,6 +38,7 @@ public class LoadAIML : MonoBehaviour {
       Request r = new Request("deactivate failure", this.Testuser, this.Testbot);
       Result res = this.Testbot.Chat(r);
   }
+
 
 	void Start () {
 
@@ -101,7 +103,7 @@ public class LoadAIML : MonoBehaviour {
 		// check for errors
 		if (request.error == null)
 		{
-			JSONObject j = new JSONObject(request.text);
+			JSONObject j = new JSONObject(request.text.ToString());
       
       if (fragekategorie == "1"){
           printAbstract(j, input);
@@ -120,7 +122,7 @@ public class LoadAIML : MonoBehaviour {
       } else if (fragekategorie == "3"){
           List<string> QuellenListe = new List<string>();
           string prefix;
-          string infix = "";
+          string infix = "\n";
           string suffix;
 
           Request r = new Request(input, this.Testuser, this.Testbot);
@@ -176,7 +178,10 @@ public class LoadAIML : MonoBehaviour {
                   {
                       Request r = new Request(input, this.Testuser, this.Testbot);
                       Result res = this.Testbot.Chat(r);
-                      MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + j.GetField("value").str.Substring(0, j.GetField("value").str.Length - 1)) + "</color>";
+                      byte[] bytes = Encoding.Default.GetBytes(j.GetField("value").str.Substring(0, j.GetField("value").str.Length - 1));
+                      string tmp = Encoding.UTF8.GetString(bytes);
+                      //MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + j.GetField("value").str.Substring(0, j.GetField("value").str.Length - 1)) + "</color>";
+                      MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + tmp) + "</color>";                  
                   }
 
                   printAbstract(j, input);

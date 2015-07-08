@@ -1,5 +1,0 @@
-	select ?subject where {
-	  <http://dbpedia.org/resource/New_York> 
-	  <http://purl.org/dc/terms/subject> 
-	  ?subject
-	} LIMIT 30
