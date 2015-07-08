@@ -19,57 +19,71 @@ public class LoadAIML : MonoBehaviour {
 	public InputField MyInputField;
 
 
-	AIMLbot.Bot Testbot;
-  AIMLbot.Bot Querybot;
-	AIMLbot.User Testuser;
-  AIMLbot.User Queryuser;
+	AIMLbot.Bot henry;
+  AIMLbot.Bot query_builder;
+	AIMLbot.User essayschreiber;
+  AIMLbot.User query_user;
 
   //string queryPrefix = "http://de.dbpedia.org/sparql?query=";
   string queryPrefix = "http://dbpedia.org/sparql?query=";
   string querySuffix = "&format=csv";
 
-
-  void activateFailure() {
-      Request r = new Request("activate failure", this.Testuser, this.Testbot);
-      Result res = this.Testbot.Chat(r);
-  }
-
-  void deactivateFailure()
-  {
-      Request r = new Request("deactivate failure", this.Testuser, this.Testbot);
-      Result res = this.Testbot.Chat(r);
-  }
-
-
 	void Start () {
 
     MyChatText.text = "Load Chatbot: ";
 
-		this.Testbot = new Bot ();
-		this.Testuser = new User ("1", Testbot);
+    this.henry = new Bot();
+    this.essayschreiber = new User("henry", henry);
 
-    this.Querybot = new Bot();
-    this.Queryuser = new User("2", Querybot);
+    this.query_builder = new Bot();
+    this.query_user = new User("query", query_builder);
 
-		this.Testbot.loadSettings();
-    this.Querybot.loadSettings();
+    this.henry.loadSettings();
+    this.query_builder.loadSettings();
 
-		this.Testbot.isAcceptingUserInput = false;
-		this.Testbot.loadAIMLFromFiles();
-		this.Testbot.isAcceptingUserInput = true;
-    this.Querybot.isAcceptingUserInput = false;
-    this.Querybot.loadAIMLFromFiles();
-    this.Querybot.isAcceptingUserInput = true;
+    this.henry.isAcceptingUserInput = false;
+    this.henry.loadAIMLFromFiles();
+    this.henry.isAcceptingUserInput = true;
+    this.query_builder.isAcceptingUserInput = false;
+    this.query_builder.loadAIMLFromFiles();
+    this.query_builder.isAcceptingUserInput = true;
 
-    MyChatText.text = MyChatText.text + "AIML geladen, ";
+    MyChatText.text = MyChatText.text + "Config geladen, ";
 
 		MyEnterButton.onClick.AddListener (() => {EnterClick ();});
 
-    MyChatText.text = MyChatText.text + "Event Handler geladen.";
+    MyChatText.text = MyChatText.text + "Event Handler geladen, ";
 
-    // den Querybot auf das Thema <query> setzen:
-    Request Request = new Request("activate query", this.Queryuser, this.Querybot);
-    Result query = this.Querybot.Chat(Request); 
+    // Zusätzliche aiml files für Henry laden:
+    Request req_for_henry = new Request("load henry", this.essayschreiber, this.henry);
+    Result res_from_henry = this.henry.Chat(req_for_henry);
+
+    req_for_henry = new Request("load fragekategorie 1", this.essayschreiber, this.henry);
+    res_from_henry = this.henry.Chat(req_for_henry);
+
+    req_for_henry = new Request("load fragekategorie 2", this.essayschreiber, this.henry);
+    res_from_henry = this.henry.Chat(req_for_henry);
+
+    req_for_henry = new Request("load fragekategorie 3", this.essayschreiber, this.henry);
+    res_from_henry = this.henry.Chat(req_for_henry);
+
+    req_for_henry = new Request("load allgemein", this.essayschreiber, this.henry);
+    res_from_henry = this.henry.Chat(req_for_henry);
+
+    // Zusätzliche aiml files für Querys laden:
+    Request req_for_query = new Request("load query", this.query_user, this.query_builder);
+    Result res_from_query = this.query_builder.Chat(req_for_query);
+
+    req_for_query = new Request("load fragekategorie 1", this.query_user, this.query_builder);
+    res_from_query = this.query_builder.Chat(req_for_query);
+
+    req_for_query = new Request("load fragekategorie 2", this.query_user, this.query_builder);
+    res_from_query = this.query_builder.Chat(req_for_query);
+
+    req_for_query = new Request("load fragekategorie 3", this.query_user, this.query_builder);
+    res_from_query = this.query_builder.Chat(req_for_query);
+
+    MyChatText.text = MyChatText.text + "AIML geladen.";
 
 		MyChatText.supportRichText = true;
 		MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + "Hallo. Ich bin Henry, der Essayhelfer. Wie kann ich dir helfen?" + "</color>";
@@ -79,14 +93,14 @@ public class LoadAIML : MonoBehaviour {
 		string input = MyInputField.text;
 		MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + input + "</color>";
 
-    Request queryRequest = new Request(MyInputField.text, this.Queryuser, this.Querybot);
-    Result query = this.Querybot.Chat(queryRequest);
+    Request queryRequest = new Request(input, this.query_user, this.query_builder);
+    Result query = this.query_builder.Chat(queryRequest);
     string[] words = query.Output.Split('#');//in words[0] steht die Fragekategorie, in words[1] der rest
     
     if(words[0] != "query"){
         // normales Gespräch mit dem Chatbot
-        Request r = new Request(input, this.Testuser, this.Testbot);
-        Result res = this.Testbot.Chat(r);
+        Request r = new Request(input, this.essayschreiber, this.henry);
+        Result res = this.henry.Chat(r);
         MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output + "</color>";
     } else {
         string queryInfix = words[2].Substring(0, words[2].Length - 1); // Den Punkt am Ende entfernen
@@ -120,8 +134,8 @@ public class LoadAIML : MonoBehaviour {
             infixList = infixList + "\n" + line.Substring(1, line.Length - 2);
         }
 
-        req_for_henry = new Request(input, this.Testuser, this.Testbot);
-        res_from_henry = this.Testbot.Chat(req_for_henry);
+        req_for_henry = new Request(input, this.essayschreiber, this.henry);
+        res_from_henry = this.henry.Chat(req_for_henry);
 
         if (fragekategorie == "1")
         {
@@ -146,16 +160,14 @@ public class LoadAIML : MonoBehaviour {
     }
     else
     {
-        activateFailure();
+        string fehlerprefix = "_fehler ";
 
-        req_for_henry = new Request(input, this.Testuser, this.Testbot);
-        res_from_henry = this.Testbot.Chat(req_for_henry);
+        req_for_henry = new Request(fehlerprefix + input, this.essayschreiber, this.henry);
+        res_from_henry = this.henry.Chat(req_for_henry);
 
         infixString = res_from_henry.Output;
         MyChatText.text = MyChatText.text + "\n" + prefix + infixString + suffix;
         //MyChatText.text = MyChatText.text + "\n" + "HTTP Error gefunden. Meine Analyse ergab:\n" + request.error;
-
-        deactivateFailure();
     }
 	}
 }

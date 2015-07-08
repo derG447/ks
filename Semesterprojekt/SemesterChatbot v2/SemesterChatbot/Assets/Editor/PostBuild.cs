@@ -17,7 +17,10 @@ public class PostBuild : MonoBehaviour {
         BuildPipeline.BuildPlayer(levels, path + "/BuiltGame.exe", BuildTarget.StandaloneWindows, BuildOptions.None);
 
         // Copy a file from the project folder to the build folder, alongside the built game.
-        FileUtil.ReplaceFile("Assets/Plugins/aiml", path + "/aiml");
-        FileUtil.ReplaceFile("Assets/Plugins/config", path + "/config");
+        //FileUtil.ReplaceFile("Assets/Plugins/aiml", path + "/aiml");
+        //FileUtil.ReplaceFile("Assets/Plugins/config", path + "/config");
+
+        FileUtil.ReplaceDirectory("Assets/Plugins/config", path + "/config");
+        FileUtil.ReplaceDirectory("Assets/Plugins/aiml", path + "/aiml");
     }
 }

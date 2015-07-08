@@ -65,7 +65,6 @@
     <Compile Include="Assets\Scripts\LoadAIML.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Plugins\aiml\tmp.txt" />
     <None Include="Assets\Plugins\config\DefaultPredicates.xml" />
     <None Include="Assets\Plugins\config\GenderSubstitutions.xml" />
     <None Include="Assets\Plugins\config\Person2Substitutions.xml" />
