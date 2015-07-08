@@ -19,6 +19,12 @@
 <template> <set name="topic">*</set> </template>
 </category>
 
+<category>
+<pattern>actihallo</pattern>
+<template>
+<learn>test/test.aiml</learn>
+</template>
+</category>
 
 <!-- Fragekategorie 1: Infos zum Thema X raussuchen -->
 <!-- #abstract# wird vom Parser durch das gefundene abstract ersetzt -->

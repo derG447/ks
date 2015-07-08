@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using AIMLbot;
 
@@ -25,7 +26,7 @@ public class LoadAIML : MonoBehaviour {
 
   //string queryPrefix = "http://de.dbpedia.org/sparql?query=";
   string queryPrefix = "http://dbpedia.org/sparql?query=";
-  string querySuffix = "&format=json";
+  string querySuffix = "&format=csv";
 
 
   void activateFailure() {
@@ -99,244 +100,62 @@ public class LoadAIML : MonoBehaviour {
 	IEnumerator WaitForRequest(WWW request, string input, string fragekategorie)
 	{
 		yield return request;
-		
-		// check for errors
-		if (request.error == null)
-		{
-			JSONObject j = new JSONObject(request.text.ToString());
-      
-      if (fragekategorie == "1"){
-          printAbstract(j, input);
 
-      }else if (fragekategorie == "2"){
-          List<string> subjectList = new List<string>();
-          System.Random rnd = new System.Random();
+    Request req_for_henry;
+    Result res_from_henry;
 
-          printRandomSubject(j, input, subjectList);
-          int randomIndex = rnd.Next(0, subjectList.Count);
+    string[] answerLines = request.text.ToString().Split('\n');
+    string infixList = "";
+    string infixString = "";
 
-          //MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + subjectList[randomIndex] + "</color>";
-          Request r = new Request(input, this.Testuser, this.Testbot);
-          Result res = this.Testbot.Chat(r);
-          MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#unterthema#", subjectList[randomIndex]) + "</color>";
-      } else if (fragekategorie == "3"){
-          List<string> QuellenListe = new List<string>();
-          string prefix;
-          string infix = "\n";
-          string suffix;
+    string prefix = "<color=#a52a2aff>";
+    string suffix = "</color>";
+    string keyword;
 
-          Request r = new Request(input, this.Testuser, this.Testbot);
-          Result res = this.Testbot.Chat(r);
+    if (request.error == null && answerLines.Length > 1 && answerLines[1] != "")
+    {
+        infixString = answerLines[1].Substring(1, answerLines[1].Length - 2); // hat bei abstract noch einen Punkt am Ende
+        foreach (string line in answerLines.Skip(1).TakeWhile(x => x.Length > 0))
+        {
+            infixList = infixList + "\n" + line.Substring(1, line.Length - 2);
+        }
 
-          printQuellen(j, input, QuellenListe);
-          if (QuellenListe.Count != 0)
-          {
-              prefix = "\n" + "<color=#a52a2aff>";
-              suffix = "</color>";
-              foreach (string quelle in QuellenListe)
-              {
-                  infix = infix + quelle + "\n";
-              }
-              MyChatText.text = MyChatText.text + prefix + res.Output.Replace("#quellen#", infix) + suffix;
-              
-          }
-      }
-		} else {
-        MyChatText.text = MyChatText.text + "\n" + "Tut mir leid, ich habe deine Frage nicht verstanden. Meine Analyse ergab:\n" + request.error;
-		}
+        req_for_henry = new Request(input, this.Testuser, this.Testbot);
+        res_from_henry = this.Testbot.Chat(req_for_henry);
 
+        if (fragekategorie == "1")
+        {
+            keyword = "#abstract#";
+            infixString = infixString.Substring(0, infixString.Length-1);
+            infixString = res_from_henry.Output.Replace(keyword, "\n" + infixString);
+            MyChatText.text = MyChatText.text + "\n" + prefix + infixString + suffix;
+        } 
+        else if (fragekategorie == "2")
+        {
+            keyword = "#unterthema#";
+            infixString = res_from_henry.Output.Replace(keyword, "\n" + infixList);
+            MyChatText.text = MyChatText.text + "\n" + prefix + infixString + suffix;
+        }
+        else if (fragekategorie == "3")
+        {
+            keyword = "#quellen#";
+            infixString = res_from_henry.Output.Replace(keyword, "\n" + infixList);
+            MyChatText.text = MyChatText.text + "\n" + prefix + infixString + suffix;
+        }
+
+    }
+    else
+    {
+        activateFailure();
+
+        req_for_henry = new Request(input, this.Testuser, this.Testbot);
+        res_from_henry = this.Testbot.Chat(req_for_henry);
+
+        infixString = res_from_henry.Output;
+        MyChatText.text = MyChatText.text + "\n" + prefix + infixString + suffix;
+        //MyChatText.text = MyChatText.text + "\n" + "HTTP Error gefunden. Meine Analyse ergab:\n" + request.error;
+
+        deactivateFailure();
+    }
 	}
-
-
-  void printAbstract(JSONObject obj, string input)
-  {
-      switch (obj.type)
-      {
-          case JSONObject.Type.OBJECT:
-              for (int i = 0; i < obj.list.Count; i++)
-              {
-                  JSONObject j = (JSONObject)obj.list[i];
-
-                  if (j.HasField("bindings"))
-                  {
-                      if (j.GetField("bindings").IsArray)
-                      {
-                          if (j.GetField("bindings").Count == 0)
-                          {
-                              activateFailure();
-                             
-                              Request r = new Request(input, this.Testuser, this.Testbot);
-                              Result res = this.Testbot.Chat(r);
-                              MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output + "</color>";
-
-                              deactivateFailure();
-                          }
-                      }
-                  }
-                 
-                  if (j.HasField("value"))
-                  {
-                      Request r = new Request(input, this.Testuser, this.Testbot);
-                      Result res = this.Testbot.Chat(r);
-                      byte[] bytes = Encoding.Default.GetBytes(j.GetField("value").str.Substring(0, j.GetField("value").str.Length - 1));
-                      string tmp = Encoding.UTF8.GetString(bytes);
-                      //MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + j.GetField("value").str.Substring(0, j.GetField("value").str.Length - 1)) + "</color>";
-                      MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + tmp) + "</color>";                  
-                  }
-
-                  printAbstract(j, input);
-              }
-              break;
-          case JSONObject.Type.ARRAY:
-              foreach (JSONObject j in obj.list)
-              {
-                  printAbstract(j, input);
-              }
-              break;
-          default:
-              //MyChatText.text = "\n" + MyChatText.text + "NULL";
-              break;
-      }
-  }
-
-  void printRandomSubject(JSONObject obj, string input, List<string> subjectList)
-  {
-      switch (obj.type)
-      {
-          case JSONObject.Type.OBJECT:
-              for (int i = 0; i < obj.list.Count; i++)
-              {
-                  JSONObject j = (JSONObject)obj.list[i];
-
-                  if (j.HasField("bindings"))
-                  {
-                      if (j.GetField("bindings").IsArray)
-                      {
-                          if (j.GetField("bindings").Count == 0)
-                          {
-                              activateFailure();
-
-                              Request r = new Request(input, this.Testuser, this.Testbot);
-                              Result res = this.Testbot.Chat(r);
-                              MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output + "</color>";
-
-                              deactivateFailure();
-                          }
-                      }
-                  }
-
-                  if (j.HasField("value"))
-                  {
-                      //Request r = new Request(input, this.Testuser, this.Testbot);
-                      //Result res = this.Testbot.Chat(r);
-                      //MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + j.GetField("value").str.Substring(0, j.GetField("value").str.Length - 1)) + "</color>";
-                      subjectList.Add(j.GetField("value").str);
-                  }
-
-                  printRandomSubject(j, input, subjectList);
-              }
-              break;
-          case JSONObject.Type.ARRAY:
-              foreach (JSONObject j in obj.list)
-              {
-                  printRandomSubject(j, input, subjectList);
-              }
-              break;
-          default:
-              //MyChatText.text = "\n" + MyChatText.text + "NULL";
-              break;
-      }
-  }
-
-  void printQuellen(JSONObject obj, string input, List<string> QuellenListe)
-  {
-      switch (obj.type)
-      {
-          case JSONObject.Type.OBJECT:
-              for (int i = 0; i < obj.list.Count; i++)
-              {
-                  JSONObject j = (JSONObject)obj.list[i];
-
-                  if (j.HasField("bindings"))
-                  {
-                      if (j.GetField("bindings").IsArray)
-                      {
-                          if (j.GetField("bindings").Count == 0)
-                          {
-                              activateFailure();
-
-                              Request r = new Request(input, this.Testuser, this.Testbot);
-                              Result res = this.Testbot.Chat(r);
-                              MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output + "</color>";
-
-                              deactivateFailure();
-                          }
-                      }
-                  }
-
-                  if (j.HasField("value"))
-                  {
-                      //Request r = new Request(input, this.Testuser, this.Testbot);
-                      //Result res = this.Testbot.Chat(r);
-                      //MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output.Replace("#abstract#", "\n" + j.GetField("value").str.Substring(0, j.GetField("value").str.Length - 1)) + "</color>";
-                      QuellenListe.Add(j.GetField("value").str);
-                  }
-
-                  printQuellen(j, input, QuellenListe);
-              }
-              break;
-          case JSONObject.Type.ARRAY:
-              foreach (JSONObject j in obj.list)
-              {
-                  printQuellen(j, input, QuellenListe);
-              }
-              break;
-          default:
-              //MyChatText.text = "\n" + MyChatText.text + "NULL";
-              break;
-      }
-  }
-
-
-
-    
-
-
-
-
-    // Gibt ein JSON Objekt aus (vollständig)
-	void accessData(JSONObject obj){
-		switch (obj.type) {
-		case JSONObject.Type.OBJECT:
-			for (int i = 0; i < obj.list.Count; i++) {
-				string key = (string)obj.keys [i];
-				JSONObject j = (JSONObject)obj.list [i];
-        MyChatText.text = "\n" + MyChatText.text + key;
-				accessData (j);
-			}
-			break;
-		case JSONObject.Type.ARRAY:
-			foreach (JSONObject j in obj.list) {
-				accessData (j);
-			}
-			break;
-		case JSONObject.Type.STRING:
-			Debug.Log (obj.str);
-      MyChatText.text = "\n" + MyChatText.text + obj.str;
-			break;
-		case JSONObject.Type.NUMBER:
-			Debug.Log (obj.n);
-      MyChatText.text = "\n" + MyChatText.text + obj.n;
-			break;
-		case JSONObject.Type.BOOL:
-			Debug.Log (obj.b);
-      MyChatText.text = "\n" + MyChatText.text + obj.b;
-			break;
-		case JSONObject.Type.NULL:
-			Debug.Log ("NULL");
-      MyChatText.text = "\n" + MyChatText.text + "NULL";
-			break;
-		}
-	}
-
 }

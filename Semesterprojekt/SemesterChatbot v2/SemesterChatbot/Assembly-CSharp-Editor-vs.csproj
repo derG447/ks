@@ -48,9 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Editor\PostBuild.cs" />
      <Compile Include="Assets\Editor\PostBuildRun.cs" />
-     <Compile Include="Assets\JSON\Editor\JSONChecker.cs" />
      <None Include="Assets\Plugins\config\DefaultPredicates.xml" />
-     <None Include="Assets\JSON\readme.txt" />
      <None Include="Assets\Plugins\config\Splitters.xml" />
      <None Include="Assets\Plugins\config\Person2Substitutions.xml" />
      <None Include="Assets\Plugins\config\PersonSubstitutions.xml" />

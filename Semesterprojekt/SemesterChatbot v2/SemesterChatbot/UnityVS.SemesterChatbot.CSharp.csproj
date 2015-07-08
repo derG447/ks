@@ -60,15 +60,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\JSON\JSONObject.cs" />
-    <Compile Include="Assets\JSON\JSONTemplates.cs" />
-    <Compile Include="Assets\JSON\VectorTemplates.cs" />
     <Compile Include="Assets\Scripts\Evaluation.cs" />
     <Compile Include="Assets\Scripts\ExitApp.cs" />
     <Compile Include="Assets\Scripts\LoadAIML.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\JSON\readme.txt" />
     <None Include="Assets\Plugins\aiml\tmp.txt" />
     <None Include="Assets\Plugins\config\DefaultPredicates.xml" />
     <None Include="Assets\Plugins\config\GenderSubstitutions.xml" />
