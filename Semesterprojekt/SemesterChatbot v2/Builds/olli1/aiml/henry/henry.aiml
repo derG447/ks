@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<aiml version="1.0.1" xmlns="http://alicebot.org/2001/AIML-1.0.1"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://alicebot.org/2001/AIML-1.0.1 http://aitools.org/aiml/schema/AIML.xsd">
+
+<!-- HU Berlin, Seminar "Dialoge mit Computern" -->
+<!-- Florian Walter, Oliver Beeck-->
+
+
+<!-- Das Build-In Predikat <topic> wird von uns genutzt, um den aktuellen Gesprächsfortschritt, bzw. die momentane Phase zu bestimmen.-->
+<!-- Das Gesprächsthema, so wie Auto oder London, ist dagegen in <Thema> gespeichert.-->
+<category>
+<pattern>UEBER WAS SPRECHEN WIR GERADE</pattern>
+<template><random> 
+  <li>Reden wir nicht gerade über <get name="thema"/>?</li> 
+</random></template>
+</category>
+
+
+
+<!-- Fragekategorie 1: Infos zum Thema X raussuchen -->
+<!-- #abstract# wird vom Parser durch das gefundene abstract ersetzt -->
+<category>
+<pattern>WAS KANNST DU MIR ZU * SAGEN</pattern>
+<template>
+  <random> 
+    <li>Ich habe folgendes zu diesem Thema gefunden:#abstract#</li> 
+    <li>Na gut, wenn du nicht selber googlen kannst...#abstract#</li> 
+    <li><star/> ist folgendermaßen beschrieben:#abstract#</li> 
+  </random>
+  <think><set name="thema"><star/></set></think>
+</template>
+</category>
+
+<!-- Wenn die Query fehlschlägt -->
+<category>
+<pattern>_FEHLER WAS KANNST DU MIR ZU * SAGEN</pattern>
+<template>
+  <random> 
+    <li>Ich habe leider nichts zu diesem Thema gefunden</li> 
+    <li>Ich habe leider nichts zu diesem Thema gefunden. Beachte bitte Groß- und Kleinschreibung</li> 
+    <li>Zu diesem Thema weiß ich nichts.</li> 
+    <li><star/> ist mir leider nicht bekannt</li> 
+  </random>
+  <think><set name="thema"><star/></set></think>
+</template>
+</category>
+
+
+<!-- Fragekategorie 2: Themaeingrenzung -->
+<!-- #unterthema# wird vom Parser durch eines der gefundenen Unterthemen ersetzt -->
+<category>
+<pattern>KANNST DU MIR ZU * EIN UNTERTHEMA FINDEN</pattern>
+<template>
+  <random> 
+    <li>Ich habe folgendes Unterthema zu diesem Thema gefunden:#unterthema#</li> 
+    <li>Ich habe etwas ähnliches gefunden:#unterthema#</li> 
+  </random>
+  <think><set name="thema"><star/></set></think>
+</template>
+</category>
+
+<!-- Wenn die Query fehlschlägt -->
+<category>
+<pattern>_FEHLER KANNST DU MIR ZU * EIN UNTERTHEMA FINDEN</pattern>
+<template>
+  <random> 
+    <li>Ich habe leider kein Unterthema zu diesem Thema gefunden</li> 
+    <li>Zu <star/> ist mir leider kein Unterthema bekannt</li> 
+  </random>
+  <think><set name="thema"><star/></set></think>
+</template>
+</category>
+
+	
+<!-- Fragekategorie 3: Quellen geben lassen -->
+<category>
+<pattern>GIB MIR QUELLEN ZUM THEMA *</pattern>
+<template>
+  <random> 
+    <li>Ich habe folgende Quellen zu diesem Thema gefunden:#quellen#</li> 
+  </random>
+  <think><set name="thema"><star/></set></think>
+</template>
+</category>
+
+<!-- Wenn die Query fehlschlägt -->
+<category>
+<pattern>_FEHLER GIB MIR QUELLEN ZUM THEMA *</pattern>
+<template>
+  <random> 
+    <li>Ich habe leider keine Quellen zu diesem Thema gefunden</li> 
+  </random>
+  <think><set name="thema"><star/></set></think>
+</template>
+</category>
+
+
+
+</aiml>

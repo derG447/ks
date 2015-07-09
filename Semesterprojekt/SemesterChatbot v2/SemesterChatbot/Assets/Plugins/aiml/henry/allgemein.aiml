@@ -10171,14 +10171,6 @@ Ich habe <random>
 <template>Eine Methode, bei der gelernter Input nicht sofort benutzt, sondern durch einen Botmaster ueberprueft und dann freigegeben wird.</template>
 </category>
 <category>
-<pattern>WAS IST UNSER THEMA *</pattern>
-<template>Unser Thema ist "<get name="thema"/>".</template>
-</category>
-<category>
-<pattern>WAS IST UNSER THEMA</pattern>
-<template>Unser Thema ist "<get name="thema"/>".</template>
-</category>
-<category>
 <pattern>WAS IST VERLIEBTHEIT</pattern>
 <template>Ich habe keine Emotionen, ich kann diese Frage also nicht wirklich beantworten.</template>
 </category>
