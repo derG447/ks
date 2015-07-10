@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using AIMLbot;
@@ -18,15 +19,27 @@ public class LoadAIML : MonoBehaviour {
 	public Text MyChatText;
 	public InputField MyInputField;
 
+  public GameObject ChatWindow;
+  private ScrollRect ChatWindowScrollRect;
 
-	AIMLbot.Bot henry;
-  AIMLbot.Bot query_builder;
-	AIMLbot.User essayschreiber;
-  AIMLbot.User query_user;
+  private AIMLbot.Bot henry;
+  private AIMLbot.Bot query_builder;
+  private AIMLbot.User essayschreiber;
+  private AIMLbot.User query_user;
 
   //string queryPrefix = "http://de.dbpedia.org/sparql?query=";
-  string queryPrefix = "http://dbpedia.org/sparql?query=";
-  string querySuffix = "&format=csv";
+  private string queryPrefix = "http://dbpedia.org/sparql?query=";
+  private string querySuffix = "&format=csv";
+
+  private StreamWriter log;
+  private string logpath;
+
+  void addToLog(string line)
+  {
+      log = File.AppendText(logpath);
+      log.WriteLine(line);
+      log.Close();
+  }
 
 	void Start () {
 
@@ -50,9 +63,17 @@ public class LoadAIML : MonoBehaviour {
 
     MyChatText.text = MyChatText.text + "Config geladen, ";
 
+    logpath = Directory.GetCurrentDirectory() + "\\log.txt";
+    addToLog("Start session at " + DateTime.Now.ToString());
+
+    MyChatText.text = MyChatText.text + "Log angelegt, ";
+
 		MyEnterButton.onClick.AddListener (() => {EnterClick ();});
 
-    MyChatText.text = MyChatText.text + "Event Handler geladen, ";
+    this.ChatWindowScrollRect = this.ChatWindow.GetComponent<ScrollRect>();
+    this.ChatWindowScrollRect.verticalNormalizedPosition = 0;
+
+    MyChatText.text = MyChatText.text + "Events geladen, ";
 
     // Zusätzliche aiml files für Henry laden:
     Request req_for_henry = new Request("load henry", this.essayschreiber, this.henry);
@@ -83,15 +104,18 @@ public class LoadAIML : MonoBehaviour {
     req_for_query = new Request("load fragekategorie 3", this.query_user, this.query_builder);
     res_from_query = this.query_builder.Chat(req_for_query);
 
-    MyChatText.text = MyChatText.text + "AIML geladen.";
+    MyChatText.text = MyChatText.text + "AIML geladen.\n";
 
 		MyChatText.supportRichText = true;
-		MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + "Hallo. Ich bin Henry, der Essayhelfer. Wie kann ich dir helfen?" + "</color>";
+		MyChatText.text = MyChatText.text + "<color=#a52a2aff>" + "Hallo. Ich bin Henry, der Essayhelfer. Wie kann ich dir helfen?" + "</color>" + "\n";
+    addToLog("Hallo. Ich bin Henry, der Essayhelfer. Wie kann ich dir helfen?");
 	}
 
 	void EnterClick (){
 		string input = MyInputField.text;
-		MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + input + "</color>";
+    MyChatText.text = MyChatText.text + "<color=#0000a0ff>" + input + "</color>" + "\n";
+    addToLog("user: " + input);
+    this.ChatWindowScrollRect.verticalNormalizedPosition = 0;
 
     Request queryRequest = new Request(input, this.query_user, this.query_builder);
     Result query = this.query_builder.Chat(queryRequest);
@@ -101,11 +125,12 @@ public class LoadAIML : MonoBehaviour {
         // normales Gespräch mit dem Chatbot
         Request r = new Request(input, this.essayschreiber, this.henry);
         Result res = this.henry.Chat(r);
-        MyChatText.text = MyChatText.text + "\n" + "<color=#a52a2aff>" + res.Output + "</color>";
+        MyChatText.text = MyChatText.text + "<color=#a52a2aff>" + res.Output + "</color>" + "\n";
+        addToLog("henry: " + res.Output);
+        this.ChatWindowScrollRect.verticalNormalizedPosition = 0;
     } else {
         string queryInfix = words[2].Substring(0, words[2].Length - 1); // Den Punkt am Ende entfernen
-        string finalQuery = queryPrefix + queryInfix + querySuffix;
-        //MyChatText.text = MyChatText.text + "\n" + "<color=#0000a0ff>" + "Die Anfrage ist:\n" + finalQuery + "</color>";
+        string finalQuery = this.queryPrefix + queryInfix + this.querySuffix;
         WWW SPARQLrequest = new WWW(finalQuery);
         StartCoroutine(WaitForRequest(SPARQLrequest, input, words[1]));
     }
@@ -142,21 +167,23 @@ public class LoadAIML : MonoBehaviour {
             keyword = "#abstract#";
             infixString = infixString.Substring(0, infixString.Length-1);
             infixString = res_from_henry.Output.Replace(keyword, "\n" + infixString);
-            MyChatText.text = MyChatText.text + "\n" + prefix + infixString + suffix;
+            MyChatText.text = MyChatText.text + prefix + infixString + suffix + "\n";
+            addToLog("henry: " + infixString);
         } 
         else if (fragekategorie == "2")
         {
             keyword = "#unterthema#";
-            infixString = res_from_henry.Output.Replace(keyword, "\n" + infixList);
-            MyChatText.text = MyChatText.text + "\n" + prefix + infixString + suffix;
+            infixString = res_from_henry.Output.Replace(keyword, infixList);
+            MyChatText.text = MyChatText.text + prefix + infixString + suffix + "\n";
+            addToLog("henry: " + infixString);
         }
         else if (fragekategorie == "3")
         {
             keyword = "#quellen#";
-            infixString = res_from_henry.Output.Replace(keyword, "\n" + infixList);
-            MyChatText.text = MyChatText.text + "\n" + prefix + infixString + suffix;
-        }
-
+            infixString = res_from_henry.Output.Replace(keyword, infixList);
+            MyChatText.text = MyChatText.text + prefix + infixString + suffix + "\n";
+            addToLog("henry: " + infixString);
+        } 
     }
     else
     {
@@ -166,8 +193,19 @@ public class LoadAIML : MonoBehaviour {
         res_from_henry = this.henry.Chat(req_for_henry);
 
         infixString = res_from_henry.Output;
-        MyChatText.text = MyChatText.text + "\n" + prefix + infixString + suffix;
+        MyChatText.text = MyChatText.text + prefix + infixString + suffix + "\n";
+        addToLog("henry / fehler: " + infixString);
         //MyChatText.text = MyChatText.text + "\n" + "HTTP Error gefunden. Meine Analyse ergab:\n" + request.error;
     }
+    this.ChatWindowScrollRect.verticalNormalizedPosition = 0;
 	}
+
+  void Update()
+  {
+      if (Input.GetButtonDown("Submit"))
+      {
+          this.EnterClick();
+          this.ChatWindowScrollRect.verticalNormalizedPosition = 0;
+      }
+  }
 }

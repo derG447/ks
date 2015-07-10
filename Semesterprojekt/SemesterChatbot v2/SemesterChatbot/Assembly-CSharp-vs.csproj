@@ -39,16 +39,17 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>D:/Studium/Unitiy5/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>D:/Programme/Tools/Unity5/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>D:/Studium/Unitiy5/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>D:/Programme/Tools/Unity5/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Evaluation.cs" />
      <Compile Include="Assets\Scripts\ExitApp.cs" />
      <Compile Include="Assets\Scripts\LoadAIML.cs" />
+     <Compile Include="Assets\Scripts\ScrollHandler.cs" />
      <None Include="Assets\Plugins\config\DefaultPredicates.xml" />
      <None Include="Assets\Plugins\config\Splitters.xml" />
      <None Include="Assets\Plugins\config\Person2Substitutions.xml" />
@@ -57,13 +58,13 @@
      <None Include="Assets\Plugins\config\GenderSubstitutions.xml" />
      <None Include="Assets\Plugins\config\Substitutions.xml" />
  <Reference Include="UnityEngine.UI">
- <HintPath>D:/Studium/Unitiy5/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>D:/Programme/Tools/Unity5/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="AIMLbot">
- <HintPath>D:/Studium/Semesterprojekt/ks/Semesterprojekt/SemesterChatbot v2/SemesterChatbot/Assets/Plugins/AIMLbot.dll</HintPath>
+ <HintPath>C:/Users/Oliver/Documents/001 Dokumente/Studium/Sechstes Semester/Semesterprojekt/git/ks/Semesterprojekt/SemesterChatbot v2/SemesterChatbot/Assets/Plugins/AIMLbot.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
- <HintPath>D:/Studium/Unitiy5/Editor/Data/PlaybackEngines/iossupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ <HintPath>D:/Programme/Tools/Unity5/Editor/Data/PlaybackEngines/iossupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
