@@ -1,0 +1,33 @@
+Start session at 7/11/2015 11:19:24 PM
+Hallo. Ich bin Henry, der Essayhelfer. Wie kann ich dir helfen?
+user: hallo
+henry: Hallo !
+user: sag mir was zu london
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+DISTINCT+%3Fabstract+WHERE+%7B+%5Brdfs%3Alabel+%3Fname+%3B+dbpedia-owl%3Aabstract+%3Fabstract%5D+VALUES+%3Fname+%7B+%22London%22%40de+%7D+%7D&format=csv
+henry: Na gut, wenn du nicht selber googlen kannst...
+London (englische Aussprache [ˈlʌndən]) ist die Hauptstadt des Vereinigten Königreichs und des Landesteils England. Die Stadt liegt an der Themse in Südostengland auf der Insel Großbritannien. Das heutige Verwaltungsgebiet mit den Stadtbezirken entstand am 1. April 1965 mit der Gründung von Greater London (Groß-London). In Greater London leben 8.308.369 Menschen (2012), davon 3.284.967 in den 13 Stadtbezirken von Inner London. London ist damit die bevölkerungsreichste Stadt der Europäischen Union. In der Metropolregion lebten im Jahre 2001 etwa 14 Millionen Menschen.London ist eines der wichtigsten Kultur-, Finanz- und Handelszentren der Welt und hat somit den Status einer Weltstadt inne. In der Stadt befinden sich zahlreiche Universitäten, Hochschulen, Theater und Museen. Das Stadtgebiet von Greater London, das in Inner und Outer London unterteilt ist, gliedert sich in insgesamt 33 Stadtbezirke (London boroughs), darunter die City of London und die City of Westminster.
+user: gib mir quellen zum thema london
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+DISTINCT+%3FwikiPageExternalLink+WHERE+%7B+%5Brdfs%3Alabel+%3Fname+%3B+dbpedia-owl%3AwikiPageExternalLink+%3FwikiPageExternalLink%5D+VALUES+%3Fname+%7B+%22London%22%40de+%7D+%7D&format=csv
+henry: Ich habe folgende Quellen zu diesem Thema gefunden:
+http://www.british-history.ac.uk/subject.aspx?subject=5&gid=74
+http://www.london.gov.uk/
+http://wetterkontor.de/de/klima/klima2.asp?land=gb&stat=03772
+http://worldweather.wmo.int/010/c00032.htm
+user: gib mir quellen zum thema elektronische gesundheitskarte
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+DISTINCT+%3FwikiPageExternalLink+WHERE+%7B+%5Brdfs%3Alabel+%3Fname+%3B+dbpedia-owl%3AwikiPageExternalLink+%3FwikiPageExternalLink%5D+VALUES+%3Fname+%7B+%22Elektronische+Gesundheitskarte%22%40de+%7D+%7D&format=csv
+henry: Ich habe folgende Quellen zu diesem Thema gefunden:
+http://www.cio.de/public-ict/datenschutz/2210010/index.html
+http://www.ehealthcare.ch/
+http://www.jura.uni-passau.de/fileadmin/dateien/fakultaeten/jura/lehrstuehle/hornung/hornung_die-digitale-identitaet_2005.pdf
+http://www.kv-telematik.de/index.php?id=home
+http://www.logos-verlag.de/cgi-bin/engbuchmid?isbn=1752&lng=deu&id=
+http://www.stoppt-die-e-card.de/
+http://www.gen-ethisches-netzwerk.de/gen/2007/hintergrund-medizin-zeitalter-elektronischen-gesundheitskarte
+http://www.gematik.de
+http://chaosradio.ccc.de/cr115.html
+http://www.bundesaerztekammer.de/page.asp?his=1.134
+http://www.dimdi.de/de/ehealth/index.htm
+http://www.fiff.de/publikationen/broschueren/eGK-Broschuere-1
+http://www.fiff.de/publikationen/broschueren/eGK-Broschuere-2
+http://www.heise.de/ct/hintergrund/meldung/85635
+http://www.uni-leipzig.de/%7Edecker/karte.pdf

@@ -32,7 +32,8 @@ public class LoadAIML : MonoBehaviour {
   private AIMLbot.User query_user;
 
   //string queryPrefix = "http://de.dbpedia.org/sparql?query=";
-  private string queryPrefix = "http://dbpedia.org/sparql?query=";
+  //private string queryPrefix = "http://dbpedia.org/sparql?query=";
+  private string queryPrefix = "http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=";
   private string querySuffix = "&format=csv";
 
   private StreamWriter log;
@@ -163,6 +164,7 @@ public class LoadAIML : MonoBehaviour {
         {
             string queryInfix = words[2].Substring(0, words[2].Length - 1); // Den Punkt am Ende entfernen
             string finalQuery = this.queryPrefix + queryInfix + this.querySuffix;
+            addToLog("henry: QUERY IST " + finalQuery);
             WWW SPARQLrequest = new WWW(finalQuery);
             StartCoroutine(WaitForRequest(SPARQLrequest, input, words[1]));
         }
@@ -215,7 +217,8 @@ public class LoadAIML : MonoBehaviour {
         if (fragekategorie == "1")
         {
             keyword = "#abstract#";
-            infixString = infixString.Substring(0, infixString.Length-1);
+            infixString = infixString.Split('↑')[0];
+            infixString = infixString.Substring(0, infixString.Length - 1);
             infixString = res_from_henry.Output.Replace(keyword, "\n" + infixString);
             MyChatText.text = MyChatText.text + prefix + infixString + suffix + "\n";
             addToLog("henry: " + infixString);
@@ -224,6 +227,7 @@ public class LoadAIML : MonoBehaviour {
         {
             keyword = "#unterthema#";
             infixString = res_from_henry.Output.Replace(keyword, infixList);
+            infixString = infixString.Substring(0, infixString.Length - 1);
             MyChatText.text = MyChatText.text + prefix + infixString + suffix + "\n";
             addToLog("henry: " + infixString);
         }
@@ -231,6 +235,7 @@ public class LoadAIML : MonoBehaviour {
         {
             keyword = "#quellen#";
             infixString = res_from_henry.Output.Replace(keyword, infixList);
+            infixString = infixString.Substring(0, infixString.Length - 1);
             MyChatText.text = MyChatText.text + prefix + infixString + suffix + "\n";
             addToLog("henry: " + infixString);
         } 
@@ -245,7 +250,7 @@ public class LoadAIML : MonoBehaviour {
         infixString = res_from_henry.Output;
         MyChatText.text = MyChatText.text + prefix + infixString + suffix + "\n";
         addToLog("henry / fehler: " + infixString);
-        //MyChatText.text = MyChatText.text + "\n" + "HTTP Error gefunden. Meine Analyse ergab:\n" + request.error;
+        addToLog("HTTP Error gefunden. Meine Analyse ergab:\n" + request.error);
     }
     this.ChatWindowScrollRect.verticalNormalizedPosition = 0;
 	}
