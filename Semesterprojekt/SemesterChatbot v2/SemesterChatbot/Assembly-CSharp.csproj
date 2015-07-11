@@ -46,7 +46,6 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Evaluation.cs" />
      <Compile Include="Assets\Scripts\ExitApp.cs" />
      <Compile Include="Assets\Scripts\LoadAIML.cs" />
      <Compile Include="Assets\Scripts\ScrollHandler.cs" />

@@ -47,6 +47,13 @@
 <learn>aiml/henry/query.aiml</learn>
 </template>
 </category>
+
+<category>
+<pattern>load eval</pattern>
+<template>
+<learn>aiml/henry/eval.aiml</learn>
+</template>
+</category>
 	  
 	  
 </aiml>

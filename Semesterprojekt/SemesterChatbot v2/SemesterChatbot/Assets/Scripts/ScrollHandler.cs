@@ -16,9 +16,9 @@ public class ScrollHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-      if (Input.GetButtonDown("Submit"))
+      if (Input.GetButtonDown("Vertical"))
       {
-          //this.scroll_rect.verticalNormalizedPosition = 0;
+          this.scroll_rect.verticalNormalizedPosition = 0;
       }
 	}
 }
