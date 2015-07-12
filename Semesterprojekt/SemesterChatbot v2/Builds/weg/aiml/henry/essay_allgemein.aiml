@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<aiml version="1.0.1" xmlns="http://alicebot.org/2001/AIML-1.0.1"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://alicebot.org/2001/AIML-1.0.1 http://aitools.org/aiml/schema/AIML.xsd">
+	  
+	  
+<!-- Phasen des Bots: Vorbereitung = {Themenwahl, Brainstorm, Literatursuche, Materialstrukturierung} Verfassen, Überarbeiten
+     Erste Frage: Weißt du schon ein Thema, über das du schreiben willst?
+	 ja -> Hast du schon gute Quellen zu diesem Thema?
+	       ja -> willst du allgemeine Tipps zum Essayschreiben?
+		         ja -> Tipps geben
+				 nein -> Dann solltest du jetzt Anfangen! Am besten du fängst mit dem Hauptteil an, Einleitung und Schluss kannst du später hinzufügen.
+	       nein -> Quellen zu X geben
+     nein -> Hast du schon eine grobe Richtung?
+	         ja -> Unterthemen/Andere Themen zu X
+			 nein -> lass und ein Brainstom machen: Gebe ein Wort ein (was isch als Thema eignen könnte) und ich sage dir etwas dazu.
+-->
+
+<category>
+<pattern>BLA BLA BLA BLU</pattern>
+<template>Hallo. Ich bin Henry, der Essayhelfer. Weißt du schon ein Thema, über das du schreiben willst?<think><set name="topic">Vorbereitung</set></think></template>
+</category> 
+
+<category>
+<pattern>START HENRY JETZT</pattern>
+<template>Hallo. Ich bin Henry, der Essayhelfer. Weißt du schon ein Thema, über das du schreiben willst?<think><set name="topic">Vorbereitung</set></think></template>
+</category> 	
+
+	<category>
+	<pattern>JA</pattern>
+	<that>* ICH BIN HENRY *</that>
+	<template>Hast du schon gute Quellen zu diesem Thema?</template>
+	</category> 
+	
+		<category>
+		<pattern>JA</pattern>
+		<that>* GUTE QUELLEN *</that>
+		<template>Willst du allgemeine Tipps zum Essayschreiben?</template>
+		</category> 
+		
+			<category>
+			<pattern>JA</pattern>
+			<that>* ALLGEMEINE TIPPS *</that>
+			<template>HIER: randomliste oder literatur zum essayschreiben</template>
+			</category> 
+			
+			<category>
+			<pattern>NEIN</pattern>
+			<that>* ALLGEMEINE TIPPS *</that>
+			<template>Dann solltest du jetzt Anfangen! Am besten du fängst mit dem Hauptteil an, Einleitung und Schluss kannst du später hinzufügen.</template>
+			</category> 
+		
+		<category>
+		<pattern>NEIN</pattern>
+		<that>* GUTE QUELLEN *</that>
+		<template><srai>GIB MIR QUELLEN ZUM THEMA <get name="thema"/></srai><think><set name="topic">Literatursuche</set></think></template>
+		</category> 
+	
+	<category>
+	<pattern>NEIN</pattern>
+	<that>* ICH BIN HENRY *</that>
+	<template>Weißt du schon eine grobe Richtung?</template>
+	</category> 
+	
+		<category>
+		<pattern>JA</pattern>
+		<that>* EINE GROBE *</that>
+		<template><srai>KANNST DU MIR ZU <get name="thema"/> EIN UNTERTHEMA FINDEN</srai></template>
+		</category> 
+		
+		<category>
+		<pattern>NEIN</pattern>
+		<that>* EINE GROBE *</that>
+		<template>Lass uns ein Brainstom machen: Gebe ein Wort ein (eins was sich als Thema eignen könnte) und ich sage dir etwas dazu. Sag "Stop", wenn dir ein Thema gefällt.<think><set name="topic">Brainstorm</set></think></template>
+		</category> 
+		
+		<topic name="Brainstorm"> 
+		<category>
+		<pattern>*</pattern>
+		<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+		</category> 
+		
+		<category>
+		<pattern>STOP</pattern>
+		<template>Super! Willst du Quellen zu diesem Thema haben?</template>
+		</category>
+		
+			<category>
+			<pattern>JA</pattern>
+			<that>* QUELLEN ZU DIESEM *</that>
+			<template><srai>GIB MIR QUELLEN ZUM THEMA <get name="thema"/></srai><think><set name="topic">Literatursuche</set></think></template>
+			</category> 
+			
+			<category>
+			<pattern>NEIN</pattern>
+			<that>* QUELLEN ZU DIESEM *</that>
+			<template>Willst du allgemeine Tipps zum Essayschreiben?<think><set name="topic">Vorbereitung</set></think></template>
+			</category> 
+		
+		<category>
+		<pattern>HALT</pattern>
+		<template><srai>STOP</srai></template>
+		</category>
+		
+		<category>
+		<pattern>DAS GEFÄLLT MIR *</pattern>
+		<template><srai>STOP</srai></template>
+		</category>
+
+		</topic>
+
+
+
+
+<category>
+<pattern>JO</pattern>
+<template><srai>JA</srai></template>
+</category>
+<category>
+<pattern>YES</pattern>
+<template><srai>JA</srai></template>
+</category>
+<category>
+<pattern>JAU</pattern>
+<template><srai>JA</srai></template>
+</category>
+<category>
+<pattern>JUP</pattern>
+<template><srai>JA</srai></template>
+</category>
+
+<category>
+<pattern>NÖ</pattern>
+<template><srai>NEIN</srai></template>
+</category>
+<category>
+<pattern>NOE</pattern>
+<template><srai>NEIN</srai></template>
+</category>
+<category>
+<pattern>NE_</pattern>
+<template><srai>NEIN</srai></template>
+</category>
+<category>
+<pattern>NO</pattern>
+<template><srai>NEIN</srai></template>
+</category>
+	
+</aiml>

@@ -10,5 +10,92 @@
 <pattern>WAS KANNST DU MIR FÜR QUELLEN ZUM THEMA * GEBEN</pattern>
 <template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
 </category>
+
+<pattern>WAS HAST DU FÜR QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<pattern>WAS HAST DU FÜR QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>WAS GIBT ES FÜR QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>WAS GIBT ES FÜR QUELLEN BEI *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>QUELLEN *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>QUELLEN BEI *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>HAST DU QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>HAST DU QUELLEN BEI *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>GIB MIR QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>HAST DU QUELLEN ZUM THEMA *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>WAS HAST DU FÜR QUELLEN ZUM THEMA *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>HAST DU QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>WAS HAST DU FÜR QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>GIB MIR QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>SAG MIR QUELLEN QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>SAG MIR QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>WAS GIBT ES FÜR QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>GIBT ES QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>GIBT ES QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+
+<pattern>GIBT ES QUELLEN BEI *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
 	
 </aiml>

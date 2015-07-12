@@ -51,6 +51,7 @@ public class LoadAIML : MonoBehaviour {
       log.Close();
   }
 
+
 	void Start () {
 
     MyChatText.text = "Load Chatbot: ";
@@ -106,6 +107,9 @@ public class LoadAIML : MonoBehaviour {
     req_for_henry = new Request("load fragekategorie 3", this.essayschreiber, this.henry);
     res_from_henry = this.henry.Chat(req_for_henry);
 
+		req_for_henry = new Request("load essayallgemein", this.essayschreiber, this.henry);
+	res_from_henry = this.henry.Chat(req_for_henry);
+
     req_for_henry = new Request("load allgemein", this.essayschreiber, this.henry);
     res_from_henry = this.henry.Chat(req_for_henry);
 
@@ -134,9 +138,12 @@ public class LoadAIML : MonoBehaviour {
     
     MyChatText.text = MyChatText.text + "AIML geladen.\n";
 
-		MyChatText.supportRichText = true;
-		MyChatText.text = MyChatText.text + "<color=#a52a2aff>" + "Hallo. Ich bin Henry, der Essayhelfer. Wie kann ich dir helfen?" + "</color>" + "\n";
-    addToLog("Hallo. Ich bin Henry, der Essayhelfer. Wie kann ich dir helfen?");
+	req_for_henry = new Request("start henry jetzt", this.essayschreiber, this.henry);
+	res_from_henry = this.henry.Chat(req_for_henry);
+
+	MyChatText.supportRichText = true;
+	MyChatText.text = MyChatText.text + "<color=#a52a2aff>" + res_from_henry.Output + "</color>" + "\n";
+	addToLog("henry: " + res_from_henry.Output);
 	}
 
 	void EnterClick (){

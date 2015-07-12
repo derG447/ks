@@ -31,3 +31,118 @@ http://www.fiff.de/publikationen/broschueren/eGK-Broschuere-1
 http://www.fiff.de/publikationen/broschueren/eGK-Broschuere-2
 http://www.heise.de/ct/hintergrund/meldung/85635
 http://www.uni-leipzig.de/%7Edecker/karte.pdf
+Start session at 7/12/2015 4:01:05 PM
+Hallo. Ich bin Henry, der Essayhelfer. Wie kann ich dir helfen?
+user: Sag mir was zu london
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+DISTINCT+%3Fabstract+WHERE+%7B+%5Brdfs%3Alabel+%3Fname+%3B+dbpedia-owl%3Aabstract+%3Fabstract%5D+VALUES+%3Fname+%7B+%22London%22%40de+%7D+%7D&format=csv
+henry: Na gut, wenn du nicht selber googlen kannst...
+London (englische Aussprache [ˈlʌndən]) ist die Hauptstadt des Vereinigten Königreichs und des Landesteils England. Die Stadt liegt an der Themse in Südostengland auf der Insel Großbritannien. Das heutige Verwaltungsgebiet mit den Stadtbezirken entstand am 1. April 1965 mit der Gründung von Greater London (Groß-London). In Greater London leben 8.308.369 Menschen (2012), davon 3.284.967 in den 13 Stadtbezirken von Inner London. London ist damit die bevölkerungsreichste Stadt der Europäischen Union. In der Metropolregion lebten im Jahre 2001 etwa 14 Millionen Menschen.London ist eines der wichtigsten Kultur-, Finanz- und Handelszentren der Welt und hat somit den Status einer Weltstadt inne. In der Stadt befinden sich zahlreiche Universitäten, Hochschulen, Theater und Museen. Das Stadtgebiet von Greater London, das in Inner und Outer London unterteilt ist, gliedert sich in insgesamt 33 Stadtbezirke (London boroughs), darunter die City of London und die City of Westminster.
+user: Sag mir was zu london
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+DISTINCT+%3Fabstract+WHERE+%7B+%5Brdfs%3Alabel+%3Fname+%3B+dbpedia-owl%3Aabstract+%3Fabstract%5D+VALUES+%3Fname+%7B+%22London%22%40de+%7D+%7D&format=csv
+henry: Ich habe folgendes zu diesem Thema gefunden:
+London (englische Aussprache [ˈlʌndən]) ist die Hauptstadt des Vereinigten Königreichs und des Landesteils England. Die Stadt liegt an der Themse in Südostengland auf der Insel Großbritannien. Das heutige Verwaltungsgebiet mit den Stadtbezirken entstand am 1. April 1965 mit der Gründung von Greater London (Groß-London). In Greater London leben 8.308.369 Menschen (2012), davon 3.284.967 in den 13 Stadtbezirken von Inner London. London ist damit die bevölkerungsreichste Stadt der Europäischen Union. In der Metropolregion lebten im Jahre 2001 etwa 14 Millionen Menschen.London ist eines der wichtigsten Kultur-, Finanz- und Handelszentren der Welt und hat somit den Status einer Weltstadt inne. In der Stadt befinden sich zahlreiche Universitäten, Hochschulen, Theater und Museen. Das Stadtgebiet von Greater London, das in Inner und Outer London unterteilt ist, gliedert sich in insgesamt 33 Stadtbezirke (London boroughs), darunter die City of London und die City of Westminster.
+user: hallo
+henry: Hallo !
+user: hallo
+henry: Hallo !
+user: hallo
+henry: Hallo !
+user: hallo
+henry: Hallo !
+user: hallo
+henry: Hallo !
+user: hallo
+henry: Hallo !
+user: sag mir was zu London
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+DISTINCT+%3Fabstract+WHERE+%7B+%5Brdfs%3Alabel+%3Fname+%3B+dbpedia-owl%3Aabstract+%3Fabstract%5D+VALUES+%3Fname+%7B+%22London%22%40de+%7D+%7D&format=csv
+henry: London ist folgendermaßen beschrieben:
+London (englische Aussprache [ˈlʌndən]) ist die Hauptstadt des Vereinigten Königreichs und des Landesteils England. Die Stadt liegt an der Themse in Südostengland auf der Insel Großbritannien. Das heutige Verwaltungsgebiet mit den Stadtbezirken entstand am 1. April 1965 mit der Gründung von Greater London (Groß-London). In Greater London leben 8.308.369 Menschen (2012), davon 3.284.967 in den 13 Stadtbezirken von Inner London. London ist damit die bevölkerungsreichste Stadt der Europäischen Union. In der Metropolregion lebten im Jahre 2001 etwa 14 Millionen Menschen.London ist eines der wichtigsten Kultur-, Finanz- und Handelszentren der Welt und hat somit den Status einer Weltstadt inne. In der Stadt befinden sich zahlreiche Universitäten, Hochschulen, Theater und Museen. Das Stadtgebiet von Greater London, das in Inner und Outer London unterteilt ist, gliedert sich in insgesamt 33 Stadtbezirke (London boroughs), darunter die City of London und die City of Westminster.
+user: sag mir was zu London
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+DISTINCT+%3Fabstract+WHERE+%7B+%5Brdfs%3Alabel+%3Fname+%3B+dbpedia-owl%3Aabstract+%3Fabstract%5D+VALUES+%3Fname+%7B+%22London%22%40de+%7D+%7D&format=csv
+henry: London ist folgendermaßen beschrieben:
+London (englische Aussprache [ˈlʌndən]) ist die Hauptstadt des Vereinigten Königreichs und des Landesteils England. Die Stadt liegt an der Themse in Südostengland auf der Insel Großbritannien. Das heutige Verwaltungsgebiet mit den Stadtbezirken entstand am 1. April 1965 mit der Gründung von Greater London (Groß-London). In Greater London leben 8.308.369 Menschen (2012), davon 3.284.967 in den 13 Stadtbezirken von Inner London. London ist damit die bevölkerungsreichste Stadt der Europäischen Union. In der Metropolregion lebten im Jahre 2001 etwa 14 Millionen Menschen.London ist eines der wichtigsten Kultur-, Finanz- und Handelszentren der Welt und hat somit den Status einer Weltstadt inne. In der Stadt befinden sich zahlreiche Universitäten, Hochschulen, Theater und Museen. Das Stadtgebiet von Greater London, das in Inner und Outer London unterteilt ist, gliedert sich in insgesamt 33 Stadtbezirke (London boroughs), darunter die City of London und die City of Westminster.
+EVALUATION START
+henry: Vielen Dank, dass sie unseren Chatbot testen! Um Henry weiter verbessern zu können, würden wir sie bitten, die folgenden 8 Fragen zu beantworten. Sie können sich jederzeit über einen Klick auf "Chatten" weiter mit Henry unterhalten.
+Wie hat der Chatbot ihnen gefallen?
+user: sag mir was zu London
+user: sag mir was zu London
+user: sag mir was zu London
+user: sag mir was zu London
+user: sag mir was zu London
+user: sag mir was zu London
+EVALUATION ENDE
+EVALUATION START
+henry: Vielen Dank, dass sie unseren Chatbot testen! Um Henry weiter verbessern zu können, würden wir sie bitten, die folgenden 8 Fragen zu beantworten. Sie können sich jederzeit über einen Klick auf "Chatten" weiter mit Henry unterhalten.
+Wie hat der Chatbot ihnen gefallen?
+user: sag mir was zu London
+user: sag mir was zu London
+user: sag mir was zu London
+user: sag mir was zu London
+user: sag mir was zu London
+user: sag mir was zu London
+user: sag mir was zu London
+user: sag mir was zu London
+user: sag mir was zu London
+EVALUATION ENDE
+user: Gib mir Quellen zu London
+henry: Es gibt nicht viele Leute, die sich auf diese Weise auszudruecken vermoegen.
+user: Gib mir Quellen zum Thema London
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+DISTINCT+%3FwikiPageExternalLink+WHERE+%7B+%5Brdfs%3Alabel+%3Fname+%3B+dbpedia-owl%3AwikiPageExternalLink+%3FwikiPageExternalLink%5D+VALUES+%3Fname+%7B+%22London%22%40de+%7D+%7D&format=csv
+henry: Ich habe folgende Quellen zu diesem Thema gefunden:
+http://www.british-history.ac.uk/subject.aspx?subject=5&gid=74
+http://www.london.gov.uk/
+http://wetterkontor.de/de/klima/klima2.asp?land=gb&stat=03772
+http://worldweather.wmo.int/010/c00032.htm
+user: Gib mir ein Unterthema zu London
+henry: Worueber haben wir gesprochen?
+user: Gib mir ein Unterthema zum Thema London
+henry: Was ist Dein Lieblingsfilm?
+user: KANNST DU MIR ZU London EIN UNTERTHEMA FINDEN
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+distinct+%3Fmeinlabel+%7B+%3FnomePT+dcterms%3Asubject+%3Fresource.+%3Fresource+rdfs%3Alabel+%3Fmeinlabel.+filter%28+%3FnomePT%3D%3Chttp%3A%2F%2Fde.dbpedia.org%2Fresource%2FLondon%3E+%29+%7D&format=csv
+henry: Ich habe folgendes Unterthema zu diesem Thema gefunden:
+Hauptstadt in Europa
+Hauptstadt in der EU
+London
+Millionenstadt
+Ort an der Themse
+Ort in England
+Ort mit Seehafen
+Wikipedia:Artikel mit Video
+user: KANNST DU MIR ZU World of Warcraft EIN UNTERTHEMA FINDEN
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+distinct+%3Fmeinlabel+%7B+%3FnomePT+dcterms%3Asubject+%3Fresource.+%3Fresource+rdfs%3Alabel+%3Fmeinlabel.+filter%28+%3FnomePT%3D%3Chttp%3A%2F%2Fde.dbpedia.org%2Fresource%2FWorld_Of_Warcraft%3E+%29+%7D&format=csv
+henry / fehler: Ist die Haende zu halten eine symbolische Geste fuer Menschen?
+HTTP Error gefunden. Meine Analyse ergab:
+
+user: KANNST DU MIR ZU Computer Bild EIN UNTERTHEMA FINDEN
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+distinct+%3Fmeinlabel+%7B+%3FnomePT+dcterms%3Asubject+%3Fresource.+%3Fresource+rdfs%3Alabel+%3Fmeinlabel.+filter%28+%3FnomePT%3D%3Chttp%3A%2F%2Fde.dbpedia.org%2Fresource%2FComputer_Bild%3E+%29+%7D&format=csv
+henry: Ich habe etwas ähnliches gefunden:
+Axel Springer SE
+Computerzeitschrift (Deutschland)
+Deutschsprachige Zeitschrift
+Ersterscheinung 1996
+Zeitschrift (Hamburg)
+user: KANNST DU MIR ZU CoMpUter BLld EIN UNTERTHEMA FINDEN
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+distinct+%3Fmeinlabel+%7B+%3FnomePT+dcterms%3Asubject+%3Fresource.+%3Fresource+rdfs%3Alabel+%3Fmeinlabel.+filter%28+%3FnomePT%3D%3Chttp%3A%2F%2Fde.dbpedia.org%2Fresource%2FComputer_Blld%3E+%29+%7D&format=csv
+henry / fehler: Gibt es irgendwas, worueber ich Bescheid wissen sollte?
+HTTP Error gefunden. Meine Analyse ergab:
+
+user: KANNST DU MIR ZU CoMpUter BIld EIN UNTERTHEMA FINDEN
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+distinct+%3Fmeinlabel+%7B+%3FnomePT+dcterms%3Asubject+%3Fresource.+%3Fresource+rdfs%3Alabel+%3Fmeinlabel.+filter%28+%3FnomePT%3D%3Chttp%3A%2F%2Fde.dbpedia.org%2Fresource%2FComputer_Bild%3E+%29+%7D&format=csv
+henry: Ich habe folgendes Unterthema zu diesem Thema gefunden:
+Axel Springer SE
+Computerzeitschrift (Deutschland)
+Deutschsprachige Zeitschrift
+Ersterscheinung 1996
+Zeitschrift (Hamburg)
+user: KANNST DU MIR ZU CoMpUter BIld EIN UNTERTHEMA FINDEN
+henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+distinct+%3Fmeinlabel+%7B+%3FnomePT+dcterms%3Asubject+%3Fresource.+%3Fresource+rdfs%3Alabel+%3Fmeinlabel.+filter%28+%3FnomePT%3D%3Chttp%3A%2F%2Fde.dbpedia.org%2Fresource%2FComputer_Bild%3E+%29+%7D&format=csv
+henry: Ich habe folgendes Unterthema zu diesem Thema gefunden:
+Axel Springer SE
+Computerzeitschrift (Deutschland)
+Deutschsprachige Zeitschrift
+Ersterscheinung 1996
+Zeitschrift (Hamburg)
+EVALUATION START
+henry: Vielen Dank, dass sie unseren Chatbot testen! Um Henry weiter verbessern zu können, würden wir sie bitten, die folgenden 8 Fragen zu beantworten. Sie können sich jederzeit über einen Klick auf "Chatten" weiter mit Henry unterhalten.
+Wie hat der Chatbot ihnen gefallen?
+EVALUATION ENDE

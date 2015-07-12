@@ -1,0 +1,8 @@
+Start session at 7/12/2015 7:10:49 PM
+henry: Hallo. Ich bin Henry, der Essayhelfer. Weißt du schon ein Thema, über das du schreiben willst?
+user: ja
+henry: 
+user: ja
+henry: 
+user: nein
+henry: 

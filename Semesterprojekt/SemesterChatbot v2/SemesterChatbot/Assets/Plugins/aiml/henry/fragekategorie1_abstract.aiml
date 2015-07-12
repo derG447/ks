@@ -31,4 +31,83 @@
 <template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
 </category>
 
+<category>
+<pattern>GIB MIR INFORMATIONEN ZU *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>GIB MIR INFOS ZU *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>GIB MIR INFORMATIONEN ZUM THEMA *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>THEMA *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>RELEVANZ THEMA *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>WAS WEIST DU ZU *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+<category>
+<pattern>WAS WEISST DU ZU *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>WAS HAST DU ZU *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>WAS IST *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>* WAS IST DAS</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>GIB MIR INFORMATIONEN ZUM THEMA *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>SAG MIR WAS DU ZU * WEISST</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>SAG MIR WAS DU ZU * WEIST</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>KENNST DU *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>WAS IST EIN *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
+<category>
+<pattern>WAS IST EINE *</pattern>
+<template><srai>WAS KANNST DU MIR ZU <star/> SAGEN</srai></template>
+</category>
+
 </aiml>

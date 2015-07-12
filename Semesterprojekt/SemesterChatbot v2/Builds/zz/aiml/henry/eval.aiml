@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<aiml version="1.0.1" xmlns="http://alicebot.org/2001/AIML-1.0.1"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://alicebot.org/2001/AIML-1.0.1 http://aitools.org/aiml/schema/AIML.xsd">
+	  
+	  
+<category>
+<pattern>get max status</pattern>
+<template>8</template>
+</category>	  
+	  
+<category>
+<pattern>0</pattern>
+<template>
+Vielen Dank, dass sie unseren Chatbot testen! Um Henry weiter verbessern zu können, würden wir sie bitten, die folgenden 8 Fragen zu beantworten. Sie können sich jederzeit über einen Klick auf "Chatten" weiter mit Henry unterhalten.
+Wie hat der Chatbot ihnen gefallen?
+</template>
+</category>
+
+<category>
+<pattern>1</pattern>
+<template>
+Wurde ein Thema gefunden?
+</template>
+</category>
+
+<category>
+<pattern>2</pattern>
+<template>
+Wurden Informationen zum Thema gefunden?
+</template>
+</category>
+
+<category>
+<pattern>3</pattern>
+<template>
+Waren die Antworten des Bot sinnvoll?
+</template>
+</category>
+
+<category>
+<pattern>4</pattern>
+<template>
+Hat dich das Gespräch mit dem Bot weitergebracht?
+</template>
+</category>
+
+<category>
+<pattern>5</pattern>
+<template>
+Nach was für Themengebieten wurde gesucht?
+</template>
+</category>
+
+<category>
+<pattern>6</pattern>
+<template>
+Was haben sie für Verbesserungsvorschläge?
+</template>
+</category>
+
+<category>
+<pattern>7</pattern>
+<template>
+Alles in allem Bewerte ich den Bot mit der Schulnote:
+</template>
+</category>
+	  
+<category>
+<pattern>8</pattern>
+<template>
+Danke für das Feedback. Mit einer weiteren Eingabe beginnt die Evaluation von vorne.
+Wenn sie weiter mit Henry chatten wollen, klicken sie bitte auf "Chatten"
+</template>
+</category>
+
+</aiml>
