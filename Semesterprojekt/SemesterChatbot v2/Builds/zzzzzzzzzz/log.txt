@@ -1,4 +1,0 @@
-Start session at 7/12/2015 7:14:11 PM
-henry: Hallo. Ich bin Henry, der Essayhelfer. Weißt du schon ein Thema, über das du schreiben willst?
-user: ja
-henry: Hast du schon gute Quellen zu diesem Thema?

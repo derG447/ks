@@ -1,0 +1,6 @@
+Start session at 7/13/2015 10:18:28 PM
+henry: Hallo. Ich bin Henry, der Essayhelfer. Weißt du schon ein Thema, über das du schreiben willst?
+EVALUATION START
+henry: Vielen Dank, dass sie unseren Chatbot testen! Um Henry weiter verbessern zu können, würden wir sie bitten, die folgenden 8 Fragen zu beantworten. Sie können sich jederzeit über einen Klick auf "Chatten" weiter mit Henry unterhalten.
+Wie hat der Chatbot ihnen gefallen?
+EVALUATION ENDE

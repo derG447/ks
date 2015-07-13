@@ -51,6 +51,13 @@ public class LoadAIML : MonoBehaviour {
       log.Close();
   }
 
+  IEnumerator scrollToEnd()
+  {
+      //print(Time.time);
+      yield return new WaitForSeconds(1);
+      //print(Time.time);
+      this.ChatWindowScrollRect.verticalNormalizedPosition = 0;
+  }
 
 	void Start () {
 
@@ -259,7 +266,8 @@ public class LoadAIML : MonoBehaviour {
         addToLog("henry / fehler: " + infixString);
         addToLog("HTTP Error gefunden. Meine Analyse ergab:\n" + request.error);
     }
-    this.ChatWindowScrollRect.verticalNormalizedPosition = 0;
+    //this.ChatWindowScrollRect.verticalNormalizedPosition = 0;
+    StartCoroutine(scrollToEnd());
 	}
 
   void switchModus()
