@@ -1,45 +1,27 @@
-Start session at 7/13/2015 10:18:28 PM
+﻿Start session at 9/22/2015 5:02:36 PM
 henry: Hallo. Ich bin Henry, der Essayhelfer. Weißt du schon ein Thema, über das du schreiben willst?
+Start session at 9/22/2015 5:13:04 PM
+henry: Hallo. Ich bin Henry, der Essayhelfer. Weißt du schon ein Thema, über das du schreiben willst?
+user: Hallo Henry
+henry: 
+Start session at 9/22/2015 5:14:18 PM
+henry: Hallo. Ich bin Henry, der Essayhelfer. Weißt du schon ein Thema, über das du schreiben willst?
+Start session at 9/22/2015 5:22:34 PM
+henry: Hallo. Ich bin Henry, der Essayhelfer.
+user: Hallo Henry
+henry: Hallo, wie kann ich dir helfen?
+user: Ich muss eine Hausarbeit schreiben
+henry: Soll ich dir helfen ein Thema zu finden, oder hast du schon ein Thema?
+user: Ich habe das Thema London
+henry: Über London habe ich folgendes gefunden: //...//.
+user: Gib mir Quellen dazu
+henry: Ich habe folgende Quellen gefunden: //..//.
+user: Gibt es Unterthemen zu London?
+henry: Ich habe folgenden Unterthemen zu London gefunden: //...//.
+user: Kannst du mir genaueres zur Themse sagen?
+henry: Über Themse habe ich folgendes gefunden: //...// //...//.
+user: Wie soll ich jetzt am besten mit meiner Hausarbeit anfangen?
+henry: Liste allgemeine Literatur.
 EVALUATION START
 henry: Vielen Dank, dass sie unseren Chatbot testen! Um Henry weiter verbessern zu können, würden wir sie bitten, die folgenden 8 Fragen zu beantworten. Sie können sich jederzeit über einen Klick auf "Chatten" weiter mit Henry unterhalten.
 Wie hat der Chatbot ihnen gefallen?
-EVALUATION ENDE
-Start session at 9/22/2015 3:38:58 PM
-henry: Hallo. Ich bin Henry, der Essayhelfer. Weißt du schon ein Thema, über das du schreiben willst?
-user: Quellen London
-henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+DISTINCT+%3FwikiPageExternalLink+WHERE+%7B+%5Brdfs%3Alabel+%3Fname+%3B+dbpedia-owl%3AwikiPageExternalLink+%3FwikiPageExternalLink%5D+VALUES+%3Fname+%7B+%22London%22%40de+%7D+%7D&format=csv
-henry: Ich habe folgende Quellen zu diesem Thema gefunden:
-http://www.british-history.ac.uk/subject.aspx?subject=5&gid=74
-http://www.london.gov.uk/
-http://wetterkontor.de/de/klima/klima2.asp?land=gb&stat=03772
-http://worldweather.wmo.int/010/c00032.htm
-user: Unterthemen London
-henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+distinct+%3Fmeinlabel+%7B+%3FnomePT+dcterms%3Asubject+%3Fresource.+%3Fresource+rdfs%3Alabel+%3Fmeinlabel.+filter%28+%3FnomePT%3D%3Chttp%3A%2F%2Fde.dbpedia.org%2Fresource%2FLondon%3E+%29+%7D&format=csv
-henry: Ich habe etwas ähnliches gefunden:
-Hauptstadt in Europa
-Hauptstadt in der EU
-London
-Millionenstadt
-Ort an der Themse
-Ort in England
-Ort mit Seehafen
-Wikipedia:Artikel mit Video
-user: Unterthemen Ort in England
-henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+distinct+%3Fmeinlabel+%7B+%3FnomePT+dcterms%3Asubject+%3Fresource.+%3Fresource+rdfs%3Alabel+%3Fmeinlabel.+filter%28+%3FnomePT%3D%3Chttp%3A%2F%2Fde.dbpedia.org%2Fresource%2FOrt_In_England%3E+%29+%7D&format=csv
-henry / fehler: 
-HTTP Error gefunden. Meine Analyse ergab:
-
-user: Unterthemen Hauptstadt in der EU
-henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+distinct+%3Fmeinlabel+%7B+%3FnomePT+dcterms%3Asubject+%3Fresource.+%3Fresource+rdfs%3Alabel+%3Fmeinlabel.+filter%28+%3FnomePT%3D%3Chttp%3A%2F%2Fde.dbpedia.org%2Fresource%2FHauptstadt_In_Der_Eu%3E+%29+%7D&format=csv
-henry / fehler: 
-HTTP Error gefunden. Meine Analyse ergab:
-
-user: Qellen London
-henry: 
-user: Quellen London
-henry: QUERY IST http://de.dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fde.dbpedia.org&query=SELECT+DISTINCT+%3FwikiPageExternalLink+WHERE+%7B+%5Brdfs%3Alabel+%3Fname+%3B+dbpedia-owl%3AwikiPageExternalLink+%3FwikiPageExternalLink%5D+VALUES+%3Fname+%7B+%22London%22%40de+%7D+%7D&format=csv
-henry: Ich habe folgende Quellen zu diesem Thema gefunden:
-http://www.british-history.ac.uk/subject.aspx?subject=5&gid=74
-http://www.london.gov.uk/
-http://wetterkontor.de/de/klima/klima2.asp?land=gb&stat=03772
-http://worldweather.wmo.int/010/c00032.htm

@@ -21,7 +21,7 @@
 <!-- Hauptgespräch / Roter Faden -->
 <category>
 <pattern>START HENRY JETZT</pattern>
-<template>Hallo. Ich bin Henry, der Essayhelfer. Weißt du schon ein Thema, über das du schreiben willst?<think><set name="topic">Vorbereitung</set></think></template>
+<template>Hallo. Ich bin Henry, der Essayhelfer.<think><set name="topic">Vorbereitung</set></think></template>
 </category> 	
 
 	<category>
@@ -194,6 +194,40 @@
 <template><srai>HILFE</srai></template>
 </category>
 
+<category>
+<pattern>HALLO HENRY</pattern>
+<template>Hallo, wie kann ich dir helfen?</template>
+</category>
+
+<category>
+<pattern>ICH MUSS EINE HAUSARBEIT SCHREIBEN</pattern>
+<template>Soll ich dir helfen ein Thema zu finden, oder hast du schon ein Thema?</template>
+</category>
+
+<category>
+<pattern>ICH HABE DAS THEMA *</pattern>
+<template>Über <star/> habe ich folgendes gefunden: //...//</template> <!-- Abstract London -->
+</category>
+
+<category>
+<pattern>GIB MIR QUELLEN DAZU</pattern>
+<template>Ich habe folgende Quellen gefunden: //..//</template> <!-- Quellen London -->
+</category>
+
+<category>
+<pattern>GIBT ES UNTERTHEMEN ZU *</pattern>
+<template>Ich habe folgenden Unterthemen zu <star/> gefunden: //...//</template> <!-- Unterthemen London -->
+</category>
+
+<category>
+<pattern>KANNST DU MIR GENAUERES ZUR THEMSE SAGEN</pattern>
+<template>Über Themse habe ich folgendes gefunden: //...// //...//</template> <!-- Abstract Themse -->
+</category>
+
+<category>
+<pattern>WIE SOLL ICH JETZT AM BESTEN MIT MEINER HAUSARBEIT ANFANGEN</pattern>
+<template>Liste allgemeine Literatur</template> <!-- Liste Literatu -->
+</category>
 
 	
 </aiml>

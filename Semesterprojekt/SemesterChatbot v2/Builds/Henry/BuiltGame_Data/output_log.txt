@@ -14,9 +14,7 @@ Platform assembly: D:\Studium\Semesterprojekt\ks\Semesterprojekt\SemesterChatbot
 Loading D:\Studium\Semesterprojekt\ks\Semesterprojekt\SemesterChatbot v2\Builds\Henry\BuiltGame_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: D:\Studium\Semesterprojekt\ks\Semesterprojekt\SemesterChatbot v2\Builds\Henry\BuiltGame_Data\Managed\AIMLbot.dll (this message is harmless)
 Loading D:\Studium\Semesterprojekt\ks\Semesterprojekt\SemesterChatbot v2\Builds\Henry\BuiltGame_Data\Managed\AIMLbot.dll into Unity Child Domain
-Platform assembly: D:\Studium\Semesterprojekt\ks\Semesterprojekt\SemesterChatbot v2\Builds\Henry\BuiltGame_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading D:\Studium\Semesterprojekt\ks\Semesterprojekt\SemesterChatbot v2\Builds\Henry\BuiltGame_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.078 seconds
+- Completed reload, in  0.079 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
