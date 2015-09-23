@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<aiml version="1.0.1" xmlns="http://alicebot.org/2001/AIML-1.0.1"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://alicebot.org/2001/AIML-1.0.1 http://aitools.org/aiml/schema/AIML.xsd">
+
+<!-- Alternative Formulierungen zum Thema 1 -->
+<category>
+<pattern>WAS KANNST DU MIR FÜR QUELLEN ZUM THEMA * GEBEN</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>WAS HAST DU FÜR QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>WAS HAST DU FÜR QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>WAS GIBT ES FÜR QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>WAS GIBT ES FÜR QUELLEN BEI *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>QUELLEN *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>QUELLEN BEI *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>HAST DU QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>HAST DU QUELLEN BEI *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>GIB MIR QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>HAST DU QUELLEN ZUM THEMA *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>WAS HAST DU FÜR QUELLEN ZUM THEMA *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>HAST DU QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>WAS HAST DU FÜR QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>GIB MIR QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>SAG MIR QUELLEN QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>SAG MIR QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>WAS GIBT ES FÜR QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>GIBT ES QUELLEN FÜR *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>GIBT ES QUELLEN ZU *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+<category>
+<pattern>GIBT ES QUELLEN BEI *</pattern>
+<template><srai>GIB MIR QUELLEN ZUM THEMA <star/></srai></template>
+</category>
+	
+</aiml>

@@ -252,6 +252,14 @@ public class LoadAIML : MonoBehaviour {
             infixString = infixString.Substring(0, infixString.Length - 1);
             MyChatText.text = MyChatText.text + prefix + infixString + suffix + "\n";
             addToLog("henry: " + infixString);
+        }
+        else if (fragekategorie == "4")
+        {
+            keyword = "#presi#";
+            infixString = res_from_henry.Output.Replace(keyword, infixList);
+            infixString = infixString.Substring(0, infixString.Length - 1);
+            MyChatText.text = MyChatText.text + prefix + infixString + suffix + "\n";
+            addToLog("henry: " + infixString);
         } 
     }
     else
